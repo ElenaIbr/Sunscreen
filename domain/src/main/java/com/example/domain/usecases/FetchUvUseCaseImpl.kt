@@ -26,6 +26,7 @@ class FetchUvUseCaseImpl @Inject constructor(
                     id = result.id,
                     value = result.value,
                     date = result.date,
+                    temperature = result.temperature,
                     location = result.location,
                     forecast = result.forecast
                 )

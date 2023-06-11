@@ -59,7 +59,10 @@ data class WeatherResponse(
         var cloud: Double? = null,
         @SerializedName("uv")
         @Expose
-        var uv: Double? = null
+        var uv: Double? = null,
+        @SerializedName("temp_c")
+        @Expose
+        var temp: Double? = null
     )
     data class ForecastDay(
         @SerializedName("forecastday")

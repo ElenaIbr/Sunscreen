@@ -6,12 +6,12 @@ import com.example.domain.entities.FetchUvEntity
 import com.example.domain.models.IndexModel
 import com.example.domain.models.UvValueModel
 import com.example.domain.usecases.FetchUvUseCase
+import com.example.domain.usecases.GetDateAndDayOfWeekUseCase
 import com.example.domain.usecases.GetUserNameUseCase
 import com.example.domain.usecases.GetUvValueUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,7 +19,8 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val fetchUvUseCaseImpl: FetchUvUseCase,
     private val getUvValueUseCase: GetUvValueUseCase,
-    private val getUserNameUseCase: GetUserNameUseCase
+    private val getUserNameUseCase: GetUserNameUseCase,
+    private val getDateAndDayOfWeekUseCase: GetDateAndDayOfWeekUseCase
 ) : ViewModel() {
 
     private val _mainState = MutableStateFlow(MainState())
@@ -28,6 +29,7 @@ class MainViewModel @Inject constructor(
     init {
         getUvValue()
         getUserName()
+        getDateAndDayOfWeekUseCase()
     }
 
     private fun getUvValue() {
@@ -89,6 +91,16 @@ class MainViewModel @Inject constructor(
             locationPermissionsGranted = state
         )
     }
+
+    private fun getDateAndDayOfWeekUseCase() {
+        viewModelScope.launch {
+            getDateAndDayOfWeekUseCase.execute(Unit).collect { flow ->
+                _mainState.value = _mainState.value.copy(
+                    date = flow
+                )
+            }
+        }
+    }
 }
 
 
@@ -98,6 +110,8 @@ data class MainState(
     val latitude: Double? = null,
     val longitude: Double? = null,
     val index: IndexModel? = null,
+    val date: String? = null,
+    val temperature: String? = null,
     val locationPermissionsGranted: Boolean = false,
     val solarActivityLevel: UvValueModel.SolarActivityLevel? = null,
     val isLoading: Boolean = true

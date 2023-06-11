@@ -177,23 +177,42 @@ fun MainScreen(
                     ),
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
-                mainState.index?.location?.let { location ->
-                    Text(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .weight(0.2F)
-                            .padding(
-                                vertical = 16.dp,
-                                horizontal = 24.dp
-                            ),
-                        text = location,
-                        style = MaterialTheme.typography.h5,
-                        color = textColor,
-                        textAlign = TextAlign.Center
-                    )
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(0.2F)
+                        .padding(
+                            top = 24.dp,
+                            start = 48.dp
+                        )
+                ) {
+                    mainState.index?.location?.let { location ->
+                        Text(
+                            text = location,
+                            style = MaterialTheme.typography.h6,
+                            color = textColor,
+                            textAlign = TextAlign.Center
+                        )
+                    }
+                    mainState.date?.let { date ->
+                        Text(
+                            text = date,
+                            style = MaterialTheme.typography.body1,
+                            color = textColor,
+                            textAlign = TextAlign.Center
+                        )
+                    }
+                    mainState.index?.temperature?.let { temperature ->
+                        Text(
+                            text = "${temperature.toInt()}°C",
+                            style = MaterialTheme.typography.h6,
+                            color = textColor,
+                            textAlign = TextAlign.Center
+                        )
+                    }
                 }
                 Box(
-                    modifier = Modifier.weight(0.2F)
+                    modifier = Modifier.weight(0.3F)
                 ) {
                     Banner(
                         when (mainState.solarActivityLevel) {
@@ -209,7 +228,7 @@ fun MainScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = 24.dp)
-                        .weight(0.6F),
+                        .weight(0.5F),
                     contentAlignment = Alignment.Center
                 ) {
                     Chart(

@@ -2,6 +2,8 @@ package com.example.sunscreen.di
 
 import com.example.domain.usecases.FetchUvUseCase
 import com.example.domain.usecases.FetchUvUseCaseImpl
+import com.example.domain.usecases.GetDateAndDayOfWeekUseCase
+import com.example.domain.usecases.GetDateAndDayOfWeekUseCaseImpl
 import com.example.domain.usecases.GetUserNameUseCase
 import com.example.domain.usecases.GetUserNameUseCaseImpl
 import com.example.domain.usecases.GetUserUseCase
@@ -42,4 +44,9 @@ abstract class ViewModelUseCaseModule {
     abstract fun bindGetUserUseCase(
         getUserUseCase: GetUserUseCaseImpl
     ): GetUserUseCase
+
+    @Binds
+    abstract fun bindGetDateAndDayOfWeekUseCase(
+        getDateAndDayOfWeekUseCase: GetDateAndDayOfWeekUseCaseImpl
+    ): GetDateAndDayOfWeekUseCase
 }

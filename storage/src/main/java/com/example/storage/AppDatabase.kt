@@ -18,7 +18,7 @@ import com.example.storage.user.SkinTypeConverter
         IndexStorageModel::class,
         UserStorageModel::class
     ],
-    version = 3,
+    version = 5,
     exportSchema = false
 )
 @TypeConverters(
