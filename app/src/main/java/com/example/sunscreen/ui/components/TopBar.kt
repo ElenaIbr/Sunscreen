@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Divider
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -30,7 +31,8 @@ fun TopBar(
         ) {
             Text(
                 modifier = Modifier.clickable { onClick.invoke() },
-                text = stringResource(id = R.string.save),
+                text = stringResource(id = R.string.save).uppercase(),
+                style = MaterialTheme.typography.subtitle1,
                 color = if (enabled) Color.Black else Color.Gray
             )
         }

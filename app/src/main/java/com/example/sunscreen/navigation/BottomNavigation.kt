@@ -1,13 +1,10 @@
 package com.example.sunscreen.navigation
 
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalAbsoluteTonalElevation
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember

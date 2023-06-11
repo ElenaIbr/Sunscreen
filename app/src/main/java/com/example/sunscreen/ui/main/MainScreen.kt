@@ -60,7 +60,7 @@ fun MainScreen(
 
     OnLifecycleEvent { _, event ->
         when (event) {
-            Lifecycle.Event.ON_CREATE, Lifecycle.Event.ON_RESUME -> {
+            Lifecycle.Event.ON_CREATE -> {
                 if (permissions.all { ContextCompat.checkSelfPermission(context, it) == PackageManager.PERMISSION_GRANTED }) {
                     locationPermissionsGranted.value = true
                 } else launcherMultiplePermissions.launch(permissions)

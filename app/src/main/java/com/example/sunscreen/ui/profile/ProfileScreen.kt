@@ -7,7 +7,6 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -20,7 +19,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -29,7 +27,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -47,7 +44,9 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -90,10 +89,18 @@ fun ProfileScreen(navController: NavHostController) {
     ) { paddings ->
         Column(
             modifier = Modifier
-                .padding(paddings)
+                .padding(
+                    bottom = paddings.calculateBottomPadding(),
+                    top = paddings.calculateTopPadding(),
+                    start = 16.dp,
+                    end = 16.dp
+                )
                 .verticalScroll(rememberScrollState())
         ) {
             profileState.updatedUserName?.let { userName ->
+                Spacer(
+                    modifier = Modifier.height(dimensionResource(id = R.dimen.spacer_20))
+                )
                 ProfileTextField(
                     title = stringResource(id = R.string.name),
                     value = userName,
@@ -103,6 +110,9 @@ fun ProfileScreen(navController: NavHostController) {
                 )
             }
             profileState.updatedBirthDate ?.let { birthDate ->
+                Spacer(
+                    modifier = Modifier.height(dimensionResource(id = R.dimen.spacer_20))
+                )
                 ProfileTextDateField(
                     title = stringResource(id = R.string.dateOfBirth),
                     value = birthDate,
@@ -112,8 +122,12 @@ fun ProfileScreen(navController: NavHostController) {
                 )
             }
             profileState.updatedSkinType?.let { skinType ->
+                Spacer(
+                    modifier = Modifier.height(dimensionResource(id = R.dimen.spacer_24))
+                )
                 DropDown(
-                    text = "Skin type: $skinType"
+                    label = "Skin type: ",
+                    value = skinType.name
                 ) {
                     UserModel.SkinType.values().map { it.name }.forEach { type ->
                         QuestionItem(
@@ -132,8 +146,12 @@ fun ProfileScreen(navController: NavHostController) {
                 }
             }
             profileState.updatedSkinColor?.let { skinColor ->
+                Spacer(
+                    modifier = Modifier.height(dimensionResource(id = R.dimen.spacer_20))
+                )
                 DropDown(
-                    text = "Skin color: $skinColor"
+                    label = "Skin color: ",
+                    value = skinColor.name
                 ) {
                     UserModel.SkinColor.values().map { it.name }.forEach { color ->
                         QuestionItem(
@@ -165,37 +183,36 @@ fun ProfileTextField(
         modifier = Modifier
             .fillMaxWidth()
             .padding(
-                vertical = 16.dp,
-                horizontal = 16.dp
+                bottom = 8.dp
             ),
         text = title,
-        color = colorResource(id = R.color.primary_text_color),
-        style = MaterialTheme.typography.subtitle2
+        fontWeight = FontWeight.Bold,
+        color = Color.Black,
+        style = MaterialTheme.typography.subtitle1
     )
     TextField(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(
-                horizontal = 16.dp
+            .clip(
+                RoundedCornerShape(8.dp)
             )
-            .clip(RoundedCornerShape(4.dp))
             .border(
                 BorderStroke(
                     width = 1.dp,
                     color = colorResource(id = R.color.text_field_color)
                 ),
-                shape = RoundedCornerShape(4.dp)
+                shape = RoundedCornerShape(8.dp)
             ),
         value = value,
         textStyle = MaterialTheme.typography.body1,
-        shape = RoundedCornerShape(4.dp),
+        shape = RoundedCornerShape(8.dp),
         colors = androidx.compose.material.TextFieldDefaults.textFieldColors(
             cursorColor = colorResource(id = R.color.text_field_color),
             backgroundColor = Color.White,
             focusedLabelColor = colorResource(id = R.color.text_field_color),
             unfocusedLabelColor = colorResource(id = R.color.text_field_color),
             focusedIndicatorColor = Color.Transparent,
-            disabledIndicatorColor = Color.Transparent
+            unfocusedIndicatorColor = Color.Transparent
         ),
         onValueChange = {
             onValueChange.invoke(it)
@@ -215,37 +232,34 @@ fun ProfileTextDateField(
         modifier = Modifier
             .fillMaxWidth()
             .padding(
-                vertical = 16.dp,
-                horizontal = 16.dp
+                bottom = 8.dp
             ),
         text = title,
-        color = colorResource(id = R.color.primary_text_color),
-        style = MaterialTheme.typography.subtitle2
+        fontWeight = FontWeight.Bold,
+        color = Color.Black,
+        style = MaterialTheme.typography.subtitle1
     )
     TextField(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(
-                horizontal = 16.dp
-            )
-            .clip(RoundedCornerShape(4.dp))
+            .clip(RoundedCornerShape(8.dp))
             .border(
                 BorderStroke(
                     width = 1.dp,
                     color = colorResource(id = R.color.text_field_color)
                 ),
-                shape = RoundedCornerShape(4.dp)
+                shape = RoundedCornerShape(8.dp)
             ),
         value = value,
         textStyle = MaterialTheme.typography.body1,
-        shape = RoundedCornerShape(4.dp),
+        shape = RoundedCornerShape(8.dp),
         colors = androidx.compose.material.TextFieldDefaults.textFieldColors(
             cursorColor = colorResource(id = R.color.text_field_color),
             backgroundColor = Color.White,
             focusedLabelColor = colorResource(id = R.color.text_field_color),
             unfocusedLabelColor = colorResource(id = R.color.text_field_color),
             focusedIndicatorColor = Color.Transparent,
-            disabledIndicatorColor = Color.Transparent
+            unfocusedIndicatorColor = Color.Transparent
         ),
         onValueChange = {
             if (it.length <= maxChar) {
@@ -261,7 +275,8 @@ fun ProfileTextDateField(
 
 @Composable
 fun DropDown(
-    text: String,
+    label: String,
+    value: String,
     modifier: Modifier = Modifier,
     initiallyOpened: Boolean = false,
     content: @Composable () -> Unit
@@ -275,13 +290,7 @@ fun DropDown(
         )
     )
     Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(
-                start = 16.dp,
-                end = 16.dp,
-                top = 16.dp
-            )
+        modifier = modifier.fillMaxWidth()
     ) {
         Row(
             modifier = Modifier
@@ -292,11 +301,19 @@ fun DropDown(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Text(
-                text = text,
-                color = colorResource(id = R.color.primary_text_color),
-                style = MaterialTheme.typography.subtitle2
-            )
+            Row() {
+                Text(
+                    text = label,
+                    fontWeight = FontWeight.Bold,
+                    color = colorResource(id = R.color.primary_text_color),
+                    style = MaterialTheme.typography.subtitle1
+                )
+                Text(
+                    text = value,
+                    color = colorResource(id = R.color.primary_text_color),
+                    style = MaterialTheme.typography.subtitle1
+                )
+            }
             Icon(
                 imageVector = Icons.Default.ArrowDropDown,
                 contentDescription = "Open or close the drop down",

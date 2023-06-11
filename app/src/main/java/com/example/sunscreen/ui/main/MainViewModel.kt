@@ -80,10 +80,15 @@ class MainViewModel @Inject constructor(
     }
 
     fun setCoordinates(latitude: Double, longitude: Double) {
-        _mainState.value = _mainState.value.copy(
-            latitude = latitude,
-            longitude = longitude
-        )
+        if (
+            _mainState.value.latitude?.toInt() != latitude.toInt() ||
+            _mainState.value.longitude?.toInt() != longitude.toInt()
+        ) {
+            _mainState.value = _mainState.value.copy(
+                latitude = latitude,
+                longitude = longitude
+            )
+        }
     }
 
     private fun getDateAndDayOfWeekUseCase() {
