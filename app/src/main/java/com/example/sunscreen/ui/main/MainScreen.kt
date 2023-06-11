@@ -1,9 +1,6 @@
 package com.example.sunscreen.ui.main
 
 import android.Manifest
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -22,18 +19,12 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -66,7 +57,6 @@ fun MainScreen(
             darkIcons = true
         )
     }
-
 
     LaunchedEffect(
         key1 = mainState.latitude,
@@ -160,7 +150,7 @@ fun MainScreen(
             ) {
                 CircularProgressIndicator(
                     modifier = Modifier.size(size = 64.dp),
-                    color = colorResource(id = R.color.primary_button_color),
+                    color = colorResource(id = R.color.secondary_color).copy(alpha = 0.5F),
                     strokeWidth = 6.dp
                 )
             }
@@ -211,24 +201,21 @@ fun MainScreen(
                         )
                     }
                 }
-                Box(
-                    modifier = Modifier.weight(0.3F)
-                ) {
-                    Banner(
-                        when (mainState.solarActivityLevel) {
-                            UvValueModel.SolarActivityLevel.Low -> UvBannerValues.Low
-                            UvValueModel.SolarActivityLevel.Medium -> UvBannerValues.Medium
-                            UvValueModel.SolarActivityLevel.High -> UvBannerValues.High
-                            UvValueModel.SolarActivityLevel.VeryHigh -> UvBannerValues.High
-                            else ->  UvBannerValues.Low
-                        }
-                    )
-                }
+                Banner(
+                    modifier = Modifier.weight(0.2F),
+                    when (mainState.solarActivityLevel) {
+                        UvValueModel.SolarActivityLevel.Low -> UvBannerValues.Low
+                        UvValueModel.SolarActivityLevel.Medium -> UvBannerValues.Medium
+                        UvValueModel.SolarActivityLevel.High -> UvBannerValues.High
+                        UvValueModel.SolarActivityLevel.VeryHigh -> UvBannerValues.High
+                        else ->  UvBannerValues.Low
+                    }
+                )
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = 24.dp)
-                        .weight(0.5F),
+                        .weight(0.6F),
                     contentAlignment = Alignment.Center
                 ) {
                     Chart(
@@ -242,74 +229,3 @@ fun MainScreen(
         }
     }
 }
-
-@Composable
-fun CircularProgressBar(
-    percentage: Float,
-    radius: Dp = 50.dp,
-    color: Color = colorResource(id = R.color.color_primary_light),
-    strokeWidth: Dp = 8.dp,
-    animDuration: Int = 3000,
-    animDelay: Int = 0
-) {
-    var animationPlayed by remember {
-        mutableStateOf(false)
-    }
-
-    val currentPercentage = animateFloatAsState(
-        targetValue = if (animationPlayed) percentage else 0F,
-        animationSpec = tween(
-            durationMillis = animDuration,
-            delayMillis = animDelay
-        )
-    )
-
-    val gradient = listOf(
-        colorResource(id = R.color.color_gradient_7),
-        colorResource(id = R.color.color_gradient_6),
-        colorResource(id = R.color.color_gradient_5),
-        colorResource(id = R.color.color_gradient_4),
-        colorResource(id = R.color.color_gradient_3),
-        Color.Transparent
-    )
-
-    LaunchedEffect(key1 = Unit) {
-        animationPlayed = true
-    }
-
-    Box(
-        modifier = Modifier.size(radius * 2F),
-        contentAlignment = Alignment.Center
-    ) {
-        Canvas(
-            modifier = Modifier.size(radius * 2F)
-        ) {
-            drawCircle(
-                brush = Brush.radialGradient(gradient),
-                radius = radius.toPx()
-            )
-
-            drawArc(
-                color = Color.LightGray,
-                -90F,
-                360F,
-                false,
-                style = Stroke(strokeWidth.toPx(), cap = StrokeCap.Round)
-            )
-
-            drawArc(
-                color = color,
-                -90F,
-                360 * currentPercentage.value,
-                false,
-                style = Stroke(strokeWidth.toPx(), cap = StrokeCap.Round)
-            )
-        }
-        Text(
-            text = percentage.toString(),
-            style = MaterialTheme.typography.h5,
-            color = colorResource(id = R.color.color_secondary_dark)
-        )
-    }
-}
-

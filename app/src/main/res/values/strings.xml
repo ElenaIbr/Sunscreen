@@ -23,4 +23,6 @@
 
     <string name="changes_saved">Changes saved</string>
 
+    <string name="uv_index">UV-index\n</string>
+
 </resources>

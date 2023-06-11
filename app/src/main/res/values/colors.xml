@@ -30,14 +30,14 @@
     <color name="background_bottom">#634D649F</color>
 
     <color name="banner_high_level_content_color">#371212</color>
-    <color name="banner_high_level_background_color">#C67575</color>
-    <color name="banner_high_level_icon_color">#F11515</color>
+    <color name="banner_high_level_background_color">#C5A4A4</color>
+    <color name="banner_high_level_icon_color">#8E0808</color>
     <color name="banner_medium_level_content_color">#683404</color>
     <color name="banner_medium_level_background_color">#D5C8A5</color>
     <color name="banner_medium_level_icon_color">#FF9800</color>
-    <color name="banner_low_level_content_color">#02500A</color>
-    <color name="banner_low_level_background_color">#d4edda</color>
-    <color name="banner_low_level_icon_color">#4CAF50</color>
+    <color name="banner_low_level_content_color">#424342</color>
+    <color name="banner_low_level_background_color">#3BCBD3CE</color>
+    <color name="banner_low_level_icon_color">#2B2929</color>
 
     <color name="background_very_high_uv_top">#56FFEB3B</color>
     <color name="background_very_high_uv_bottom">#F4DDDD</color>

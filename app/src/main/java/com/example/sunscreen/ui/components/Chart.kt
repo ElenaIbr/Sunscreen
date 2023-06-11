@@ -1,5 +1,8 @@
 package com.example.sunscreen.ui.components
 
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -16,25 +19,32 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.domain.models.IndexModel
 import com.example.domain.models.UvValueModel
 import com.example.sunscreen.R
-import com.example.sunscreen.ui.main.CircularProgressBar
 
 @Composable
 fun Chart(
@@ -66,11 +76,12 @@ fun Chart(
         }
         currentValue?.let { value ->
             CircularProgressBar(
-                percentage = (value.toFloat() / 10)
+                radius = 50.dp,
+                percentage = value.toFloat()
             )
         }
     }
-    Row() {
+    Row {
         Box(
             modifier = Modifier
                 .width(scaleYAxisWidth)
@@ -85,7 +96,7 @@ fun Chart(
                     Text(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(barGraphHeight/maxValue),
+                            .height(barGraphHeight / maxValue),
                         text = it.toDouble().toString(),
                         fontSize = 12.sp,
                         textAlign = TextAlign.End
@@ -179,5 +190,77 @@ private fun getSolarActivityLevel(uvValue: String): UvValueModel.SolarActivityLe
         in 6.0..7.0 -> UvValueModel.SolarActivityLevel.High
         in 8.0..10.00 -> UvValueModel.SolarActivityLevel.VeryHigh
         else -> UvValueModel.SolarActivityLevel.VeryHigh
+    }
+}
+
+
+@Composable
+fun CircularProgressBar(
+    percentage: Float,
+    radius: Dp = 50.dp,
+    color: Color = colorResource(id = R.color.color_primary_light),
+    strokeWidth: Dp = 8.dp,
+    animDuration: Int = 3000,
+    animDelay: Int = 0
+) {
+    var animationPlayed by remember {
+        mutableStateOf(false)
+    }
+
+    val currentPercentage = animateFloatAsState(
+        targetValue = if (animationPlayed) (percentage / 10) else 0F,
+        animationSpec = tween(
+            durationMillis = animDuration,
+            delayMillis = animDelay
+        )
+    )
+
+    val gradient = listOf(
+        colorResource(id = R.color.color_gradient_7),
+        colorResource(id = R.color.color_gradient_6),
+        colorResource(id = R.color.color_gradient_5),
+        colorResource(id = R.color.color_gradient_4),
+        colorResource(id = R.color.color_gradient_3),
+        Color.Transparent
+    )
+
+    LaunchedEffect(key1 = Unit) {
+        animationPlayed = true
+    }
+
+    Box(
+        modifier = Modifier.size(radius * 2F),
+        contentAlignment = Alignment.Center
+    ) {
+        Canvas(
+            modifier = Modifier.size(radius * 2F)
+        ) {
+            drawCircle(
+                brush = Brush.radialGradient(gradient),
+                radius = radius.toPx()
+            )
+
+            drawArc(
+                color = Color.LightGray,
+                -90F,
+                360F,
+                false,
+                style = Stroke(strokeWidth.toPx(), cap = StrokeCap.Round)
+            )
+
+            drawArc(
+                color = color,
+                -90F,
+                360 * currentPercentage.value,
+                false,
+                style = Stroke(strokeWidth.toPx(), cap = StrokeCap.Round)
+            )
+        }
+        androidx.compose.material3.Text(
+            text = "${stringResource(id = R.string.uv_index)}$percentage",
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.body1,
+            color = colorResource(id = R.color.color_secondary_dark)
+        )
     }
 }

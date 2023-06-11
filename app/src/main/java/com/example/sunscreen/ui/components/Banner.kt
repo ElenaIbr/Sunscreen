@@ -36,6 +36,7 @@ import com.example.sunscreen.R
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun Banner(
+    modifier: Modifier = Modifier,
     uvValue: UvBannerValues
 ) {
     val showBanner = remember {
@@ -50,7 +51,9 @@ fun Banner(
         exit = scaleOut() + shrinkVertically(shrinkTowards = Alignment.CenterVertically)
     ) {
         Card(
-            modifier = Modifier.padding(24.dp),
+            modifier = modifier.padding(
+                horizontal = 24.dp
+            ),
             shape = RoundedCornerShape(4.dp),
             backgroundColor = colorResource(id = uvValue.backgroundColor).copy(alpha = 0.5F),
             contentColor = colorResource(id = uvValue.contentColor),
