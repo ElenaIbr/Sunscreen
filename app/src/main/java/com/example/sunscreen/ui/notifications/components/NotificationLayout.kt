@@ -43,9 +43,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
+import com.example.domain.models.Notification
 import com.example.sunscreen.R
 import com.example.sunscreen.ui.notifications.RemindersManager
-import com.example.sunscreen.ui.notifications.models.Notification
 import java.util.Calendar
 
 @Composable
@@ -81,7 +81,7 @@ fun NotificationLayout(
                 notificationEnabled = switchCheckedState,
                 notificationHour = hour.value,
                 notificationMinute = minute.value,
-                days = days
+                days = emptyList()
             )
         )
     }
@@ -193,7 +193,9 @@ fun NotificationLayout(
                     name
                 )
                 RemindersManager.startReminder(
-                    context = context
+                    context = context,
+                    hours = hour.value,
+                    minutes = minute.value
                 )
             }) {
                 Text(text = "efewf")

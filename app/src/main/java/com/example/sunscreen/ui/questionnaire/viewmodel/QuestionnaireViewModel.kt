@@ -2,11 +2,11 @@ package com.example.sunscreen.ui.questionnaire.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.domain.models.Notification
 import com.example.domain.models.UserModel
 import com.example.domain.usecases.GetUserEntity
 import com.example.domain.usecases.GetUserUseCase
 import com.example.domain.usecases.UpdateUserUseCase
-import com.example.sunscreen.ui.notifications.models.Notification
 import com.example.sunscreen.ui.questionnaire.models.QuestionStep
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -93,7 +93,7 @@ class QuestionnaireViewModel @Inject constructor(
                     birthDate = _questionsState.value.birthDate,
                     skinType = _questionsState.value.skinType ?: UserModel.SkinType.Unknown,
                     skinColor = _questionsState.value.skinColor ?: UserModel.SkinColor.Unknown,
-                    notificationEnabled = _questionsState.value.notification?.notificationEnabled ?: false
+                    notifications = Notification()
                 )
             )
         }

@@ -1,7 +1,7 @@
 package com.example.sunscreen.ui.questionnaire.viewmodel
 
+import com.example.domain.models.Notification
 import com.example.domain.models.UserModel
-import com.example.sunscreen.ui.notifications.models.Notification
 import com.example.sunscreen.ui.questionnaire.models.QuestionStep
 
 data class QuestionnaireState (

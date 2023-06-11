@@ -8,7 +8,6 @@ class SkinColorConverter {
     fun stringToEnum(value: String?): UserModel.SkinColor {
         value?.let { stringValue -> return enumValueOf(stringValue) } ?: run { return UserModel.SkinColor.Unknown }
     }
-
     @TypeConverter
     fun enumToString(value: UserModel.SkinColor?): String? {
         return value?.name

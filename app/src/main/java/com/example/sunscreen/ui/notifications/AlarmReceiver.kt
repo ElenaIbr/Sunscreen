@@ -27,7 +27,7 @@ class AlarmReceiver : BroadcastReceiver() {
             channelId = context.getString(R.string.reminders_notification_channel_id)
         )
         // Remove this line if you don't want to reschedule the reminder
-        RemindersManager.startReminder(context.applicationContext)
+        RemindersManager.startReminder(context.applicationContext, 8, 0)
     }
 }
 

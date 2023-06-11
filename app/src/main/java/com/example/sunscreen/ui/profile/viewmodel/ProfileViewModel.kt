@@ -2,6 +2,7 @@ package com.example.sunscreen.ui.profile.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.domain.models.Notification
 import com.example.domain.models.UserModel
 import com.example.domain.usecases.GetUserEntity
 import com.example.domain.usecases.GetUserUseCase
@@ -81,7 +82,8 @@ class ProfileViewModel @Inject constructor(
                     name = _profileState.value.updatedUserName ?: "",
                     birthDate = _profileState.value.updatedBirthDate ?: "",
                     skinType = _profileState.value.updatedSkinType ?: UserModel.SkinType.Unknown,
-                    skinColor = _profileState.value.updatedSkinColor ?: UserModel.SkinColor.Unknown
+                    skinColor = _profileState.value.updatedSkinColor ?: UserModel.SkinColor.Unknown,
+                    notifications = Notification()
                 )
             )
         }

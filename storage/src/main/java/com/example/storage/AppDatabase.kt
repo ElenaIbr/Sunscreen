@@ -8,6 +8,7 @@ import androidx.room.TypeConverters
 import com.example.storage.index.ForecastConverter
 import com.example.storage.index.IndexDao
 import com.example.storage.index.IndexStorageModel
+import com.example.storage.user.NotificationsConverter
 import com.example.storage.user.SkinColorConverter
 import com.example.storage.user.UserDao
 import com.example.storage.user.UserStorageModel
@@ -18,13 +19,14 @@ import com.example.storage.user.SkinTypeConverter
         IndexStorageModel::class,
         UserStorageModel::class
     ],
-    version = 5,
+    version = 6,
     exportSchema = false
 )
 @TypeConverters(
     SkinTypeConverter::class,
     SkinColorConverter::class,
-    ForecastConverter::class
+    ForecastConverter::class,
+    NotificationsConverter::class
 )
 abstract class AppDatabase: RoomDatabase() {
 

@@ -23,6 +23,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
 import com.example.domain.models.UvValueModel
 import com.example.sunscreen.R
 import com.example.sunscreen.ui.GetLocation
@@ -34,6 +35,17 @@ import com.example.sunscreen.ui.components.UvBannerValues
 fun IndexScreen() {
     val viewModel: MainViewModel = hiltViewModel()
     val mainState by viewModel.mainState.collectAsState()
+
+    OnLifecycleEvent { _, event ->
+        when (event) {
+            Lifecycle.Event.ON_RESUME -> {
+                if (mainState.latitude != null && mainState.longitude != null) {
+                    viewModel.fetchUvValue()
+                }
+            }
+            else -> {}
+        }
+    }
 
     LaunchedEffect(
         key1 = mainState.latitude,

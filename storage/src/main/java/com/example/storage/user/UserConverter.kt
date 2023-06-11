@@ -12,9 +12,8 @@ class UserConverter @Inject constructor(): StorageConverter<UserStorageModel, Us
                 name = name,
                 birthDate = birthDate,
                 skinType = skinType,
-                notificationEnabled = notificationEnabled,
-                notificationTime = notificationTime,
-                skinColor = skinColor
+                skinColor = skinColor,
+                notifications = notifications
             )
         }
     }
@@ -26,9 +25,8 @@ class UserConverter @Inject constructor(): StorageConverter<UserStorageModel, Us
                 name = name,
                 birthDate = birthDate,
                 skinType = skinType,
-                notificationEnabled = notificationEnabled,
-                notificationTime = notificationTime,
-                skinColor = skinColor
+                skinColor = skinColor,
+                notifications = notifications
             )
         }
     }
