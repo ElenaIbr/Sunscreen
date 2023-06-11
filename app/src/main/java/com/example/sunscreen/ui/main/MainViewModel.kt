@@ -86,12 +86,6 @@ class MainViewModel @Inject constructor(
         )
     }
 
-    fun setPermissionsState(state: Boolean) {
-        _mainState.value = _mainState.value.copy(
-            locationPermissionsGranted = state
-        )
-    }
-
     private fun getDateAndDayOfWeekUseCase() {
         viewModelScope.launch {
             getDateAndDayOfWeekUseCase.execute(Unit).collect { flow ->
@@ -112,7 +106,6 @@ data class MainState(
     val index: IndexModel? = null,
     val date: String? = null,
     val temperature: String? = null,
-    val locationPermissionsGranted: Boolean = false,
     val solarActivityLevel: UvValueModel.SolarActivityLevel? = null,
     val isLoading: Boolean = true
 )

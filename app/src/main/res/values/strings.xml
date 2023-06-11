@@ -25,4 +25,8 @@
 
     <string name="uv_index">UV-index\n</string>
 
+    <string name="access_denied">Location access denied</string>
+    <string name="access_denied_message">For this feature, we need your location. Please enable location in your feature</string>
+    <string name="settings">settings</string>
+
 </resources>

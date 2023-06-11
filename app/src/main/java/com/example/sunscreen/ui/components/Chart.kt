@@ -52,7 +52,7 @@ fun Chart(
     textColor: Color,
     maxValue: Int = 10,
     activity: UvValueModel.SolarActivityLevel? = UvValueModel.SolarActivityLevel.Low,
-    currentValue: String?
+    currentValue: Double?
 ) {
     val barGraphHeight by remember { mutableStateOf(200.dp) }
     val barGraphWidth by remember { mutableStateOf(24.dp) }

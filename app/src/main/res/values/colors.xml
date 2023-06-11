@@ -73,4 +73,7 @@
     <color name="chart_medium">#D5C8A5</color>
     <color name="chart_low">#B4B5AC</color>
 
+    <color name="disable_text_color">#3A3A39</color>
+    <color name="disable_content_color">#777775</color>
+
 </resources>

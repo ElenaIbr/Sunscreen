@@ -1,51 +1,38 @@
 package com.example.sunscreen.ui.main
 
 import android.Manifest
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
+import android.content.pm.PackageManager
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.NavController
-import com.example.domain.models.UvValueModel
-import com.example.sunscreen.R
 import com.example.sunscreen.navigation.BottomBar
-import com.example.sunscreen.ui.CheckPermissions
-import com.example.sunscreen.ui.GetLocation
-import com.example.sunscreen.ui.components.Banner
-import com.example.sunscreen.ui.components.Chart
-import com.example.sunscreen.ui.components.UvBannerValues
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
 fun MainScreen(
     navController: NavController
 ) {
-    val viewModel: MainViewModel = hiltViewModel()
-    val mainState by viewModel.mainState.collectAsState()
-
     val systemUiController = rememberSystemUiController()
+    val context = LocalContext.current
 
     SideEffect {
         systemUiController.setStatusBarColor(
@@ -58,81 +45,28 @@ fun MainScreen(
         )
     }
 
-    LaunchedEffect(
-        key1 = mainState.latitude,
-        key2 = mainState.longitude
-    ) {
-        if (mainState.latitude != null && mainState.longitude != null) {
-            viewModel.fetchUvValue()
-        }
+    val locationPermissionsGranted = remember {
+        mutableStateOf(false)
     }
-
-    CheckPermissions(
-        permissions = arrayOf(
-            Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.ACCESS_FINE_LOCATION
-        ),
-        onGetResult = { result ->
-            viewModel.setPermissionsState(result)
-        }
+    val permissions = arrayOf(
+        Manifest.permission.ACCESS_COARSE_LOCATION,
+        Manifest.permission.ACCESS_FINE_LOCATION
     )
+    val launcherMultiplePermissions = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissionsMap ->
+        locationPermissionsGranted.value = (permissionsMap.values.all { it })
+    }
 
-    if (mainState.locationPermissionsGranted) {
-        GetLocation(
-            locationDetails = { location ->
-                viewModel.setCoordinates(
-                    latitude = location.latitude,
-                    longitude = location.longitude
-                )
+    OnLifecycleEvent { _, event ->
+        when (event) {
+            Lifecycle.Event.ON_CREATE, Lifecycle.Event.ON_RESUME -> {
+                if (permissions.all { ContextCompat.checkSelfPermission(context, it) == PackageManager.PERMISSION_GRANTED }) {
+                    locationPermissionsGranted.value = true
+                } else launcherMultiplePermissions.launch(permissions)
             }
-        )
-    }
-
-    val backgroundGradientColor = when (mainState.solarActivityLevel) {
-        UvValueModel.SolarActivityLevel.Low -> {
-            listOf(
-                Color.White,
-                colorResource(id = R.color.background_low_uv_top),
-                colorResource(id = R.color.background_low_uv_bottom),
-                Color.White
-            )
+            else -> {}
         }
-        UvValueModel.SolarActivityLevel.Medium -> {
-            listOf(
-                Color.White,
-                colorResource(id = R.color.background_medium_uv_top),
-                colorResource(id = R.color.background_medium_uv_bottom),
-                Color.White
-            )
-        }
-        UvValueModel.SolarActivityLevel.High -> {
-            listOf(
-                Color.White,
-                colorResource(id = R.color.background_high_uv_top),
-                colorResource(id = R.color.background_high_uv_bottom),
-                Color.White
-            )
-        }
-        UvValueModel.SolarActivityLevel.VeryHigh -> {
-            listOf(
-                Color.White,
-                colorResource(id = R.color.background_very_high_uv_top),
-                colorResource(id = R.color.background_very_high_uv_bottom),
-                Color.White
-            )
-        }
-        else -> listOf(
-            Color.Transparent,
-            Color.Transparent
-        )
-    }
-
-    val textColor = when (mainState.solarActivityLevel) {
-        UvValueModel.SolarActivityLevel.Low -> colorResource(id = R.color.text_medium_uv_color)
-        UvValueModel.SolarActivityLevel.Medium -> colorResource(id = R.color.text_medium_uv_color)
-        UvValueModel.SolarActivityLevel.High -> colorResource(id = R.color.text_high_uv_color)
-        UvValueModel.SolarActivityLevel.VeryHigh -> colorResource(id = R.color.text_very_high_uv_color)
-        else -> colorResource(id = R.color.text_very_high_uv_color)
     }
 
     Scaffold(
@@ -143,89 +77,34 @@ fun MainScreen(
             BottomBar(navController = navController)
         }
     ) { paddings ->
-        if (mainState.isLoading) {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator(
-                    modifier = Modifier.size(size = 64.dp),
-                    color = colorResource(id = R.color.secondary_color).copy(alpha = 0.5F),
-                    strokeWidth = 6.dp
-                )
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddings)
+        ) {
+            if (locationPermissionsGranted.value) {
+                IndexScreen()
+            } else {
+                PermissionsDeniedScreen()
             }
-        } else {
-            Column(
-                modifier = Modifier
-                    .background(
-                        brush = Brush.verticalGradient(
-                            colors = backgroundGradientColor
-                        )
-                    )
-                    .padding(
-                        bottom = paddings.calculateBottomPadding()
-                    ),
-                verticalArrangement = Arrangement.SpaceBetween
-            ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .weight(0.2F)
-                        .padding(
-                            top = 24.dp,
-                            start = 48.dp
-                        )
-                ) {
-                    mainState.index?.location?.let { location ->
-                        Text(
-                            text = location,
-                            style = MaterialTheme.typography.h6,
-                            color = textColor,
-                            textAlign = TextAlign.Center
-                        )
-                    }
-                    mainState.date?.let { date ->
-                        Text(
-                            text = date,
-                            style = MaterialTheme.typography.body1,
-                            color = textColor,
-                            textAlign = TextAlign.Center
-                        )
-                    }
-                    mainState.index?.temperature?.let { temperature ->
-                        Text(
-                            text = "${temperature.toInt()}°C",
-                            style = MaterialTheme.typography.h6,
-                            color = textColor,
-                            textAlign = TextAlign.Center
-                        )
-                    }
-                }
-                Banner(
-                    modifier = Modifier.weight(0.2F),
-                    when (mainState.solarActivityLevel) {
-                        UvValueModel.SolarActivityLevel.Low -> UvBannerValues.Low
-                        UvValueModel.SolarActivityLevel.Medium -> UvBannerValues.Medium
-                        UvValueModel.SolarActivityLevel.High -> UvBannerValues.High
-                        UvValueModel.SolarActivityLevel.VeryHigh -> UvBannerValues.High
-                        else ->  UvBannerValues.Low
-                    }
-                )
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 24.dp)
-                        .weight(0.6F),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Chart(
-                        forecast = mainState.index?.forecast?.drop(6) ?: emptyList(),
-                        textColor = textColor,
-                        activity = mainState.solarActivityLevel,
-                        currentValue = mainState.index?.value.toString()
-                    )
-                }
-            }
+        }
+    }
+}
+
+@Composable
+fun OnLifecycleEvent(onEvent: (owner: LifecycleOwner, event: Lifecycle.Event) -> Unit) {
+    val eventHandler = rememberUpdatedState(onEvent)
+    val lifecycleOwner = rememberUpdatedState(LocalLifecycleOwner.current)
+
+    DisposableEffect(lifecycleOwner.value) {
+        val lifecycle = lifecycleOwner.value.lifecycle
+        val observer = LifecycleEventObserver { owner, event ->
+            eventHandler.value(owner, event)
+        }
+
+        lifecycle.addObserver(observer)
+        onDispose {
+            lifecycle.removeObserver(observer)
         }
     }
 }
