@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="color_primary_dark">#15192C</color>
+    <color name="color_primary_variant_dark">#7D95FF</color>
+    <color name="color_secondary_dark">#4b5999</color>
+    <color name="color_primary_light">#FFE87C</color>
+    <color name="color_primary_variant_light">#fff7d8</color>
+
+    <color name="color_primary_background">#0A7D95FF</color>
+
+    <color name="color_gradient_1">#ffffff</color>
+    <color name="color_gradient_2">#fffcf2</color>
+    <color name="color_gradient_3">#80FFFAE5</color>
+    <color name="color_gradient_4">#80FFF7D8</color>
+    <color name="color_gradient_5">#80FFF5CB</color>
+    <color name="color_gradient_6">#80FFF3BE</color>
+    <color name="color_gradient_7">#80FFF0B1</color>
+
+    <color name="disable">#BDBDBA</color>
+
+    <color name="background_top">#56FFEB3B</color>
+    <color name="background_bottom">#634D649F</color>
+
+    <color name="banner_high_level_content_color">#371212</color>
+    <color name="banner_high_level_background_color">#C67575</color>
+    <color name="banner_high_level_icon_color">#F11515</color>
+    <color name="banner_medium_level_content_color">#683404</color>
+    <color name="banner_medium_level_background_color">#D5C8A5</color>
+    <color name="banner_medium_level_icon_color">#FF9800</color>
+    <color name="banner_low_level_content_color">#02500A</color>
+    <color name="banner_low_level_background_color">#d4edda</color>
+    <color name="banner_low_level_icon_color">#4CAF50</color>
+
+    <color name="background_very_high_uv_top">#56FFEB3B</color>
+    <color name="background_very_high_uv_bottom">#F4DDDD</color>
+    <color name="text_very_high_uv_color">#A15858</color>
+    <color name="background_high_uv_top">#56FFEB3B</color>
+    <color name="background_high_uv_bottom">#d1ecf1</color>
+    <color name="text_high_uv_color">#146371</color>
+    <color name="background_medium_uv_top">#fff3cd</color>
+    <color name="background_medium_uv_bottom">#e2e3e5</color>
+    <color name="background_low_uv_top">#B4B5AC</color>
+    <color name="background_low_uv_bottom">#d6d8d9</color>
+    <color name="text_medium_uv_color">#707273</color>
+
+    <color name="primary_button_color">#00aecc</color>
+    <color name="primary_button_content">#e4f7fa</color>
+    <color name="primary_button_disable">#86AEAEAA</color>
+    <color name="primary_button_content_disable">#B3ADAD</color>
+
+    <color name="primary_text_color">#371212</color>
+    <color name="primary_color">#006988</color>
+    <color name="secondary_color">#ffb700</color>
+    <color name="primary_background">#e4f7fa</color>
+    <color name="secondary_color_1">#E8AA42</color>
+
+    <color name="text_field_color">#909090</color>
+    <color name="divider_color">#909090</color>
+
+    <color name="splash_screen_background">#0082a0</color>
+    <color name="splash_screen_icon_background">#ffb700</color>
+
+    <color name="chart_very_high">#C67575</color>
+    <color name="chart_high">#D5A595</color>
+    <color name="chart_medium">#D5C8A5</color>
+    <color name="chart_low">#B4B5AC</color>
+
+</resources>
