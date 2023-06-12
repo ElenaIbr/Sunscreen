@@ -41,7 +41,6 @@ import java.util.Calendar
 fun NotificationLayout(
     onSetNotificationTime: (Notification) -> Unit
 ) {
-    val context = LocalContext.current
     val start = remember { mutableStateOf("") }
     val end = remember { mutableStateOf("") }
 
@@ -49,8 +48,8 @@ fun NotificationLayout(
 
     LaunchedEffect(
         key1 = switchCheckedState,
-        key2 = start,
-        key3 = end
+        key2 = start.value,
+        key3 = end.value
     ) {
         onSetNotificationTime(
             Notification(

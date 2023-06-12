@@ -11,6 +11,6 @@ data class QuestionnaireState (
     val skinType: UserModel.SkinType? = null,
     val skinColor: UserModel.SkinColor? = null,
     val questionStep: QuestionStep = QuestionStep.PersonalData,
-    val notification: Notification? = null,
+    val notification: Notification = Notification(),
     val showSplashScreen: Boolean = true
 )
