@@ -1,28 +1,18 @@
 package com.example.sunscreen.ui.notifications.components
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.app.TimePickerDialog
-import android.content.Context
-import android.text.format.DateFormat
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.ContentAlpha
+import androidx.compose.material.Divider
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
@@ -34,18 +24,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.core.content.ContextCompat
 import com.example.domain.models.Notification
 import com.example.sunscreen.R
-import com.example.sunscreen.ui.notifications.RemindersManager
 import java.util.Calendar
 
 @Composable
@@ -53,58 +42,44 @@ fun NotificationLayout(
     onSetNotificationTime: (Notification) -> Unit
 ) {
     val context = LocalContext.current
-    val hour = remember { mutableStateOf(8) }
-    val minute = remember { mutableStateOf(0) }
-    val days = remember { mutableListOf<DayOfWeek>() }
+    val start = remember { mutableStateOf("") }
+    val end = remember { mutableStateOf("") }
 
     var switchCheckedState by remember { mutableStateOf(false) }
 
-    val mCalendar = Calendar.getInstance()
-    val mHour = mCalendar[Calendar.HOUR_OF_DAY]
-    val mMinute = mCalendar[Calendar.MINUTE]
-
-    val mTimePickerDialog = TimePickerDialog(
-        context,
-        {_, h : Int, m: Int ->
-            hour.value = h
-            minute.value = m
-        }, mHour, mMinute, DateFormat.is24HourFormat(context)
-    )
-
     LaunchedEffect(
         key1 = switchCheckedState,
-        key2 = hour.value,
-        key3 = minute.value
+        key2 = start,
+        key3 = end
     ) {
         onSetNotificationTime(
             Notification(
                 notificationEnabled = switchCheckedState,
-                notificationHour = hour.value,
-                notificationMinute = minute.value,
-                days = emptyList()
+                start = start.value,
+                end = end.value
             )
         )
     }
 
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
+        modifier = Modifier.fillMaxWidth()
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(
-                    horizontal = 24.dp,
-                    vertical = 16.dp
+                    vertical = 16.dp,
+                    horizontal = 24.dp
                 ),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
                 modifier = Modifier,
-                color = colorResource(id = R.color.primary_text_color),
                 text = "Enable notifications",
-                style = MaterialTheme.typography.h6
+                fontWeight = FontWeight.Bold,
+                color = Color.Black,
+                style = MaterialTheme.typography.subtitle1
             )
             Switch(
                 checked = switchCheckedState,
@@ -128,142 +103,120 @@ fun NotificationLayout(
             )
         }
         if (switchCheckedState) {
-            Spacer(modifier = Modifier.height(24.dp))
-            Box(
+            Divider(
+                modifier = Modifier
+                    .padding(
+                        vertical = 16.dp,
+                    ),
+                color = colorResource(id = R.color.divider_color)
+            )
+            NotificationsTime(
+                modifier = Modifier
+                    .padding(
+                        horizontal = 24.dp
+                    ),
+                label = "Start",
+                initialTime = "08:00",
+                onClick = {
+                    start.value = it
+                }
+            )
+            NotificationsTime(
+                modifier = Modifier
+                    .padding(
+                        horizontal = 24.dp
+                    ),
+                label = "End",
+                initialTime = "21:00",
+                onClick = {
+                    end.value = it
+                }
+            )
+            Divider(
+                modifier = Modifier
+                    .padding(
+                        vertical = 16.dp,
+                    ),
+                color = colorResource(id = R.color.divider_color)
+            )
+            Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable {
-                        mTimePickerDialog.show()
-                    },
-                contentAlignment = Alignment.Center
+                    .padding(
+                        horizontal = 16.dp,
+                    ),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Row(
-                    modifier = Modifier
-                        .clickable {
-                            mTimePickerDialog.show()
-                        }
-                ) {
-                    Text(
-                        modifier = Modifier.padding(16.dp),
-                        text = if (hour.value.toString().length == 1) "0${hour.value}"
-                        else hour.value.toString(),
-                        color = colorResource(id = R.color.primary_text_color),
-                        style = MaterialTheme.typography.h3
-                    )
-                    Text(
-                        modifier = Modifier.padding(16.dp),
-                        text = ":",
-                        color = colorResource(id = R.color.primary_text_color),
-                        style = MaterialTheme.typography.h3
-                    )
-                    Text(
-                        modifier = Modifier.padding(16.dp),
-                        text = if (minute.value.toString().length == 1) "0${minute.value}"
-                        else minute.value.toString(),
-                        color = colorResource(id = R.color.primary_text_color),
-                        style = MaterialTheme.typography.h3
-                    )
-                }
-            }
-            Spacer(modifier = Modifier.height(24.dp))
-            LazyRow(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                DayOfWeek.values().forEach { day ->
-                    item {
-                        NotificationDay(
-                            dayOfWeek = day,
-                            onClick = { isEnabled ->
-                                if (isEnabled) days.add(day) else days.remove(day)
-                            }
-                        )
-                    }
-                }
-            }
-
-            val id = stringResource(id = R.string.reminders_notification_channel_id)
-            val name = stringResource(id = R.string.reminders_notification_channel_name)
-            Button(onClick = {
-                createNotificationsChannels(
-                    context = context,
-                    id,
-                    name
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_info),
+                    tint = Color.Black,
+                    contentDescription = null
                 )
-                RemindersManager.startReminder(
-                    context = context,
-                    hours = hour.value,
-                    minutes = minute.value
+                Spacer(
+                    modifier = Modifier.width(dimensionResource(id = R.dimen.spacer_24))
                 )
-            }) {
-                Text(text = "efewf")
+                Text(
+                    modifier = Modifier,
+                    text = stringResource(id = R.string.notifications_info),
+                    color = Color.Black,
+                    style = MaterialTheme.typography.body1
+                )
             }
         }
     }
 }
 
 @Composable
-fun NotificationDay(
-    dayOfWeek: DayOfWeek,
-    onClick: (Boolean) -> Unit
+private fun NotificationsTime(
+    modifier: Modifier = Modifier,
+    label: String,
+    initialTime: String,
+    onClick: (String) -> Unit
 ) {
-    val isEnabled = remember { mutableStateOf(true) }
+    val context = LocalContext.current
+    val time = remember { mutableStateOf(initialTime) }
 
-    Button(
-        modifier= Modifier
-            .border(
-                BorderStroke(
-                    width = 1.dp,
-                    color = if (isEnabled.value) colorResource(id = R.color.primary_color)
-                    else colorResource(id = R.color.primary_button_disable)
-                ),
-                shape = CircleShape
+    val mCalendar = Calendar.getInstance()
+    val mHour = mCalendar[Calendar.HOUR_OF_DAY]
+    val mMinute = mCalendar[Calendar.MINUTE]
+
+    val timePickerDialog = TimePickerDialog(
+        context,
+        {_, h : Int, m: Int ->
+            val hour = if (h.toString().length == 1) "0$h" else h.toString()
+            val minute =  if (m.toString().length == 1) "0$m" else m.toString()
+            time.value = "$hour:$minute"
+        }, mHour, mMinute, true
+    )
+
+    LaunchedEffect(key1 = time.value) {
+        onClick.invoke(time.value)
+    }
+
+    Row(
+        modifier = modifier
+            .clickable {
+                timePickerDialog.show()
+            }
+            .padding(
+                vertical = 8.dp
             )
-            .clip(CircleShape)
-            .size(50.dp),
-        colors = ButtonDefaults.buttonColors(
-            containerColor = if (isEnabled.value) Color.White else colorResource(id = R.color.primary_color),
-            contentColor = if (isEnabled.value) colorResource(id = R.color.primary_color) else Color.White
-        ),
-        shape = CircleShape,
-        onClick = {
-            isEnabled.value = !isEnabled.value
-            onClick.invoke(!isEnabled.value)
-        }
     ) {
         Text(
-            modifier = Modifier.fillMaxWidth(),
-            text = DayOfWeek.fromValue(dayOfWeek),
-            textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.overline.copy(
-                fontSize = 12.sp
-            )
+            color = Color.Black,
+            textAlign = TextAlign.Start,
+            style = MaterialTheme.typography.subtitle1,
+            text = label,
+            fontWeight = FontWeight.Bold
+        )
+        Spacer(
+            modifier = Modifier.width(dimensionResource(id = R.dimen.spacer_16))
+        )
+        Text(
+            color = Color.Black,
+            textAlign = TextAlign.Start,
+            style = MaterialTheme.typography.subtitle1,
+            text = time.value
         )
     }
-}
-
-enum class DayOfWeek(val day: String) {
-    Monday("M"),
-    Tuesday("T"),
-    Wednesday("W"),
-    Thursday("T"),
-    Friday("F"),
-    Saturday("S"),
-    Sunday("S");
-
-    companion object {
-        fun fromValue(dayOfWeek: DayOfWeek): String = values().find { it == dayOfWeek }?.day ?: ""
-    }
-}
-
-private fun createNotificationsChannels(context: Context, id: String, name: String) {
-    val channel = NotificationChannel(
-        id,
-        name,
-        NotificationManager.IMPORTANCE_HIGH
-    )
-    ContextCompat.getSystemService(context, NotificationManager::class.java)
-        ?.createNotificationChannel(channel)
 }

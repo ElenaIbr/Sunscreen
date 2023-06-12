@@ -148,7 +148,8 @@ fun Chart(
                                         colorResource(id = R.color.chart_very_high).copy(alpha = 0.3F)
                                     }
                                 }
-                            )
+                            ),
+                        contentAlignment = Alignment.Center
                     ) {
                         Text(
                             modifier = Modifier
