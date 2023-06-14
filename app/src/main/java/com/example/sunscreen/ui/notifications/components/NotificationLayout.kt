@@ -41,8 +41,8 @@ import java.util.Calendar
 fun NotificationLayout(
     onSetNotificationTime: (Notification) -> Unit
 ) {
-    val start = remember { mutableStateOf("") }
-    val end = remember { mutableStateOf("") }
+    val start = remember { mutableStateOf("08:00") }
+    val end = remember { mutableStateOf("21:00") }
 
     var switchCheckedState by remember { mutableStateOf(false) }
 
@@ -115,7 +115,7 @@ fun NotificationLayout(
                         horizontal = 24.dp
                     ),
                 label = "Start",
-                initialTime = "08:00",
+                initialTime = start.value,
                 onClick = {
                     start.value = it
                 }
@@ -126,7 +126,7 @@ fun NotificationLayout(
                         horizontal = 24.dp
                     ),
                 label = "End",
-                initialTime = "21:00",
+                initialTime = start.value,
                 onClick = {
                     end.value = it
                 }

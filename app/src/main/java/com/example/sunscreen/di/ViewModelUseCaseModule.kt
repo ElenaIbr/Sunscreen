@@ -10,6 +10,8 @@ import com.example.domain.usecases.GetUserUseCase
 import com.example.domain.usecases.GetUserUseCaseImpl
 import com.example.domain.usecases.GetUvValueUseCase
 import com.example.domain.usecases.GetUvValueUseCaseImpl
+import com.example.domain.usecases.UpdateNotificationsUseCase
+import com.example.domain.usecases.UpdateNotificationsUseCaseImpl
 import com.example.domain.usecases.UpdateUserUseCase
 import com.example.domain.usecases.UpdateUserUseCaseImpl
 import dagger.Binds
@@ -49,4 +51,9 @@ abstract class ViewModelUseCaseModule {
     abstract fun bindGetDateAndDayOfWeekUseCase(
         getDateAndDayOfWeekUseCase: GetDateAndDayOfWeekUseCaseImpl
     ): GetDateAndDayOfWeekUseCase
+
+    @Binds
+    abstract fun bindUpdateNotificationsUseCase(
+        updateNotificationsUseCase: UpdateNotificationsUseCaseImpl
+    ): UpdateNotificationsUseCase
 }
