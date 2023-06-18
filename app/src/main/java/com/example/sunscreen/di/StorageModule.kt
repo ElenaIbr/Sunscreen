@@ -1,7 +1,9 @@
 package com.example.sunscreen.di
 
+import com.example.domain.repositories.storage.ForecastRepository
 import com.example.domain.repositories.storage.IndexRepository
 import com.example.domain.repositories.storage.UserRepository
+import com.example.storage.forecast.ForecastRepositoryImpl
 import com.example.storage.index.IndexRepositoryImpl
 import com.example.storage.user.UserRepositoryImpl
 import dagger.Binds
@@ -21,4 +23,9 @@ abstract class StorageModule {
     abstract fun bindUserRepository(
         userRepository: UserRepositoryImpl
     ): UserRepository
+
+    @Binds
+    abstract fun bindForecastRepository(
+        forecastRepositoryImpl: ForecastRepositoryImpl
+    ): ForecastRepository
 }

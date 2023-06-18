@@ -14,7 +14,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object RemoteModule {
-
     @Singleton
     @Provides
     fun provideWeatherApi(): WeatherApi {

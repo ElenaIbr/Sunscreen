@@ -5,6 +5,10 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.example.storage.forecast.ForecastDao
+import com.example.storage.forecast.ForecastModelConverter
+import com.example.storage.forecast.ForecastModelHourConverter
+import com.example.storage.forecast.ForecastStorageModel
 import com.example.storage.index.ForecastConverter
 import com.example.storage.index.IndexDao
 import com.example.storage.index.IndexStorageModel
@@ -17,21 +21,25 @@ import com.example.storage.user.SkinTypeConverter
 @Database(
     entities = [
         IndexStorageModel::class,
-        UserStorageModel::class
+        UserStorageModel::class,
+        ForecastStorageModel::class
     ],
-    version = 6,
+    version = 8,
     exportSchema = false
 )
 @TypeConverters(
     SkinTypeConverter::class,
     SkinColorConverter::class,
     ForecastConverter::class,
-    NotificationsConverter::class
+    NotificationsConverter::class,
+    ForecastModelConverter::class,
+    ForecastModelHourConverter::class
 )
 abstract class AppDatabase: RoomDatabase() {
 
     abstract fun indexDao(): IndexDao
     abstract fun userDao(): UserDao
+    abstract fun forecastDao(): ForecastDao
 
     companion object {
         @Volatile
