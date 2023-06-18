@@ -1,6 +1,7 @@
 package com.example.sunscreen.di
 
 import com.example.domain.repositories.remote.RemoteRepository
+import com.example.remote.weather.ForecastMapper
 import com.example.remote.weather.WeatherApi
 import com.example.remote.weather.WeatherApiFactory
 import com.example.remote.weather.WeatherMapper
@@ -24,8 +25,9 @@ object RemoteModule {
     @Provides
     fun provideRemoteRepository(
         weatherApi: WeatherApi,
-        converter: WeatherMapper
+        weatherMapper: WeatherMapper,
+        forecastMapper: ForecastMapper
     ): RemoteRepository {
-        return RemoteRepositoryImpl(weatherApi, converter)
+        return RemoteRepositoryImpl(weatherApi, weatherMapper, forecastMapper)
     }
 }

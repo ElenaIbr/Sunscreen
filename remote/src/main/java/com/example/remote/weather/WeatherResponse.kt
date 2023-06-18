@@ -12,7 +12,7 @@ data class WeatherResponse(
     var current: CurrentWeather? = null,
     @SerializedName("forecast")
     @Expose
-    var forecast: ForecastDay? = null
+    var forecast: Forecast? = null
 ) {
     data class CurrentLocation(
         @SerializedName("name")
@@ -64,12 +64,15 @@ data class WeatherResponse(
         @Expose
         var temp: Double? = null
     )
-    data class ForecastDay(
+    data class Forecast(
         @SerializedName("forecastday")
         @Expose
         var forecastDay: List<ForecastDay>? = null
     ) {
         data class ForecastDay(
+            @SerializedName("date_epoch")
+            @Expose
+            var dateEpoch: Long? = null,
             @SerializedName("hour")
             @Expose
             var hour: List<Hour>? = null

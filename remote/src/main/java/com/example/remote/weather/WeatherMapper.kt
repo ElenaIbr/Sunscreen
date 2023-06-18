@@ -13,18 +13,7 @@ class WeatherMapper @Inject constructor(
             value = remoteModel.current?.uv,
             date = remoteModel.location?.localtimeEpoch,
             temperature = remoteModel.current?.temp,
-            location = remoteModel.location?.name,
-            forecast = remoteModel.forecast?.toHours()
+            location = remoteModel.location?.name
         )
-    }
-    private fun WeatherResponse.ForecastDay.toHours(): List<IndexModel.Hour>? {
-        var hour = 0
-        return this.forecastDay?.first()?.hour?.map { hourData ->
-            hour+=1
-            IndexModel.Hour(
-                hour = hour,
-                uv = hourData.uv ?: 0.0
-            )
-        }
     }
 }

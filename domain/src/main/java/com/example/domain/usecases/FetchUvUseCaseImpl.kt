@@ -16,7 +16,7 @@ class FetchUvUseCaseImpl @Inject constructor(
 ) : FetchUvUseCase,
     FlowUseCase<String, FetchUvEntity>(Dispatchers.IO)
 {
-    override fun action(input: String): Flow<FetchUvEntity> = flow{
+    override fun action(input: String): Flow<FetchUvEntity> = flow {
         emit(FetchUvEntity.Loading)
 
         val result = remoteRepository.getWeather(input).data
@@ -27,8 +27,7 @@ class FetchUvUseCaseImpl @Inject constructor(
                     value = result.value,
                     date = result.date,
                     temperature = result.temperature,
-                    location = result.location,
-                    forecast = result.forecast
+                    location = result.location
                 )
             )
             emit(FetchUvEntity.Success)

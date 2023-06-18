@@ -7,11 +7,5 @@ data class IndexModel (
     val value: Double?,
     val date: Long?,
     val temperature: Double?,
-    val location: String?,
-    val forecast: List<Hour>?
-) {
-    data class Hour (
-        val hour: Int?,
-        val uv: Double
-    )
-}
+    val location: String?
+)

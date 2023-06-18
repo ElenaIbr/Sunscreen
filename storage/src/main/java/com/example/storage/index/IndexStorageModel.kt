@@ -3,7 +3,6 @@ package com.example.storage.index
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.domain.models.IndexModel
 import java.util.UUID
 
 @Entity(tableName = "uv_index_table")
@@ -12,6 +11,5 @@ data class IndexStorageModel (
     @ColumnInfo(name = "value") val value: Double?,
     @ColumnInfo(name = "date") val date: Long?,
     @ColumnInfo(name = "temp") val temperature: Double?,
-    @ColumnInfo(name = "location") val location: String?,
-    @ColumnInfo(name = "forecast") val forecast: List<IndexModel.Hour>?
+    @ColumnInfo(name = "location") val location: String?
 )

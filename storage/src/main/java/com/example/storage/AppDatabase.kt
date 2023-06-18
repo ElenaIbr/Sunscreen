@@ -9,7 +9,6 @@ import com.example.storage.forecast.ForecastDao
 import com.example.storage.forecast.ForecastModelConverter
 import com.example.storage.forecast.ForecastModelHourConverter
 import com.example.storage.forecast.ForecastStorageModel
-import com.example.storage.index.ForecastConverter
 import com.example.storage.index.IndexDao
 import com.example.storage.index.IndexStorageModel
 import com.example.storage.user.NotificationsConverter
@@ -30,7 +29,6 @@ import com.example.storage.user.SkinTypeConverter
 @TypeConverters(
     SkinTypeConverter::class,
     SkinColorConverter::class,
-    ForecastConverter::class,
     NotificationsConverter::class,
     ForecastModelConverter::class,
     ForecastModelHourConverter::class

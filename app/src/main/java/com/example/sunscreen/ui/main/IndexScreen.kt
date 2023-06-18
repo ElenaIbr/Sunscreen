@@ -165,7 +165,7 @@ fun IndexScreen() {
                 else ->  UvBannerValues.Low
             }
         )
-        Box(
+        /*Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 24.dp)
@@ -178,7 +178,7 @@ fun IndexScreen() {
                 activity = mainState.solarActivityLevel,
                 currentValue = mainState.index?.value
             )
-        }
+        }*/
     }
     if (mainState.isLoading) {
         Box(
