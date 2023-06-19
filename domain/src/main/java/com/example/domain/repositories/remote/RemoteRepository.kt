@@ -7,4 +7,5 @@ import com.example.domain.utils.Resource
 interface RemoteRepository {
     suspend fun getWeather(coordinates: String): Resource<IndexModel>
     suspend fun getForecast(daysAmount: Int, coordinates: String): Resource<List<ForecastModel>>
+    fun startFetchForecastInBackground(coordinates: String)
 }

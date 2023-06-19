@@ -16,7 +16,10 @@ interface ForecastDao {
     }
 
     @Query("SELECT * FROM $table")
-    fun getAll(): Flow<List<ForecastStorageModel>>
+    fun getAllInFlow(): Flow<List<ForecastStorageModel>>
+
+    @Query("SELECT * FROM $table")
+    suspend fun getAll(): List<ForecastStorageModel>
 
     @Query("SELECT * FROM $table ORDER BY date DESC LIMIT 1")
     fun getFirstValue(): Flow<ForecastStorageModel?>

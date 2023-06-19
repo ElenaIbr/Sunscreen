@@ -1,17 +1,19 @@
 package com.example.domain.usecases
 
 import com.example.domain.base.SingleUseCase
-import com.example.domain.models.UserModel
-import com.example.domain.repositories.storage.UserRepository
-import com.example.domain.utils.Resource
+import com.example.domain.repositories.remote.RemoteRepository
+import com.example.domain.repositories.storage.ForecastRepository
 import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
 
 class FetchForecastInBackgroundUseCaseImpl @Inject constructor(
-    private val userRepository: UserRepository
-) : UpdateUserUseCase,
-    SingleUseCase<UserModel, Resource<Unit>>(Dispatchers.IO) {
-    override suspend fun action(input: UserModel): Resource<Unit> {
-        TODO("Not yet implemented")
+    private val remoteRepository: RemoteRepository,
+    private val forecastRepository: ForecastRepository
+) : FetchForecastInBackgroundUseCase,
+    SingleUseCase<String, Unit>(Dispatchers.IO) {
+    override suspend fun action(input: String) {
+        if (forecastRepository.getAll().isEmpty()) {
+            remoteRepository.startFetchForecastInBackground(input)
+        }
     }
 }

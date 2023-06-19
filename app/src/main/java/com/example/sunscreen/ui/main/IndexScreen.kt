@@ -53,6 +53,7 @@ fun IndexScreen() {
     ) {
         if (mainState.latitude != null && mainState.longitude != null) {
             viewModel.fetchUvValue()
+            viewModel.getForecast()
         }
     }
 

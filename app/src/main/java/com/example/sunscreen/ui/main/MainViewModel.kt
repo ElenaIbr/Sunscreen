@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.domain.entities.FetchUvEntity
 import com.example.domain.models.IndexModel
 import com.example.domain.models.UvValueModel
+import com.example.domain.usecases.FetchForecastInBackgroundUseCase
 import com.example.domain.usecases.FetchUvUseCase
 import com.example.domain.usecases.GetDateAndDayOfWeekUseCase
 import com.example.domain.usecases.GetUserNameUseCase
@@ -20,7 +21,8 @@ class MainViewModel @Inject constructor(
     private val fetchUvUseCaseImpl: FetchUvUseCase,
     private val getUvValueUseCase: GetUvValueUseCase,
     private val getUserNameUseCase: GetUserNameUseCase,
-    private val getDateAndDayOfWeekUseCase: GetDateAndDayOfWeekUseCase
+    private val getDateAndDayOfWeekUseCase: GetDateAndDayOfWeekUseCase,
+    private val fetchForecastInBackgroundUseCase: FetchForecastInBackgroundUseCase
 ) : ViewModel() {
 
     private val _mainState = MutableStateFlow(MainState())
@@ -40,6 +42,12 @@ class MainViewModel @Inject constructor(
                     solarActivityLevel = flow?.solarActivityLevel
                 )
             }
+        }
+    }
+
+    fun getForecast() {
+        viewModelScope.launch {
+            fetchForecastInBackgroundUseCase.execute("${_mainState.value.latitude},${_mainState.value.longitude}")
         }
     }
 

@@ -1,5 +1,6 @@
 package com.example.domain.usecases
 
+import android.util.Log
 import com.example.domain.base.SingleUseCase
 import com.example.domain.models.ForecastModel
 import com.example.domain.repositories.remote.RemoteRepository
@@ -14,6 +15,7 @@ class FetchForecastUseCaseImpl @Inject constructor(
 ) : FetchForecastUseCase,
     SingleUseCase<String, Resource<Unit>>(Dispatchers.IO) {
     override suspend fun action(input: String): Resource<Unit> {
+        Log.d("sdfsdfsdfsdf", input)
         return when (
             val result = remoteRepository.getForecast(
                 daysAmount = 3,
@@ -22,11 +24,13 @@ class FetchForecastUseCaseImpl @Inject constructor(
         ) {
             is Resource.Success -> {
                 result.successData?.let { list ->
+                    Log.d("sdfsdfsdfsdf", list.toString())
                     updateForecast(list)
                 }
                 Resource.Success(Unit)
             }
             is Resource.Error -> {
+                Log.d("sdfsdfsdfsdf", result.errorMessage)
                 Resource.Error("")
             }
         }

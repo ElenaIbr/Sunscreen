@@ -53,6 +53,8 @@ dependencies {
     implementation(project(":storage"))
     implementation(project(":remote"))
     implementation 'com.google.android.gms:play-services-location:19.0.1'
+    implementation 'androidx.hilt:hilt-work:1.0.0'
+    implementation 'androidx.work:work-runtime-ktx:2.7.1'
 
     def nav_version = "2.5.3"
     def hilt_compiler_version = "2.44"
