@@ -17,18 +17,15 @@ class FetchForecastWorker @AssistedInject constructor(
     private val fetchForecastUseCase: FetchForecastUseCase
 ) : CoroutineWorker(context, params) {
     override suspend fun doWork(): Result {
-        Log.d("sdfsdfsdfsdf", "FetchForecastWorker")
         return inputData.getString("coordinates")?.let { coordinates ->
-            Log.d("sdfsdfsdfsdf", coordinates)
             fetchForecastUseCase.execute(
                 input = coordinates
             ).let {
                 when (it) {
                     is Resource.Success -> Result.success()
-                    is Resource.Error -> Result.retry()
+                    is Resource.Error -> Result.failure()
                 }
             }
-
         } ?: Result.failure()
     }
 }

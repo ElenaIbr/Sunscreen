@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.work.Constraints
 import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequest
+import androidx.work.PeriodicWorkRequestBuilder
 import com.example.domain.repositories.remote.RemoteRepository
 import com.example.remote.weather.ForecastMapper
 import com.example.remote.weather.WeatherApi
@@ -49,10 +50,11 @@ object RemoteModule {
     private fun getFetchForecastWorkerBuilder(): PeriodicWorkRequest.Builder {
         val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
+            .setRequiresBatteryNotLow(true)
             .build()
 
         return PeriodicWorkRequest.Builder(
-            FetchForecastWorker::class.java, 24, TimeUnit.HOURS
+            FetchForecastWorker::class.java, 15, TimeUnit.MINUTES
         ).setConstraints(constraints)
     }
 }
