@@ -54,7 +54,7 @@ object RemoteModule {
             .build()
 
         return PeriodicWorkRequest.Builder(
-            FetchForecastWorker::class.java, 15, TimeUnit.MINUTES
+            FetchForecastWorker::class.java, 24, TimeUnit.HOURS
         ).setConstraints(constraints)
     }
 }

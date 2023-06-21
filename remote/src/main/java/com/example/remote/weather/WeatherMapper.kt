@@ -13,7 +13,8 @@ class WeatherMapper @Inject constructor(
             value = remoteModel.current?.uv,
             date = remoteModel.location?.localtimeEpoch,
             temperature = remoteModel.current?.temp,
-            location = remoteModel.location?.name
+            location = remoteModel.location?.name,
+            coordinates = "${remoteModel.location?.lat}${remoteModel.location?.lon}"
         )
     }
 }

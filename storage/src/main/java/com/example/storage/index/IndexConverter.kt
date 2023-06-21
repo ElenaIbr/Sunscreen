@@ -12,6 +12,7 @@ class IndexConverter @Inject constructor(): StorageConverter<IndexStorageModel, 
                 value = value,
                 date = date,
                 temperature = temperature,
+                coordinates = coordinates,
                 location = location
             )
         }
@@ -23,6 +24,7 @@ class IndexConverter @Inject constructor(): StorageConverter<IndexStorageModel, 
                 value = value,
                 date = date,
                 temperature = temperature,
+                coordinates = coordinates,
                 location = location
             )
         }

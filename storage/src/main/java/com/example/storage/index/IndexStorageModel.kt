@@ -11,5 +11,6 @@ data class IndexStorageModel (
     @ColumnInfo(name = "value") val value: Double?,
     @ColumnInfo(name = "date") val date: Long?,
     @ColumnInfo(name = "temp") val temperature: Double?,
-    @ColumnInfo(name = "location") val location: String?
+    @ColumnInfo(name = "location") val location: String?,
+    @ColumnInfo(name = "coordinates") val coordinates: String?
 )

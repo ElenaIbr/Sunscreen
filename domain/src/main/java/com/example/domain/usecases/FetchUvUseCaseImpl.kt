@@ -27,7 +27,8 @@ class FetchUvUseCaseImpl @Inject constructor(
                     value = result.value,
                     date = result.date,
                     temperature = result.temperature,
-                    location = result.location
+                    location = result.location,
+                    coordinates = input
                 )
             )
             emit(FetchUvEntity.Success)
