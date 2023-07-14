@@ -1,6 +1,5 @@
 package com.example.sunscreen.ui.main
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.entities.FetchUvEntity
@@ -63,7 +62,6 @@ class MainViewModel @Inject constructor(
         _mainState.value.index?.date?.let { date ->
             viewModelScope.launch {
                 getForecastByDateUseCase.execute(date).collect { flow ->
-                    Log.d("dsfsdfds", flow.toString())
                     _mainState.value = _mainState.value.copy(
                         forecast = flow
                     )
@@ -146,7 +144,7 @@ data class MainState(
     val index: IndexModel? = null,
     val date: String? = null,
     val temperature: String? = null,
-    val forecast: ForecastModel? = null,
+    val forecast: List<ForecastModel.Hour>? = null,
     val solarActivityLevel: UvValueModel.SolarActivityLevel? = null,
     val isLoading: Boolean = true
 )

@@ -28,6 +28,7 @@ import com.example.domain.models.UvValueModel
 import com.example.sunscreen.R
 import com.example.sunscreen.ui.GetLocation
 import com.example.sunscreen.ui.components.Banner
+import com.example.sunscreen.ui.components.Chart
 import com.example.sunscreen.ui.components.UvBannerValues
 
 @Composable
@@ -165,7 +166,7 @@ fun IndexScreen() {
                 else ->  UvBannerValues.Low
             }
         )
-        /*Box(
+        Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 24.dp)
@@ -173,12 +174,12 @@ fun IndexScreen() {
             contentAlignment = Alignment.Center
         ) {
             Chart(
-                forecast = mainState.index?.forecast?.drop(6) ?: emptyList(),
+                forecast = mainState.forecast ?: emptyList(),
                 textColor = textColor,
                 activity = mainState.solarActivityLevel,
                 currentValue = mainState.index?.value
             )
-        }*/
+        }
     }
     if (mainState.isLoading) {
         Box(
