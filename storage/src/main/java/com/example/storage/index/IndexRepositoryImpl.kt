@@ -5,7 +5,6 @@ import com.example.domain.repositories.storage.IndexRepository
 import com.example.storage.AppDatabase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import java.time.Instant
 import javax.inject.Inject
 
 class IndexRepositoryImpl @Inject constructor(
@@ -18,11 +17,17 @@ class IndexRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getLastValue(): Flow<IndexModel?> {
-        return appDatabase.indexDao().getLastValue().map { index ->
+    override fun getLastValueInFlow(): Flow<IndexModel?> {
+        return appDatabase.indexDao().getLastValueInFlow().map { index ->
             index?.let {
                 converter.convertFromStorage(index)
             } ?: run { null }
+        }
+    }
+
+    override suspend fun getLastValue(): IndexModel? {
+        return appDatabase.indexDao().getLastValue()?.let { index ->
+            converter.convertFromStorage(index)
         }
     }
 

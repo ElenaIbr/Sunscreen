@@ -8,6 +8,7 @@ import com.example.domain.models.UvValueModel
 import com.example.domain.usecases.FetchForecastInBackgroundUseCase
 import com.example.domain.usecases.FetchUvUseCase
 import com.example.domain.usecases.GetDateAndDayOfWeekUseCase
+import com.example.domain.usecases.GetLocationInBackgroundUseCase
 import com.example.domain.usecases.GetUserNameUseCase
 import com.example.domain.usecases.GetUvValueUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,13 +23,15 @@ class MainViewModel @Inject constructor(
     private val getUvValueUseCase: GetUvValueUseCase,
     private val getUserNameUseCase: GetUserNameUseCase,
     private val getDateAndDayOfWeekUseCase: GetDateAndDayOfWeekUseCase,
-    private val fetchForecastInBackgroundUseCase: FetchForecastInBackgroundUseCase
+    private val fetchForecastInBackgroundUseCase: FetchForecastInBackgroundUseCase,
+    private val getLocationInBackgroundUseCase: GetLocationInBackgroundUseCase
 ) : ViewModel() {
 
     private val _mainState = MutableStateFlow(MainState())
     val mainState: StateFlow<MainState> = _mainState
 
     init {
+        getLocation()
         getUvValue()
         getUserName()
         getDateAndDayOfWeekUseCase()
@@ -96,6 +99,12 @@ class MainViewModel @Inject constructor(
                 latitude = latitude,
                 longitude = longitude
             )
+        }
+    }
+
+    fun getLocation() {
+        viewModelScope.launch {
+            getLocationInBackgroundUseCase.execute(Unit)
         }
     }
 

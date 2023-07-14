@@ -16,7 +16,7 @@ class GetDateAndDayOfWeekUseCaseImpl @Inject constructor(
 ):  GetDateAndDayOfWeekUseCase,
     FlowUseCase<Unit, String?>(Dispatchers.IO) {
     override fun action(input: Unit): Flow<String?> = flow {
-        indexRepository.getLastValue().collect { indexModel ->
+        indexRepository.getLastValueInFlow().collect { indexModel ->
             val date = indexModel?.date?.convertEpochToInstant()
             val dayOfWeek = date?.dayOfWeek?.name?.lowercase()
             val month = date?.month?.name?.lowercase()

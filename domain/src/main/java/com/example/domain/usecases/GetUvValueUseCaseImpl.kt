@@ -14,7 +14,7 @@ class GetUvValueUseCaseImpl @Inject constructor(
    FlowUseCase<Unit, UvValueModel?>(Dispatchers.IO)
 {
     override fun action(input: Unit): Flow<UvValueModel?> = flow {
-        indexRepository.getLastValue().collect { flow ->
+        indexRepository.getLastValueInFlow().collect { flow ->
             flow?.value?.let { uvValue ->
                 emit(
                     UvValueModel(

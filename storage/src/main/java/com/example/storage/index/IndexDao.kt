@@ -7,7 +7,6 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
-import java.time.Instant
 
 @Dao
 interface IndexDao {
@@ -20,7 +19,10 @@ interface IndexDao {
     fun getAll(): Flow<List<IndexStorageModel>>
 
     @Query("SELECT * FROM $table ORDER BY date DESC LIMIT 1")
-    fun getLastValue(): Flow<IndexStorageModel?>
+    fun getLastValueInFlow(): Flow<IndexStorageModel?>
+
+    @Query("SELECT * FROM $table LIMIT 1")
+    suspend fun getLastValue(): IndexStorageModel?
 
     @Query("SELECT * FROM $table WHERE date = :currentDate")
     fun getCurrentDayValue(currentDate: String): Flow<List<IndexStorageModel>>
