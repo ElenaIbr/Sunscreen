@@ -1,13 +1,16 @@
 package com.example.sunscreen.ui.main
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.entities.FetchUvEntity
+import com.example.domain.models.ForecastModel
 import com.example.domain.models.IndexModel
 import com.example.domain.models.UvValueModel
 import com.example.domain.usecases.FetchForecastInBackgroundUseCase
 import com.example.domain.usecases.FetchUvUseCase
 import com.example.domain.usecases.GetDateAndDayOfWeekUseCase
+import com.example.domain.usecases.GetForecastByDateUseCase
 import com.example.domain.usecases.GetLocationInBackgroundUseCase
 import com.example.domain.usecases.GetUserNameUseCase
 import com.example.domain.usecases.GetUvValueUseCase
@@ -19,12 +22,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val fetchUvUseCaseImpl: FetchUvUseCase,
+    private val fetchUvUseCase: FetchUvUseCase,
     private val getUvValueUseCase: GetUvValueUseCase,
     private val getUserNameUseCase: GetUserNameUseCase,
     private val getDateAndDayOfWeekUseCase: GetDateAndDayOfWeekUseCase,
     private val fetchForecastInBackgroundUseCase: FetchForecastInBackgroundUseCase,
-    private val getLocationInBackgroundUseCase: GetLocationInBackgroundUseCase
+    private val getLocationInBackgroundUseCase: GetLocationInBackgroundUseCase,
+    private val getForecastByDateUseCase: GetForecastByDateUseCase
 ) : ViewModel() {
 
     private val _mainState = MutableStateFlow(MainState())
@@ -44,13 +48,27 @@ class MainViewModel @Inject constructor(
                     index = flow?.indexModel,
                     solarActivityLevel = flow?.solarActivityLevel
                 )
+                getForecast()
             }
         }
     }
 
-    fun getForecast() {
+    fun fetchForecast() {
         viewModelScope.launch {
             fetchForecastInBackgroundUseCase.execute("${_mainState.value.latitude},${_mainState.value.longitude}")
+        }
+    }
+
+    fun getForecast() {
+        _mainState.value.index?.date?.let { date ->
+            viewModelScope.launch {
+                getForecastByDateUseCase.execute(date).collect { flow ->
+                    Log.d("dsfsdfds", flow.toString())
+                    _mainState.value = _mainState.value.copy(
+                        forecast = flow
+                    )
+                }
+            }
         }
     }
 
@@ -66,7 +84,7 @@ class MainViewModel @Inject constructor(
 
     fun fetchUvValue() {
         viewModelScope.launch {
-            fetchUvUseCaseImpl.execute(
+            fetchUvUseCase.execute(
                 "${_mainState.value.latitude},${_mainState.value.longitude}"
             ).collect { flow ->
                 when (flow) {
@@ -128,6 +146,7 @@ data class MainState(
     val index: IndexModel? = null,
     val date: String? = null,
     val temperature: String? = null,
+    val forecast: ForecastModel? = null,
     val solarActivityLevel: UvValueModel.SolarActivityLevel? = null,
     val isLoading: Boolean = true
 )

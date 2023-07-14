@@ -2,14 +2,21 @@ package com.example.remote.weather
 
 import com.example.domain.models.ForecastModel
 import com.example.remote.base.RemoteConverter
+import java.time.Instant
+import java.time.ZoneId
+import java.time.temporal.ChronoUnit
 import javax.inject.Inject
 
 class ForecastMapper @Inject constructor(
 ) : RemoteConverter<WeatherResponse, List<ForecastModel>> {
     override fun convertFromRemote(remoteModel: WeatherResponse): List<ForecastModel> {
         return remoteModel.forecast?.forecastDay?.map { forecastDay ->
+            val instant = Instant.ofEpochSecond(forecastDay.dateEpoch ?: Instant.now().toEpochMilli()).atZone(
+                ZoneId.of(remoteModel.location?.tzId)
+            ).toInstant()
+
             ForecastModel(
-                date = forecastDay.dateEpoch,
+                date = instant.truncatedTo(ChronoUnit.DAYS),
                 forecast = forecastDay.toForecastModelList()
             )
         } ?: emptyList()

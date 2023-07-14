@@ -5,6 +5,7 @@ import com.example.domain.repositories.storage.ForecastRepository
 import com.example.storage.AppDatabase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import java.time.Instant
 import javax.inject.Inject
 
 class ForecastRepositoryImpl @Inject constructor(
@@ -30,6 +31,15 @@ class ForecastRepositoryImpl @Inject constructor(
             } ?: run { null }
         }
     }
+
+    override fun getForecastByrDate(date: Instant): Flow<ForecastModel?> {
+        return appDatabase.forecastDao().getForecastByrDate(date.toEpochMilli()).map { index ->
+            index?.let {
+                converter.convertFromStorage(index)
+            } ?: run { null }
+        }
+    }
+
     override suspend fun addValue(forecastModel: ForecastModel) {
         appDatabase.forecastDao().addValue(
             converter.convertToStorage(forecastModel)

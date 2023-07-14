@@ -21,6 +21,7 @@ class FetchUvUseCaseImpl @Inject constructor(
 
         val result = remoteRepository.getWeather(input).data
         if (result != null) {
+            indexRepository.clear()
             indexRepository.addValue(
                 IndexModel(
                     id = result.id,

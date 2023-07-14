@@ -24,6 +24,9 @@ interface ForecastDao {
     @Query("SELECT * FROM $table ORDER BY date DESC LIMIT 1")
     fun getFirstValue(): Flow<ForecastStorageModel?>
 
+    @Query("SELECT * FROM $table WHERE date = :date LIMIT 1")
+    fun getForecastByrDate(date: Long): Flow<ForecastStorageModel?>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addValue(indexStorageModel: ForecastStorageModel)
 

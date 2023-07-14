@@ -28,7 +28,6 @@ import com.example.domain.models.UvValueModel
 import com.example.sunscreen.R
 import com.example.sunscreen.ui.GetLocation
 import com.example.sunscreen.ui.components.Banner
-import com.example.sunscreen.ui.components.Chart
 import com.example.sunscreen.ui.components.UvBannerValues
 
 @Composable
@@ -36,7 +35,7 @@ fun IndexScreen() {
     val viewModel: MainViewModel = hiltViewModel()
     val mainState by viewModel.mainState.collectAsState()
 
-    OnLifecycleEvent { _, event ->
+    /*OnLifecycleEvent { _, event ->
         when (event) {
             Lifecycle.Event.ON_RESUME -> {
                 if (mainState.latitude != null && mainState.longitude != null) {
@@ -45,7 +44,7 @@ fun IndexScreen() {
             }
             else -> {}
         }
-    }
+    }*/
 
     LaunchedEffect(
         key1 = mainState.latitude,
@@ -53,7 +52,7 @@ fun IndexScreen() {
     ) {
         if (mainState.latitude != null && mainState.longitude != null) {
             viewModel.fetchUvValue()
-            viewModel.getForecast()
+            viewModel.fetchForecast()
         }
     }
 
