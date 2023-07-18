@@ -7,6 +7,7 @@ import java.time.ZoneId
 import java.time.temporal.ChronoUnit
 import javax.inject.Inject
 
+
 class ForecastMapper @Inject constructor(
 ) : RemoteConverter<WeatherResponse, List<ForecastModel>> {
     override fun convertFromRemote(remoteModel: WeatherResponse): List<ForecastModel> {
@@ -17,16 +18,17 @@ class ForecastMapper @Inject constructor(
 
             ForecastModel(
                 date = instant.truncatedTo(ChronoUnit.DAYS),
-                forecast = forecastDay.toForecastModelList()
+                forecast = forecastDay.toForecastModelList(remoteModel.location?.tzId)
             )
         } ?: emptyList()
     }
-    private fun WeatherResponse.Forecast.ForecastDay.toForecastModelList(): List<ForecastModel.Hour>? {
-        var hour = 0
+    private fun WeatherResponse.Forecast.ForecastDay.toForecastModelList(tzId: String?): List<ForecastModel.Hour>? {
         return this.hour?.map { forecastModel ->
-            hour+=1
+            val timeOfDay = Instant.ofEpochSecond(forecastModel.timeEpoch ?: 0L)
+                .atZone(ZoneId.of(tzId))
+
             ForecastModel.Hour(
-                hour = hour.toString(),
+                hour = timeOfDay.hour.toString(),
                 uv = forecastModel.uv ?: 0.0
             )
         }

@@ -83,28 +83,6 @@ fun Chart(
         }
     }
     Row {
-        Box(
-            modifier = Modifier
-                .width(scaleYAxisWidth)
-                .padding(bottom = 17.dp),
-            contentAlignment = Alignment.BottomCenter
-        ) {
-            Column(
-                modifier = Modifier.fillMaxHeight(),
-                verticalArrangement = Arrangement.Bottom
-            ) {
-                (maxValue downTo 1).forEach {
-                    Text(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(barGraphHeight / maxValue),
-                        text = it.toDouble().toString(),
-                        fontSize = 12.sp,
-                        textAlign = TextAlign.End
-                    )
-                }
-            }
-        }
         Column(
             modifier = Modifier
                 .fillMaxSize()

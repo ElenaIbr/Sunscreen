@@ -81,9 +81,9 @@ data class WeatherResponse(
                 @SerializedName("date")
                 @Expose
                 var date: String? = null,
-                @SerializedName("date_epoch")
+                @SerializedName("time_epoch")
                 @Expose
-                var dateEpoch: Int? = null,
+                var timeEpoch: Long? = null,
                 @SerializedName("uv")
                 @Expose
                 var uv: Double? = null

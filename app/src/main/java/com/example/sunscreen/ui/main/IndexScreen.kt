@@ -1,5 +1,6 @@
 package com.example.sunscreen.ui.main
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
@@ -31,6 +33,7 @@ import com.example.sunscreen.ui.components.Banner
 import com.example.sunscreen.ui.components.Chart
 import com.example.sunscreen.ui.components.UvBannerValues
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun IndexScreen() {
     val viewModel: MainViewModel = hiltViewModel()
@@ -166,6 +169,18 @@ fun IndexScreen() {
                 else ->  UvBannerValues.Low
             }
         )
+        HorizontalPager(
+            pageCount = 0,
+        ) {
+            Box(
+                modifier = Modifier
+                    .padding(20.dp)
+                    .background(Color.LightGray)
+                    .fillMaxSize()
+            )
+        }
+
+
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -177,7 +192,7 @@ fun IndexScreen() {
                 forecast = mainState.forecast ?: emptyList(),
                 textColor = textColor,
                 activity = mainState.solarActivityLevel,
-                currentValue = mainState.index?.value
+                currentValue = mainState.forecast?.first()?.uv
             )
         }
     }
