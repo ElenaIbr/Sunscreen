@@ -1,5 +1,6 @@
 package com.example.sunscreen.ui.main
 
+import android.icu.text.SimpleDateFormat
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -25,13 +26,14 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.Lifecycle
 import com.example.domain.models.UvValueModel
 import com.example.sunscreen.R
 import com.example.sunscreen.ui.GetLocation
 import com.example.sunscreen.ui.components.Banner
 import com.example.sunscreen.ui.components.Chart
 import com.example.sunscreen.ui.components.UvBannerValues
+import java.time.Instant
+import java.util.Date
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -131,7 +133,7 @@ fun IndexScreen() {
                 .weight(0.2F)
                 .padding(
                     top = 24.dp,
-                    start = 48.dp
+                    start = 12.dp
                 )
         ) {
             mainState.index?.location?.let { location ->
@@ -142,18 +144,16 @@ fun IndexScreen() {
                     textAlign = TextAlign.Center
                 )
             }
-            mainState.date?.let { date ->
-                Text(
-                    text = date,
-                    style = MaterialTheme.typography.body1,
-                    color = textColor,
-                    textAlign = TextAlign.Center
-                )
-            }
+            Text(
+                text = Instant.now().toStringDate(),
+                style = MaterialTheme.typography.body1,
+                color = textColor,
+                textAlign = TextAlign.Center
+            )
             mainState.index?.temperature?.let { temperature ->
                 Text(
                     text = "${temperature.toInt()}°C",
-                    style = MaterialTheme.typography.h6,
+                    style = MaterialTheme.typography.h5,
                     color = textColor,
                     textAlign = TextAlign.Center
                 )
@@ -184,7 +184,7 @@ fun IndexScreen() {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 24.dp)
+                .padding(12.dp)
                 .weight(0.6F),
             contentAlignment = Alignment.Center
         ) {
@@ -210,4 +210,10 @@ fun IndexScreen() {
             )
         }
     }
+}
+
+fun Instant.toStringDate(): String {
+    val myDate: Date = Date.from(this)
+    val formatter = SimpleDateFormat("dd/mm/yyyy")
+    return formatter.format(myDate)
 }

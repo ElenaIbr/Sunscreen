@@ -61,6 +61,8 @@ fun Chart(
 
     Box(
         modifier = Modifier
+            .clip(RoundedCornerShape(8.dp))
+            .background(Color.Black.copy(alpha = 0.1F))
             .fillMaxSize()
             .padding(bottom = barGraphHeight / 2),
         contentAlignment = Alignment.Center
@@ -145,7 +147,10 @@ fun Chart(
             Row(
                 modifier = Modifier
                     .height(16.dp)
-                    .padding(start = barGraphWidth)
+                    .padding(
+                        start = barGraphWidth,
+                        bottom = 12.dp
+                    )
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(barGraphWidth)
             ) {
