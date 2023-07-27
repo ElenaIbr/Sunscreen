@@ -21,7 +21,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -29,6 +28,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.domain.models.UserModel
 import com.example.sunscreen.R
@@ -80,57 +80,49 @@ fun QuestionnaireScreen(
                 .fillMaxSize()
                 .background(Color.White)
         ) {
-            Column {
-                Box(
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        top = 24.dp
+                    ),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .background(
-                            brush = Brush.verticalGradient(
-                                colors = listOf(
-                                    Color.White,
-                                    colorResource(id = R.color.color_gradient_7),
-                                    Color.White
-                                )
-                            )
-                        ),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        modifier = Modifier
-                            .padding(
-                                vertical = dimensionResource(id = R.dimen.questionnaire_title_padding)
-                            ),
-                        color = colorResource(id = R.color.primary_text_color),
-                        textAlign = TextAlign.Center,
-                        style = androidx.compose.material.MaterialTheme.typography.h6,
-                        text = stringResource(id = questionsState.questionStep.question)
-                    )
-                }
-                Row(
-                    Modifier
-                        .fillMaxWidth()
                         .padding(
-                            start = dimensionResource(id = R.dimen.questionnaire_indicator_horizontal_padding),
-                            end = dimensionResource(id = R.dimen.questionnaire_indicator_horizontal_padding),
-                            bottom = dimensionResource(id = R.dimen.questionnaire_indicator_bottom_padding),
-                        )
-                ) {
-                    repeat(QuestionStep.values().size) { iteration ->
-                        val color = if (
-                            iteration == questionsState.questionStep.number ||
-                            iteration < questionsState.questionStep.number
-                        ) colorResource(id = R.color.secondary_color)
-                        else colorResource(id = R.color.background_top)
+                            vertical = dimensionResource(id = R.dimen.questionnaire_title_padding)
+                        ),
+                    color = colorResource(id = R.color.primary_text_color),
+                    textAlign = TextAlign.Center,
+                    style = androidx.compose.material.MaterialTheme.typography.h6,
+                    text = stringResource(id = questionsState.questionStep.question)
+                )
+            }
+            Row(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        start = dimensionResource(id = R.dimen.questionnaire_indicator_horizontal_padding),
+                        end = dimensionResource(id = R.dimen.questionnaire_indicator_horizontal_padding),
+                        bottom = dimensionResource(id = R.dimen.questionnaire_indicator_bottom_padding),
+                    )
+            ) {
+                repeat(QuestionStep.values().size) { iteration ->
+                    val color = if (
+                        iteration == questionsState.questionStep.number ||
+                        iteration < questionsState.questionStep.number
+                    ) colorResource(id = R.color.secondary_color)
+                    else colorResource(id = R.color.background_top)
 
-                        Box(
-                            modifier = Modifier
-                                .height(dimensionResource(id = R.dimen.questionnaire_indicator_height))
-                                .weight(3F)
-                                .padding(horizontal = dimensionResource(id = R.dimen.questionnaire_indicator_internal_padding))
-                                .background(color)
-                                .fillMaxHeight()
-                        )
-                    }
+                    Box(
+                        modifier = Modifier
+                            .height(dimensionResource(id = R.dimen.questionnaire_indicator_height))
+                            .weight(3F)
+                            .padding(horizontal = dimensionResource(id = R.dimen.questionnaire_indicator_internal_padding))
+                            .background(color)
+                            .fillMaxHeight()
+                    )
                 }
             }
             Column(
@@ -160,7 +152,7 @@ fun QuestionnaireScreen(
                             value = questionsState.birthDate,
                             onValueChange = { value ->
                                 viewModel.setBirthDate(value)
-                                if (value.length == 8) {
+                                if (value.length == 4) {
                                     keyboardController?.hide()
                                     focusManager.clearFocus()
                                 }
@@ -199,7 +191,6 @@ fun QuestionnaireScreen(
                     }
                 }
             }
-
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -232,7 +223,7 @@ fun QuestionnaireScreen(
                     else stringResource(id = R.string.next),
                     buttonState = when (questionsState.questionStep) {
                         QuestionStep.PersonalData -> {
-                            if (questionsState.userName.isNotEmpty() && questionsState.birthDate.length == 8) ButtonState.DEFAULT
+                            if (questionsState.userName.isNotEmpty() && questionsState.birthDate.length == 4) ButtonState.DEFAULT
                             else ButtonState.DISABLED
                         }
                         QuestionStep.SkinType -> {

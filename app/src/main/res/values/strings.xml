@@ -15,7 +15,7 @@
     <string name="next">Next</string>
     <string name="complete">Complete</string>
     <string name="name">Name</string>
-    <string name="dateOfBirth">Date of birth</string>
+    <string name="dateOfBirth">Year of birth</string>
     <string name="save">Save</string>
 
     <string name="reminders_notification_channel_id">1</string>
