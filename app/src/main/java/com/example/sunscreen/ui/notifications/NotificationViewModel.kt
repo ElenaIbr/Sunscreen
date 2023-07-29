@@ -1,6 +1,5 @@
 package com.example.sunscreen.ui.notifications
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.models.Notification
@@ -30,7 +29,7 @@ class NotificationViewModel @Inject constructor(
                 when (flow) {
                     is GetUserEntity.Success -> {
                         _notificationState.value = _notificationState.value.copy(
-                            notification = flow.userModel?.notifications
+                            user = flow.userModel
                         )
                     }
                     else -> {}

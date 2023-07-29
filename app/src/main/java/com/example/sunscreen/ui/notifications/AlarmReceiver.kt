@@ -5,6 +5,7 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.example.sunscreen.MainActivity
@@ -17,6 +18,7 @@ class AlarmReceiver : BroadcastReceiver() {
      * and then reschedule the reminder again
      * */
     override fun onReceive(context: Context, intent: Intent) {
+        Log.d("sdfdsf", "recieve")
         val notificationManager = ContextCompat.getSystemService(
             context,
             NotificationManager::class.java
@@ -27,7 +29,7 @@ class AlarmReceiver : BroadcastReceiver() {
             channelId = context.getString(R.string.reminders_notification_channel_id)
         )
         // Remove this line if you don't want to reschedule the reminder
-        RemindersManager.startReminder(context.applicationContext, 8, 0)
+        RemindersManager.startReminder(context.applicationContext, "8:00", 0)
     }
 }
 

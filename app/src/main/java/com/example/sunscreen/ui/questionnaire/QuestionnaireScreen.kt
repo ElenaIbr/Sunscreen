@@ -184,6 +184,7 @@ fun QuestionnaireScreen(
                     }
                     QuestionStep.Notifications -> {
                         NotificationLayout(
+                            isEnabled = false,
                             onSetNotificationTime = { notification ->
                                 viewModel.enableNotification(notification)
                             }

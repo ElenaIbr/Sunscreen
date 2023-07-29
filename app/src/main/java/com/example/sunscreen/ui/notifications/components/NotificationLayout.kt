@@ -39,12 +39,13 @@ import java.util.Calendar
 
 @Composable
 fun NotificationLayout(
+    isEnabled: Boolean,
     onSetNotificationTime: (Notification) -> Unit
 ) {
     val start = remember { mutableStateOf("08:00") }
     val end = remember { mutableStateOf("21:00") }
 
-    var switchCheckedState by remember { mutableStateOf(false) }
+    var switchCheckedState by remember { mutableStateOf(isEnabled) }
 
     LaunchedEffect(
         key1 = switchCheckedState,
