@@ -11,6 +11,10 @@
     <string name="moderate_level_message">3 to 5: Moderate. In case if it is expected to have a long walk under the sun it is necessary to put SPF 30.</string>
     <string name="very_high_level_message">6 to 10: Very High. It is essential to put SPF 50+ on face.</string>
 
+    <string name="low_level_notification_message">It is not essential to put SPF on face today</string>
+    <string name="moderate_level_notification_message">In case of having a long walk it is necessary to put SPF 30 today</string>
+    <string name="very_high_level_notification_message">It is essential to put SPF 50+ on face.</string>
+
     <string name="previous">Previous</string>
     <string name="next">Next</string>
     <string name="complete">Complete</string>

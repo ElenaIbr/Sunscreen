@@ -49,11 +49,6 @@ abstract class ViewModelUseCaseModule {
     ): UpdateUserUseCase
 
     @Binds
-    abstract fun bindGetUserUseCase(
-        getUserUseCase: GetUserUseCaseImpl
-    ): GetUserUseCase
-
-    @Binds
     abstract fun bindGetDateAndDayOfWeekUseCase(
         getDateAndDayOfWeekUseCase: GetDateAndDayOfWeekUseCaseImpl
     ): GetDateAndDayOfWeekUseCase
@@ -72,9 +67,4 @@ abstract class ViewModelUseCaseModule {
     abstract fun bindGetLocationInBackgroundUseCase(
         getLocationInBackgroundUseCase: GetLocationInBackgroundUseCaseImpl
     ): GetLocationInBackgroundUseCase
-
-    @Binds
-    abstract fun bindGetForecastByDateUseCase(
-        getForecastByDateUseCase: GetForecastByDateUseCaseImpl
-    ): GetForecastByDateUseCase
 }

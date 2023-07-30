@@ -168,7 +168,7 @@ fun Chart(
     }
 }
 
-private fun getSolarActivityLevel(uvValue: String): UvValueModel.SolarActivityLevel {
+fun getSolarActivityLevel(uvValue: String): UvValueModel.SolarActivityLevel {
     return when (uvValue.toDouble()) {
         in 0.0..2.0 -> UvValueModel.SolarActivityLevel.Low
         in 3.0..5.0 -> UvValueModel.SolarActivityLevel.Medium
