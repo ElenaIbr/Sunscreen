@@ -33,6 +33,8 @@
     <string name="access_denied_message">For this feature, we need your location. Please enable location in your feature</string>
     <string name="settings">settings</string>
     <string name="notifications_info">You will only receive notifications in the hours you set. Outside of those time, notifications will be stopped.</string>
+    <string name="enable_notifications">Enable notifications</string>
+    <string name="start">Start</string>
 
 
 

@@ -76,4 +76,6 @@
     <color name="disable_text_color">#3A3A39</color>
     <color name="disable_content_color">#777775</color>
 
+    <color name="error_color">#B71C1C</color>
+
 </resources>

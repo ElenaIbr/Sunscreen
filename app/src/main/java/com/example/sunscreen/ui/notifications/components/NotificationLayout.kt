@@ -67,7 +67,7 @@ fun NotificationLayout(
         ) {
             Text(
                 modifier = Modifier,
-                text = "Enable notifications",
+                text = stringResource(id = R.string.enable_notifications),
                 fontWeight = FontWeight.Bold,
                 color = Color.Black,
                 style = MaterialTheme.typography.subtitle1
@@ -106,7 +106,7 @@ fun NotificationLayout(
                     .padding(
                         horizontal = 24.dp
                     ),
-                label = "Start",
+                label = stringResource(id = R.string.start),
                 initialTime = start.value,
                 onClick = {
                     start.value = it
