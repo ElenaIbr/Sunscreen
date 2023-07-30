@@ -20,35 +20,48 @@ class NotificationViewModel @Inject constructor(
 
     private val _notificationState = MutableStateFlow(NotificationState())
     val notificationState: StateFlow<NotificationState> = _notificationState
+
     init {
         getUser()
     }
+
     private fun getUser() {
         viewModelScope.launch {
             getUserUseCase.execute(Unit).collect { flow ->
                 when (flow) {
                     is GetUserEntity.Success -> {
                         _notificationState.value = _notificationState.value.copy(
-                            user = flow.userModel
+                            user = flow.userModel,
+                            notificationWasChanged = false
                         )
+                        flow.userModel?.notifications?.let { notification ->
+                            _notificationState.value = _notificationState.value.copy(
+                                notification = notification
+                            )
+                        }
                     }
                     else -> {}
                 }
             }
         }
     }
-
     fun setNotifications(notification: Notification) {
         _notificationState.value = _notificationState.value.copy(
             notification = notification
         )
+        userDataWasChanged()
     }
-
     fun updateNotifications() {
         _notificationState.value.notification?.let { notification ->
             viewModelScope.launch {
                 updateNotificationsUseCase.execute(notification)
             }
         }
+    }
+    private fun userDataWasChanged() {
+        _notificationState.value = _notificationState.value.copy(
+            notificationWasChanged = _notificationState.value.notification?.notificationEnabled != _notificationState.value.user?.notifications?.notificationEnabled
+                    || _notificationState.value.notification?.start != _notificationState.value.user?.notifications?.start
+        )
     }
 }

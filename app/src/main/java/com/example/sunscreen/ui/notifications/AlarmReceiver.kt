@@ -60,7 +60,7 @@ class AlarmReceiver : BroadcastReceiver() {
             getUserUseCase.execute(Unit).collect { flow ->
                 when(flow) {
                     is GetUserEntity.Success -> {
-                        RemindersManager.startReminder(context.applicationContext, flow.userModel?.notifications?.start ?: "08:00", 0)
+                        RemindersManager.startReminder(context.applicationContext, flow.userModel?.notifications?.start ?: "8:00", 0)
                         cancelJob()
                     }
                     else -> {}

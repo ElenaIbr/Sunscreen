@@ -1,7 +1,5 @@
 package com.example.sunscreen.ui.notifications.components
 
-import android.app.TimePickerDialog
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -25,38 +23,31 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.domain.models.Notification
 import com.example.sunscreen.R
-import java.util.Calendar
 
 @Composable
 fun NotificationLayout(
-    isEnabled: Boolean,
+    notification: Notification,
     onSetNotificationTime: (Notification) -> Unit
 ) {
-    val start = remember { mutableStateOf("08:00") }
-    val end = remember { mutableStateOf("21:00") }
-
-    var switchCheckedState by remember { mutableStateOf(isEnabled) }
+    val start = remember { mutableStateOf(notification.start) }
+    var switchCheckedState by remember { mutableStateOf(notification.notificationEnabled) }
 
     LaunchedEffect(
         key1 = switchCheckedState,
-        key2 = start.value,
-        key3 = end.value
+        key2 = start.value
     ) {
         onSetNotificationTime(
             Notification(
                 notificationEnabled = switchCheckedState,
-                start = start.value,
-                end = end.value
+                start = start.value
             )
         )
     }
@@ -110,7 +101,7 @@ fun NotificationLayout(
                     ),
                 color = colorResource(id = R.color.divider_color)
             )
-            NotificationsTime(
+            NotificationsTimePicker(
                 modifier = Modifier
                     .padding(
                         horizontal = 24.dp
@@ -119,17 +110,6 @@ fun NotificationLayout(
                 initialTime = start.value,
                 onClick = {
                     start.value = it
-                }
-            )
-            NotificationsTime(
-                modifier = Modifier
-                    .padding(
-                        horizontal = 24.dp
-                    ),
-                label = "End",
-                initialTime = start.value,
-                onClick = {
-                    end.value = it
                 }
             )
             Divider(
@@ -163,60 +143,5 @@ fun NotificationLayout(
                 )
             }
         }
-    }
-}
-
-@Composable
-private fun NotificationsTime(
-    modifier: Modifier = Modifier,
-    label: String,
-    initialTime: String,
-    onClick: (String) -> Unit
-) {
-    val context = LocalContext.current
-    val time = remember { mutableStateOf(initialTime) }
-
-    val mCalendar = Calendar.getInstance()
-    val mHour = mCalendar[Calendar.HOUR_OF_DAY]
-    val mMinute = mCalendar[Calendar.MINUTE]
-
-    val timePickerDialog = TimePickerDialog(
-        context,
-        {_, h : Int, m: Int ->
-            val hour = if (h.toString().length == 1) "0$h" else h.toString()
-            val minute =  if (m.toString().length == 1) "0$m" else m.toString()
-            time.value = "$hour:$minute"
-        }, mHour, mMinute, true
-    )
-
-    LaunchedEffect(key1 = time.value) {
-        onClick.invoke(time.value)
-    }
-
-    Row(
-        modifier = modifier
-            .clickable {
-                timePickerDialog.show()
-            }
-            .padding(
-                vertical = 8.dp
-            )
-    ) {
-        Text(
-            color = Color.Black,
-            textAlign = TextAlign.Start,
-            style = MaterialTheme.typography.subtitle1,
-            text = label,
-            fontWeight = FontWeight.Bold
-        )
-        Spacer(
-            modifier = Modifier.width(dimensionResource(id = R.dimen.spacer_16))
-        )
-        Text(
-            color = Color.Black,
-            textAlign = TextAlign.Start,
-            style = MaterialTheme.typography.subtitle1,
-            text = time.value
-        )
     }
 }

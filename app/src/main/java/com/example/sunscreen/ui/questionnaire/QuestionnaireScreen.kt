@@ -30,6 +30,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.domain.models.Notification
 import com.example.domain.models.UserModel
 import com.example.sunscreen.R
 import com.example.sunscreen.ui.components.ButtonState
@@ -184,7 +185,7 @@ fun QuestionnaireScreen(
                     }
                     QuestionStep.Notifications -> {
                         NotificationLayout(
-                            isEnabled = false,
+                            notification = Notification(),
                             onSetNotificationTime = { notification ->
                                 viewModel.enableNotification(notification)
                             }

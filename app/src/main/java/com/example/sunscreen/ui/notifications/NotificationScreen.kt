@@ -3,9 +3,6 @@ package com.example.sunscreen.ui.notifications
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
-import android.os.Build
-import android.provider.Settings.Global.getString
-import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -23,9 +20,6 @@ import com.example.sunscreen.R
 import com.example.sunscreen.navigation.BottomBar
 import com.example.sunscreen.ui.components.TopBar
 import com.example.sunscreen.ui.notifications.components.NotificationLayout
-import java.time.Instant
-import java.time.temporal.ChronoUnit
-import java.util.TimeZone
 
 @Composable
 fun NotificationScreen(
@@ -42,6 +36,7 @@ fun NotificationScreen(
             .systemBarsPadding(),
         topBar = {
             TopBar(
+                enabled = notificationState.notificationWasChanged,
                 onClick = {
                     notificationViewModel.updateNotifications()
                     createNotificationsChannels(context)
@@ -58,15 +53,17 @@ fun NotificationScreen(
             BottomBar(navController = navController)
         }
     ) { paddings ->
-        Box(
-            modifier = Modifier.padding(paddings)
-        ) {
-            NotificationLayout(
-                isEnabled = notificationState.user?.notifications?.notificationEnabled ?: false,
-                onSetNotificationTime = { notifications ->
-                    notificationViewModel.setNotifications(notifications)
-                }
-            )
+        notificationState.notification?.let { notification ->
+            Box(
+                modifier = Modifier.padding(paddings)
+            ) {
+                NotificationLayout(
+                    notification = notification,
+                    onSetNotificationTime = { notifications ->
+                        notificationViewModel.setNotifications(notifications)
+                    }
+                )
+            }
         }
     }
 }
