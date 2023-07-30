@@ -1,6 +1,5 @@
 package com.example.sunscreen.ui.components
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -8,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,12 +29,16 @@ fun TopBar(
                 .padding(16.dp),
             contentAlignment = Alignment.CenterEnd
         ) {
-            Text(
-                modifier = Modifier.clickable { onClick.invoke() },
-                text = stringResource(id = R.string.save).uppercase(),
-                style = MaterialTheme.typography.subtitle1,
-                color = if (enabled) Color.Black else Color.Gray
-            )
+            TextButton(
+                enabled = enabled,
+                onClick = { onClick.invoke() }
+            ) {
+                Text(
+                    text = stringResource(id = R.string.save).uppercase(),
+                    style = MaterialTheme.typography.subtitle1,
+                    color = if (enabled) Color.Black else Color.Gray
+                )
+            }
         }
         Divider(
             color = colorResource(id = R.color.divider_color)
