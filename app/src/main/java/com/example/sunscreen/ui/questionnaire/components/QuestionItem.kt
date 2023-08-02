@@ -19,6 +19,8 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.style.TextAlign
 import com.example.sunscreen.R
+import com.example.sunscreen.ui.theme.SunscreenTheme
+import com.example.sunscreen.ui.theme.UiColors
 
 @Composable
 fun QuestionItem(
@@ -56,7 +58,8 @@ fun QuestionItem(
         Text(
             color = colorResource(id = R.color.primary_text_color),
             text = value,
-            textAlign = TextAlign.Start
+            textAlign = TextAlign.Start,
+
         )
     }
 }
