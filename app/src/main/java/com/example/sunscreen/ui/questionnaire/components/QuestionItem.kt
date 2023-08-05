@@ -36,7 +36,7 @@ fun QuestionItem(
             .fillMaxWidth()
             .background(
                 color = if (isSelected) Color.Transparent
-                else colorResource(id = R.color.color_primary_light)
+                else UiColors.mainBrand.primary
             )
             .clickable {
                 onItemClick.invoke(!isSelected)
@@ -56,7 +56,7 @@ fun QuestionItem(
             modifier = Modifier.width(dimensionResource(id = R.dimen.spacer_24))
         )
         Text(
-            color = colorResource(id = R.color.primary_text_color),
+            color = UiColors.textContent.primary,
             text = value,
             textAlign = TextAlign.Start,
 

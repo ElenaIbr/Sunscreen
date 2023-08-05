@@ -15,12 +15,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.sunscreen.R
+import com.example.sunscreen.ui.theme.UiColors
 
 @Composable
 fun ProfileTextDateField(
@@ -38,7 +38,7 @@ fun ProfileTextDateField(
             ),
         text = title,
         fontWeight = FontWeight.Bold,
-        color = if (value.length < 4) colorResource(id = R.color.error_color) else Color.Black,
+        color = if (value.length < 4) UiColors.textContent.error else UiColors.textContent.primary,
         style = MaterialTheme.typography.subtitle1
     )
     TextField(
@@ -48,7 +48,7 @@ fun ProfileTextDateField(
             .border(
                 BorderStroke(
                     width = 1.dp,
-                    color = colorResource(id = R.color.text_field_color)
+                    color = UiColors.textContent.disabled
                 ),
                 shape = RoundedCornerShape(8.dp)
             ),
@@ -57,13 +57,13 @@ fun ProfileTextDateField(
         textStyle = MaterialTheme.typography.body1,
         shape = RoundedCornerShape(8.dp),
         colors = TextFieldDefaults.textFieldColors(
-            backgroundColor = Color.White,
-            focusedLabelColor = colorResource(id = R.color.text_field_color),
-            unfocusedLabelColor = colorResource(id = R.color.text_field_color),
+            backgroundColor = UiColors.background.baseWhite,
+            focusedLabelColor = UiColors.textContent.disabled,
+            unfocusedLabelColor = UiColors.textContent.disabled,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
             errorIndicatorColor = Color.Transparent,
-            errorCursorColor = colorResource(id = R.color.error_color)
+            errorCursorColor = UiColors.textContent.error
         ),
         onValueChange = {
             if (it.length <= maxChar) {
@@ -77,7 +77,7 @@ fun ProfileTextDateField(
             if (value.length < 4) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_info),
-                    tint = colorResource(id = R.color.error_color),
+                    tint = UiColors.textContent.error,
                     contentDescription = null
                 )
             }

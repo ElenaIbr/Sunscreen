@@ -13,10 +13,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.example.sunscreen.R
+import com.example.sunscreen.ui.theme.UiColors
 
 @Composable
 fun ProfileTextField(
@@ -32,7 +31,7 @@ fun ProfileTextField(
             ),
         text = title,
         fontWeight = FontWeight.Bold,
-        color = Color.Black,
+        color = UiColors.textContent.primary,
         style = MaterialTheme.typography.subtitle1
     )
     TextField(
@@ -44,7 +43,7 @@ fun ProfileTextField(
             .border(
                 BorderStroke(
                     width = 1.dp,
-                    color = colorResource(id = R.color.text_field_color)
+                    color = UiColors.textContent.disabled
                 ),
                 shape = RoundedCornerShape(8.dp)
             ),
@@ -52,15 +51,15 @@ fun ProfileTextField(
         textStyle = MaterialTheme.typography.body1,
         shape = RoundedCornerShape(8.dp),
         colors = TextFieldDefaults.textFieldColors(
-            cursorColor = colorResource(id = R.color.text_field_color),
-            backgroundColor = Color.White,
-            focusedLabelColor = colorResource(id = R.color.text_field_color),
-            unfocusedLabelColor = colorResource(id = R.color.text_field_color),
+            cursorColor = UiColors.textContent.disabled,
+            backgroundColor = UiColors.background.baseWhite,
+            focusedLabelColor = UiColors.textContent.disabled,
+            unfocusedLabelColor = UiColors.textContent.disabled,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent
         ),
-        onValueChange = {
-            onValueChange.invoke(it)
+        onValueChange = { newValue ->
+            onValueChange.invoke(newValue)
         }
     )
 }
