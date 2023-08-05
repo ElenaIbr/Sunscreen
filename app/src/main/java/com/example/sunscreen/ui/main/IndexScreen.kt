@@ -32,6 +32,7 @@ import com.example.sunscreen.ui.GetLocation
 import com.example.sunscreen.ui.components.Banner
 import com.example.sunscreen.ui.components.Chart
 import com.example.sunscreen.ui.components.UvBannerValues
+import com.example.sunscreen.ui.theme.UiColors
 import java.time.Instant
 import java.util.Date
 
@@ -74,7 +75,7 @@ fun IndexScreen() {
     val backgroundGradientColor = when (mainState.solarActivityLevel) {
         UvValueModel.SolarActivityLevel.Low -> {
             listOf(
-                Color.White,
+                UiColors.background.baseWhite,
                 colorResource(id = R.color.background_low_uv_top),
                 colorResource(id = R.color.background_low_uv_bottom),
                 Color.White
@@ -82,26 +83,26 @@ fun IndexScreen() {
         }
         UvValueModel.SolarActivityLevel.Medium -> {
             listOf(
-                Color.White,
+                UiColors.background.baseWhite,
                 colorResource(id = R.color.background_medium_uv_top),
                 colorResource(id = R.color.background_medium_uv_bottom),
-                Color.White
+                UiColors.background.baseWhite
             )
         }
         UvValueModel.SolarActivityLevel.High -> {
             listOf(
-                Color.White,
+                UiColors.background.baseWhite,
                 colorResource(id = R.color.background_high_uv_top),
                 colorResource(id = R.color.background_high_uv_bottom),
-                Color.White
+                UiColors.background.baseWhite
             )
         }
         UvValueModel.SolarActivityLevel.VeryHigh -> {
             listOf(
-                Color.White,
+                UiColors.background.baseWhite,
                 colorResource(id = R.color.background_very_high_uv_top),
                 colorResource(id = R.color.background_very_high_uv_bottom),
-                Color.White
+                UiColors.background.baseWhite
             )
         }
         else -> listOf(

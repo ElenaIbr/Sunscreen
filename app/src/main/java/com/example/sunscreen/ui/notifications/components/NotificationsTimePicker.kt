@@ -13,13 +13,13 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.sunscreen.R
+import com.example.sunscreen.ui.theme.UiColors
 import java.util.Calendar
 
 @Composable
@@ -59,7 +59,7 @@ fun NotificationsTimePicker(
             )
     ) {
         Text(
-            color = Color.Black,
+            color = UiColors.textContent.primary,
             textAlign = TextAlign.Start,
             style = MaterialTheme.typography.subtitle1,
             text = label,
@@ -69,7 +69,7 @@ fun NotificationsTimePicker(
             modifier = Modifier.width(dimensionResource(id = R.dimen.spacer_16))
         )
         Text(
-            color = Color.Black,
+            color = UiColors.textContent.primary,
             textAlign = TextAlign.Start,
             style = MaterialTheme.typography.subtitle1,
             text = time.value

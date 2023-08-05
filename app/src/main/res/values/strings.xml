@@ -2,7 +2,6 @@
     <string name="app_name">Sunscreen</string>
 
     <string name="personal_data_question">Please enter your name\nand date of birth</string>
-    <string name="gender_question">\nChoose your gender</string>
     <string name="skin_type_question">\nChoose your skin type</string>
     <string name="skin_color_question">\nChoose your skin color</string>
     <string name="notifications_question">Do you want to receive\nnotifications?</string>
@@ -12,8 +11,6 @@
     <string name="very_high_level_message">6 to 10: Very High. It is essential to put SPF 50+ on face.</string>
 
     <string name="low_level_notification_message">It is not essential to put SPF on face today</string>
-    <string name="moderate_level_notification_message">In case of having a long walk it is necessary to put SPF 30 today</string>
-    <string name="very_high_level_notification_message">It is essential to put SPF 50+ on face.</string>
 
     <string name="previous">Previous</string>
     <string name="next">Next</string>
@@ -23,9 +20,6 @@
     <string name="save">Save</string>
 
     <string name="reminders_notification_channel_id">1</string>
-    <string name="reminders_notification_channel_name">channel1</string>
-
-    <string name="changes_saved">Changes saved</string>
 
     <string name="uv_index">UV-index\n</string>
 

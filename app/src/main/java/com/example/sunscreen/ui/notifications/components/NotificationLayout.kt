@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.ContentAlpha
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
@@ -22,8 +21,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -31,6 +28,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.domain.models.Notification
 import com.example.sunscreen.R
+import com.example.sunscreen.ui.theme.UiColors
 
 @Composable
 fun NotificationLayout(
@@ -69,7 +67,7 @@ fun NotificationLayout(
                 modifier = Modifier,
                 text = stringResource(id = R.string.enable_notifications),
                 fontWeight = FontWeight.Bold,
-                color = Color.Black,
+                color = UiColors.textContent.primary,
                 style = MaterialTheme.typography.subtitle1
             )
             Switch(
@@ -78,18 +76,18 @@ fun NotificationLayout(
                     switchCheckedState = it
                 },
                 colors = SwitchDefaults.colors(
-                    checkedThumbColor = colorResource(id = R.color.primary_color),
-                    checkedTrackColor = colorResource(id = R.color.primary_background),
-                    checkedBorderColor = colorResource(id = R.color.primary_color),
-                    uncheckedThumbColor = colorResource(id = R.color.primary_button_disable),
-                    uncheckedTrackColor = colorResource(id = R.color.primary_background),
-                    uncheckedBorderColor = colorResource(id = R.color.primary_button_disable),
-                    disabledCheckedThumbColor = colorResource(id = R.color.primary_color).copy(alpha = ContentAlpha.disabled),
-                    disabledCheckedTrackColor = colorResource(id = R.color.primary_background).copy(alpha = ContentAlpha.disabled),
-                    disabledCheckedBorderColor = colorResource(id = R.color.primary_color).copy(alpha = ContentAlpha.disabled),
-                    disabledUncheckedThumbColor = colorResource(id = R.color.primary_button_disable).copy(alpha = ContentAlpha.disabled),
-                    disabledUncheckedTrackColor = colorResource(id = R.color.primary_background).copy(alpha = ContentAlpha.disabled),
-                    disabledUncheckedBorderColor = colorResource(id = R.color.primary_button_disable).copy(alpha = ContentAlpha.disabled),
+                    checkedThumbColor = UiColors.mainBrand.secondary,
+                    checkedTrackColor = UiColors.background.baseWhite,
+                    checkedBorderColor = UiColors.mainBrand.secondary,
+                    uncheckedThumbColor = UiColors.textContent.disabled,
+                    uncheckedTrackColor = UiColors.background.baseWhite,
+                    uncheckedBorderColor = UiColors.textContent.disabled,
+                    disabledCheckedThumbColor = UiColors.mainBrand.secondary,
+                    disabledCheckedTrackColor = UiColors.background.baseWhite,
+                    disabledCheckedBorderColor = UiColors.mainBrand.secondary,
+                    disabledUncheckedThumbColor = UiColors.textContent.disabled,
+                    disabledUncheckedTrackColor = UiColors.background.baseWhite,
+                    disabledUncheckedBorderColor = UiColors.textContent.disabled,
                 )
             )
         }
@@ -99,7 +97,7 @@ fun NotificationLayout(
                     .padding(
                         vertical = 16.dp,
                     ),
-                color = colorResource(id = R.color.divider_color)
+                color = UiColors.textContent.disabled
             )
             NotificationsTimePicker(
                 modifier = Modifier
@@ -117,7 +115,7 @@ fun NotificationLayout(
                     .padding(
                         vertical = 16.dp,
                     ),
-                color = colorResource(id = R.color.divider_color)
+                color = UiColors.textContent.disabled
             )
             Row(
                 modifier = Modifier
@@ -129,7 +127,7 @@ fun NotificationLayout(
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_info),
-                    tint = Color.Black,
+                    tint = UiColors.icons.primary,
                     contentDescription = null
                 )
                 Spacer(
@@ -138,7 +136,7 @@ fun NotificationLayout(
                 Text(
                     modifier = Modifier,
                     text = stringResource(id = R.string.notifications_info),
-                    color = Color.Black,
+                    color = UiColors.textContent.primary,
                     style = MaterialTheme.typography.body1
                 )
             }

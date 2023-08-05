@@ -15,10 +15,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import com.example.sunscreen.R
+import com.example.sunscreen.ui.theme.UiColors
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -33,7 +33,7 @@ fun CheckMark(checked: Boolean) {
             modifier = Modifier
                 .clip(CircleShape)
                 .background(
-                    if (isVisible) colorResource(id = R.color.color_primary_light) else Color.White
+                    if (isVisible) UiColors.mainBrand.primary else UiColors.background.baseWhite
                 ),
             contentAlignment = Alignment.Center
         ) {
@@ -41,7 +41,7 @@ fun CheckMark(checked: Boolean) {
                 modifier = Modifier.padding(dimensionResource(id = R.dimen.check_mark_padding)),
                 painter = painterResource(id = R.drawable.ic_done),
                 tint = if (isVisible) Color.Transparent
-                else colorResource(id = R.color.banner_high_level_content_color),
+                else UiColors.textContent.primary,
                 contentDescription = null
             )
         }
