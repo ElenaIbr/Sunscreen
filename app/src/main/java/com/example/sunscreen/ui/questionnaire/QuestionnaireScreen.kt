@@ -24,7 +24,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -43,6 +42,7 @@ import com.example.sunscreen.ui.notifications.components.NotificationLayout
 import com.example.sunscreen.ui.questionnaire.components.QuestionList
 import com.example.sunscreen.ui.questionnaire.models.QuestionStep
 import com.example.sunscreen.ui.questionnaire.viewmodel.QuestionnaireViewModel
+import com.example.sunscreen.ui.theme.UiColors
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -94,7 +94,7 @@ fun QuestionnaireScreen(
                         .padding(
                             vertical = dimensionResource(id = R.dimen.questionnaire_title_padding)
                         ),
-                    color = colorResource(id = R.color.primary_text_color),
+                    color = UiColors.textContent.primary,
                     textAlign = TextAlign.Center,
                     style = androidx.compose.material.MaterialTheme.typography.h6,
                     text = stringResource(id = questionsState.questionStep.question)
@@ -113,8 +113,8 @@ fun QuestionnaireScreen(
                     val color = if (
                         iteration == questionsState.questionStep.number ||
                         iteration < questionsState.questionStep.number
-                    ) colorResource(id = R.color.secondary_color)
-                    else colorResource(id = R.color.background_top)
+                    ) UiColors.mainBrand.primary
+                    else UiColors.mainBrand.primary.copy(alpha = 0.3F)
 
                     Box(
                         modifier = Modifier

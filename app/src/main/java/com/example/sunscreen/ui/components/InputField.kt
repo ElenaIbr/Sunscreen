@@ -16,12 +16,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
-import com.example.sunscreen.R
+import com.example.sunscreen.ui.theme.UiColors
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -49,18 +47,19 @@ fun InputField(
         label = {
             Text(
                 text = title,
-                color = if (isFocused.value) colorResource(id = R.color.secondary_color_1)
-                else colorResource(id = R.color.text_field_color),
+                color = if (isFocused.value) UiColors.mainBrand.primary
+                else UiColors.textContent.disabled,
                 style = MaterialTheme.typography.subtitle1
             )
         },
         shape = RoundedCornerShape(4.dp),
         colors = TextFieldDefaults.outlinedTextFieldColors(
-            focusedBorderColor = colorResource(id = R.color.secondary_color_1),
-            unfocusedBorderColor = colorResource(id = R.color.text_field_color),
-            containerColor = Color.White,
-            focusedLabelColor = colorResource(id = R.color.secondary_color_1),
-            unfocusedLabelColor = colorResource(id = R.color.text_field_color)
+            cursorColor = UiColors.textContent.primary,
+            focusedBorderColor = UiColors.mainBrand.primary,
+            unfocusedBorderColor = UiColors.textContent.disabled,
+            containerColor = UiColors.background.baseWhite,
+            focusedLabelColor = UiColors.mainBrand.primary,
+            unfocusedLabelColor = UiColors.textContent.disabled
         ),
         textStyle = MaterialTheme.typography.subtitle1,
         keyboardOptions = KeyboardOptions(
