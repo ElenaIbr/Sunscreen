@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.domain.models.UvValueModel
 import com.example.sunscreen.extensions.toStringDate
-import com.example.sunscreen.ui.GetLocation
+import com.example.sunscreen.ui.index.location.GetLocation
 import com.example.sunscreen.ui.components.Chart
 import com.example.sunscreen.ui.components.banner.Banner
 import com.example.sunscreen.ui.components.banner.BannerValue

@@ -38,8 +38,8 @@ fun SplashScreen() {
         contentAlignment = Alignment.Center
     ) {
         Icon(
-            modifier = Modifier.size(150.dp),
-            painter = painterResource(id = R.drawable.ic_sun),
+            modifier = Modifier.size(120.dp),
+            painter = painterResource(id = R.drawable.sun_skinny),
             tint = UiColors.mainBrand.primary,
             contentDescription = null
         )
