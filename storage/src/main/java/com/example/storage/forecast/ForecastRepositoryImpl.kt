@@ -17,13 +17,11 @@ class ForecastRepositoryImpl @Inject constructor(
             list.map { converter.convertFromStorage(it) }
         }
     }
-
     override suspend fun getAll(): List<ForecastModel> {
         return appDatabase.forecastDao().getAll().map { list ->
             converter.convertFromStorage(list)
         }
     }
-
     override fun getFirstValue(): Flow<ForecastModel?> {
         return appDatabase.forecastDao().getFirstValue().map { index ->
             index?.let {
@@ -31,7 +29,6 @@ class ForecastRepositoryImpl @Inject constructor(
             } ?: run { null }
         }
     }
-
     override fun getForecastByrDate(date: Instant): Flow<ForecastModel?> {
         return appDatabase.forecastDao().getForecastByrDate(date.toEpochMilli()).map { index ->
             index?.let {
@@ -39,7 +36,6 @@ class ForecastRepositoryImpl @Inject constructor(
             } ?: run { null }
         }
     }
-
     override suspend fun addValue(forecastModel: ForecastModel) {
         appDatabase.forecastDao().addValue(
             converter.convertToStorage(forecastModel)

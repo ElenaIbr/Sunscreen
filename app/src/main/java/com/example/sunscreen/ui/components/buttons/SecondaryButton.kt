@@ -1,4 +1,4 @@
-package com.example.sunscreen.ui.components
+package com.example.sunscreen.ui.components.buttons
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,14 +12,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import com.example.sunscreen.R
-import com.example.sunscreen.ui.components.buttons.ButtonState
+import com.example.sunscreen.ui.components.RotateLoader
+import com.example.sunscreen.ui.theme.UiColors
 
 @Composable
 fun SecondaryButton(
@@ -36,12 +36,11 @@ fun SecondaryButton(
         enabled = buttonState == ButtonState.DEFAULT,
         colors = ButtonDefaults.outlinedButtonColors(
             backgroundColor = Color.White,
-            contentColor = colorResource(id = R.color.primary_button_color),
-            disabledContentColor = colorResource(id = R.color.primary_button_content_disable)
+            contentColor = UiColors.buttons.primaryContent
         ),
         border = BorderStroke(
             width = 1.dp,
-            color = colorResource(id = R.color.primary_button_color)
+            color = UiColors.buttons.primaryContent
         ),
         shape = RoundedCornerShape(8.dp)
     ) {
@@ -61,7 +60,7 @@ fun SecondaryButton(
             ButtonState.SUCCESS -> {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_done),
-                    tint = colorResource(id = R.color.primary_button_content),
+                    tint = UiColors.buttons.primaryContent,
                     contentDescription = null
                 )
             }

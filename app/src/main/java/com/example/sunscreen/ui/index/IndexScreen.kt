@@ -206,7 +206,7 @@ fun IndexScreen() {
         ) {
             CircularProgressIndicator(
                 modifier = Modifier.size(size = 64.dp),
-                color = colorResource(id = R.color.secondary_color).copy(alpha = 0.5F),
+                color = UiColors.mainBrand.primary.copy(alpha = 0.5F),
                 strokeWidth = 6.dp
             )
         }

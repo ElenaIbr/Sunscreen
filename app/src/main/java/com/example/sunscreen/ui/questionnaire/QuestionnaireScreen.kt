@@ -35,8 +35,8 @@ import com.example.sunscreen.R
 import com.example.sunscreen.ui.components.buttons.ButtonState
 import com.example.sunscreen.ui.components.InputField
 import com.example.sunscreen.ui.components.InputYearField
-import com.example.sunscreen.ui.components.PrimaryButton
-import com.example.sunscreen.ui.components.SecondaryButton
+import com.example.sunscreen.ui.components.buttons.PrimaryButton
+import com.example.sunscreen.ui.components.buttons.SecondaryButton
 import com.example.sunscreen.ui.components.SplashScreen
 import com.example.sunscreen.ui.notifications.components.NotificationLayout
 import com.example.sunscreen.ui.questionnaire.components.QuestionList

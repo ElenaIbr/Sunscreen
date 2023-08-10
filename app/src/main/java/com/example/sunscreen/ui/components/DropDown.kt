@@ -23,13 +23,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.example.sunscreen.R
+import com.example.sunscreen.ui.theme.UiColors
 
 @Composable
 fun DropDown(
@@ -59,23 +57,23 @@ fun DropDown(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Row() {
+            Row {
                 Text(
                     text = label,
                     fontWeight = FontWeight.Bold,
-                    color = colorResource(id = R.color.primary_text_color),
+                    color = UiColors.textContent.primary,
                     style = MaterialTheme.typography.subtitle1
                 )
                 Text(
                     text = value,
-                    color = colorResource(id = R.color.primary_text_color),
+                    color = UiColors.textContent.primary,
                     style = MaterialTheme.typography.subtitle1
                 )
             }
             Icon(
                 imageVector = Icons.Default.ArrowDropDown,
-                contentDescription = "Open or close the drop down",
-                tint = Color.Black,
+                contentDescription = null,
+                tint = UiColors.icons.primary,
                 modifier = Modifier
                     .scale(1f, if (isOpen) -1f else 1f)
             )

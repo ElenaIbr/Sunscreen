@@ -9,17 +9,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.sunscreen.R
+import com.example.sunscreen.ui.theme.UiColors
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
 fun SplashScreen() {
     val systemUiController = rememberSystemUiController()
-    val backgroundColor = Color.White
+    val backgroundColor = UiColors.background.baseWhite
 
     SideEffect {
         systemUiController.setStatusBarColor(
@@ -41,7 +40,7 @@ fun SplashScreen() {
         Icon(
             modifier = Modifier.size(150.dp),
             painter = painterResource(id = R.drawable.ic_sunny),
-            tint = colorResource(id = R.color.splash_screen_icon_background),
+            tint = UiColors.mainBrand.primary,
             contentDescription = null
         )
     }

@@ -28,7 +28,7 @@ object TextContentLight : TextContent() {
     override val note: Color
         @Composable get() = colorResource(id = R.color.text_note)
     override val disabled: Color
-        @Composable get() = colorResource(id = R.color.text_field_color)
+        @Composable get() = colorResource(id = R.color.text_disabled)
 }
 
 object TextContentDark : TextContent() {
@@ -41,5 +41,5 @@ object TextContentDark : TextContent() {
     override val note: Color
         @Composable get() = colorResource(id = R.color.text_note)
     override val disabled: Color
-        @Composable get() = colorResource(id = R.color.text_field_color)
+        @Composable get() = colorResource(id = R.color.text_disabled)
 }
