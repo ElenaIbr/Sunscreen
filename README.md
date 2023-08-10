@@ -2,4 +2,4 @@
 The app is in progress :D
 The first little demo:
 
-<img width="260" alt="Снимок экрана 2022-04-03 в 16 04 29" src="https://github.com/ElenaIbr/Sunscreen/blob/master/screen-20230810-223111.gif">
+https://github.com/ElenaIbr/Sunscreen/assets/87421176/9029fcf7-406f-425f-a3d6-560db11258f7
