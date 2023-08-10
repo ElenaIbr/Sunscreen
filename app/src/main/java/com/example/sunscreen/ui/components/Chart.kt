@@ -76,7 +76,7 @@ fun Chart(
             )
         }
         currentValue?.let { value ->
-            CircularProgressBar(
+            ChartCircularProgressBar(
                 radius = 50.dp,
                 percentage = value.toFloat(),
                 color = UiColors.mainBrand.primary
@@ -178,7 +178,7 @@ fun getSolarActivityLevel(uvValue: String): UvValueModel.SolarActivityLevel {
 
 
 @Composable
-fun CircularProgressBar(
+fun ChartCircularProgressBar(
     percentage: Float,
     radius: Dp = 50.dp,
     color: Color = UiColors.mainBrand.primary,

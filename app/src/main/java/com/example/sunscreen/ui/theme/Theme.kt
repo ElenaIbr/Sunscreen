@@ -35,6 +35,15 @@ import com.example.sunscreen.ui.theme.colors.MainBrandLight
 import com.example.sunscreen.ui.theme.colors.TextContent
 import com.example.sunscreen.ui.theme.colors.TextContentDark
 import com.example.sunscreen.ui.theme.colors.TextContentLight
+import com.example.sunscreen.ui.theme.colors.solarActivity.HighDark
+import com.example.sunscreen.ui.theme.colors.solarActivity.HighLight
+import com.example.sunscreen.ui.theme.colors.solarActivity.LowDark
+import com.example.sunscreen.ui.theme.colors.solarActivity.LowLight
+import com.example.sunscreen.ui.theme.colors.solarActivity.MediumDark
+import com.example.sunscreen.ui.theme.colors.solarActivity.MediumLight
+import com.example.sunscreen.ui.theme.colors.solarActivity.SolarActivityLevel
+import com.example.sunscreen.ui.theme.colors.solarActivity.VeryHighDark
+import com.example.sunscreen.ui.theme.colors.solarActivity.VeryHighLight
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
@@ -132,14 +141,26 @@ private val LightPalette = UIColors(
     IconsLight,
     TextContentLight,
     BackgroundLight,
-    ButtonsLight
+    ButtonsLight,
+    SolarActivityLevel(
+        low = LowLight,
+        medium = MediumLight,
+        high = HighLight,
+        veryHigh = VeryHighLight
+    )
 )
 private val DarkPalette = UIColors(
     MainBrandDark,
     IconsDark,
     TextContentDark,
     BackgroundDark,
-    ButtonsDark
+    ButtonsDark,
+    SolarActivityLevel(
+        low = LowDark,
+        medium = MediumDark,
+        high = HighDark,
+        veryHigh = VeryHighDark
+    )
 )
 
 data class UIColors(
@@ -147,5 +168,6 @@ data class UIColors(
     val icons: Icons,
     val textContent: TextContent,
     val background: Background,
-    val buttons: Buttons
+    val buttons: Buttons,
+    val solarActivityLevel: SolarActivityLevel
 )
