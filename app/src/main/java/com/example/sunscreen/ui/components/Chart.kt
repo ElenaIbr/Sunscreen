@@ -77,7 +77,6 @@ fun Chart(
         }
         currentValue?.let { value ->
             ChartCircularProgressBar(
-                radius = 50.dp,
                 percentage = value.toFloat(),
                 color = UiColors.mainBrand.primary
             )

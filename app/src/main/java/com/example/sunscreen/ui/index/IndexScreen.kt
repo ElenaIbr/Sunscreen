@@ -181,7 +181,7 @@ fun IndexScreen() {
             contentAlignment = Alignment.Center
         ) {
             CircularProgressIndicator(
-                modifier = Modifier.size(size = 64.dp),
+                modifier = Modifier.size(size = 48.dp),
                 color = UiColors.mainBrand.primary.copy(alpha = 0.5F),
                 strokeWidth = 6.dp
             )
