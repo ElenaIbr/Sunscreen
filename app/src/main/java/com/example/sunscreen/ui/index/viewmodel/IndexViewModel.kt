@@ -3,6 +3,7 @@ package com.example.sunscreen.ui.index.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.entities.FetchUvEntity
+import com.example.domain.models.ForecastModel
 import com.example.domain.usecases.FetchForecastInBackgroundUseCase
 import com.example.domain.usecases.FetchUvUseCase
 import com.example.domain.usecases.GetDateAndDayOfWeekUseCase
@@ -14,6 +15,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import java.util.Calendar
 import javax.inject.Inject
 
 @HiltViewModel
@@ -41,8 +43,7 @@ class IndexViewModel @Inject constructor(
         viewModelScope.launch {
             getUvValueUseCase.execute(Unit).collect { flow ->
                 _indexState.value = _indexState.value.copy(
-                    index = flow?.indexModel,
-                    solarActivityLevel = flow?.solarActivityLevel
+                    index = flow?.indexModel
                 )
                 getForecast()
             }
@@ -53,7 +54,8 @@ class IndexViewModel @Inject constructor(
             viewModelScope.launch {
                 getForecastByDateUseCase.execute(date).collect { flow ->
                     _indexState.value = _indexState.value.copy(
-                        forecast = flow
+                        forecast = flow,
+                        solarActivityLevel = getForecastByCurrentTime(flow)
                     )
                 }
             }
@@ -122,5 +124,34 @@ class IndexViewModel @Inject constructor(
                 )
             }
         }
+    }
+}
+
+private fun getSolarActivityLevel(uvValue: Double): SolarActivity {
+    return when (uvValue) {
+        in 0.0..2.0 -> SolarActivity.Low
+        in 3.0..5.0 -> SolarActivity.Medium
+        in 6.0..7.0 -> SolarActivity.High
+        in 8.0..10.00 -> SolarActivity.VeryHigh
+        else -> SolarActivity.VeryHigh
+    }
+}
+
+enum class SolarActivity {
+    Low,
+    Medium,
+    High,
+    VeryHigh
+}
+
+fun getForecastByCurrentTime(forecast: List<ForecastModel.Hour>?): SolarActivity {
+    val rightNow = Calendar.getInstance()
+    val currentHourIn24Format: Int =rightNow.get(Calendar.HOUR_OF_DAY)
+    return when (forecast?.find { it.hour.toInt() ==  currentHourIn24Format }?.uv ?: 0.0) {
+        in 0.0..2.0 -> SolarActivity.Low
+        in 3.0..5.0 -> SolarActivity.Medium
+        in 6.0..7.0 -> SolarActivity.High
+        in 8.0..10.0 -> SolarActivity.VeryHigh
+        else -> SolarActivity.VeryHigh
     }
 }

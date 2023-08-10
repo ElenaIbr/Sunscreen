@@ -45,7 +45,8 @@ fun Banner(
     ) {
         Card(
             modifier = modifier.padding(
-                horizontal = 24.dp
+                horizontal = 24.dp,
+                vertical = 12.dp
             ),
             shape = RoundedCornerShape(4.dp),
             backgroundColor = colorResource(id = uvValue.backgroundColor).copy(alpha = 0.5F),

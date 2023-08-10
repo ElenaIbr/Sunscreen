@@ -55,9 +55,9 @@
     <color name="banner_medium_level_content_color">#683404</color>
     <color name="banner_medium_level_background_color">#D5C8A5</color>
     <color name="banner_medium_level_icon_color">#FF9800</color>
-    <color name="banner_low_level_content_color">#424342</color>
-    <color name="banner_low_level_background_color">#3BCBD3CE</color>
-    <color name="banner_low_level_icon_color">#2B2929</color>
+    <color name="banner_low_level_content_color">#C7C7C7</color>
+    <color name="banner_low_level_background_color">#79615754</color>
+    <color name="banner_low_level_icon_color">#FFFFFF</color>
 
     <color name="background_very_high_uv_top">#56FFEB3B</color>
     <color name="background_very_high_uv_bottom">#F4DDDD</color>

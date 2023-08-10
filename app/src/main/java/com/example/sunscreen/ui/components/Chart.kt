@@ -43,15 +43,15 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.domain.models.ForecastModel
-import com.example.domain.models.UvValueModel
 import com.example.sunscreen.R
+import com.example.sunscreen.ui.index.viewmodel.SolarActivity
 import com.example.sunscreen.ui.theme.UiColors
 
 @Composable
 fun Chart(
     forecast: List<ForecastModel.Hour>,
     textColor: Color,
-    activity: UvValueModel.SolarActivityLevel? = UvValueModel.SolarActivityLevel.Low,
+    activity: SolarActivity? = SolarActivity.Low,
     currentValue: Double?
 ) {
     val barGraphHeight by remember { mutableStateOf(200.dp) }
@@ -65,7 +65,7 @@ fun Chart(
             .padding(bottom = barGraphHeight / 2),
         contentAlignment = Alignment.Center
     ) {
-        if (activity != UvValueModel.SolarActivityLevel.Low) {
+        if (activity != SolarActivity.Low) {
             Icon(
                 modifier = Modifier
                     .clip(CircleShape)
@@ -111,19 +111,16 @@ fun Chart(
                             .fillMaxHeight((hour.uv / 10).toFloat())
                             .background(
                                 when (getSolarActivityLevel(hour.uv.toString())) {
-                                    UvValueModel.SolarActivityLevel.Low -> {
+                                    SolarActivity.Low -> {
                                         colorResource(id = R.color.chart_low).copy(alpha = 0.3F)
                                     }
-
-                                    UvValueModel.SolarActivityLevel.Medium -> {
+                                    SolarActivity.Medium -> {
                                         colorResource(id = R.color.chart_medium).copy(alpha = 0.3F)
                                     }
-
-                                    UvValueModel.SolarActivityLevel.High -> {
+                                    SolarActivity.High -> {
                                         colorResource(id = R.color.chart_high).copy(alpha = 0.3F)
                                     }
-
-                                    UvValueModel.SolarActivityLevel.VeryHigh -> {
+                                    SolarActivity.VeryHigh -> {
                                         colorResource(id = R.color.chart_very_high).copy(alpha = 0.3F)
                                     }
                                 }
@@ -165,13 +162,13 @@ fun Chart(
     }
 }
 
-fun getSolarActivityLevel(uvValue: String): UvValueModel.SolarActivityLevel {
+fun getSolarActivityLevel(uvValue: String): SolarActivity {
     return when (uvValue.toDouble()) {
-        in 0.0..2.0 -> UvValueModel.SolarActivityLevel.Low
-        in 3.0..5.0 -> UvValueModel.SolarActivityLevel.Medium
-        in 6.0..7.0 -> UvValueModel.SolarActivityLevel.High
-        in 8.0..10.00 -> UvValueModel.SolarActivityLevel.VeryHigh
-        else -> UvValueModel.SolarActivityLevel.VeryHigh
+        in 0.0..2.0 -> SolarActivity.Low
+        in 3.0..5.0 -> SolarActivity.Medium
+        in 6.0..7.0 -> SolarActivity.High
+        in 8.0..10.00 -> SolarActivity.VeryHigh
+        else -> SolarActivity.VeryHigh
     }
 }
 

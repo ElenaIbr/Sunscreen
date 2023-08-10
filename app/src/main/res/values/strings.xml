@@ -7,7 +7,7 @@
     <string name="skin_color_question">\nChoose your skin color</string>
     <string name="notifications_question">Do you want to receive\nnotifications?</string>
 
-    <string name="low_level_message">0 to 2: Low. It is essential to put SPF 50+ on face.</string>
+    <string name="low_level_message">0 to 2: Low. No need to put SPF 50+ on face.</string>
     <string name="moderate_level_message">3 to 5: Moderate. In case if it is expected to have a long walk under the sun it is necessary to put SPF 30.</string>
     <string name="very_high_level_message">6 to 10: Very High. It is essential to put SPF 50+ on face.</string>
 

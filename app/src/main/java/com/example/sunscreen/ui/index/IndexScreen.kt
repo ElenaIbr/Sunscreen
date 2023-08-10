@@ -24,13 +24,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.domain.models.UvValueModel
 import com.example.sunscreen.extensions.toStringDate
 import com.example.sunscreen.ui.index.location.GetLocation
 import com.example.sunscreen.ui.components.Chart
 import com.example.sunscreen.ui.components.banner.Banner
 import com.example.sunscreen.ui.components.banner.BannerValue
 import com.example.sunscreen.ui.index.viewmodel.IndexViewModel
+import com.example.sunscreen.ui.index.viewmodel.SolarActivity
 import com.example.sunscreen.ui.theme.UiColors
 import java.time.Instant
 
@@ -71,16 +71,16 @@ fun IndexScreen() {
     )
 
     val backgroundGradientColor = when (mainState.solarActivityLevel) {
-        UvValueModel.SolarActivityLevel.Low -> {
+        SolarActivity.Low -> {
             UiColors.solarActivityLevel.low.background
         }
-        UvValueModel.SolarActivityLevel.Medium -> {
+        SolarActivity.Medium -> {
             UiColors.solarActivityLevel.medium.background
         }
-        UvValueModel.SolarActivityLevel.High -> {
+        SolarActivity.High -> {
             UiColors.solarActivityLevel.high.background
         }
-        UvValueModel.SolarActivityLevel.VeryHigh -> {
+        SolarActivity.VeryHigh -> {
             UiColors.solarActivityLevel.veryHigh.background
         }
         else -> listOf(
@@ -90,10 +90,10 @@ fun IndexScreen() {
     }
 
     val textColor = when (mainState.solarActivityLevel) {
-        UvValueModel.SolarActivityLevel.Low ->  UiColors.solarActivityLevel.low.textColor
-        UvValueModel.SolarActivityLevel.Medium -> UiColors.solarActivityLevel.medium.textColor
-        UvValueModel.SolarActivityLevel.High -> UiColors.solarActivityLevel.high.textColor
-        UvValueModel.SolarActivityLevel.VeryHigh -> UiColors.solarActivityLevel.veryHigh.textColor
+        SolarActivity.Low ->  UiColors.solarActivityLevel.low.textColor
+        SolarActivity.Medium -> UiColors.solarActivityLevel.medium.textColor
+        SolarActivity.High -> UiColors.solarActivityLevel.high.textColor
+        SolarActivity.VeryHigh -> UiColors.solarActivityLevel.veryHigh.textColor
         else -> UiColors.textContent.primary
     }
 
@@ -141,10 +141,10 @@ fun IndexScreen() {
         Banner(
             modifier = Modifier.weight(0.2F),
             when (mainState.solarActivityLevel) {
-                UvValueModel.SolarActivityLevel.Low -> BannerValue.Low
-                UvValueModel.SolarActivityLevel.Medium -> BannerValue.Medium
-                UvValueModel.SolarActivityLevel.High -> BannerValue.High
-                UvValueModel.SolarActivityLevel.VeryHigh -> BannerValue.High
+                SolarActivity.Low -> BannerValue.Low
+                SolarActivity.Medium -> BannerValue.Medium
+                SolarActivity.High -> BannerValue.High
+                SolarActivity.VeryHigh -> BannerValue.High
                 else ->  BannerValue.Low
             }
         )
