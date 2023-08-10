@@ -12,8 +12,7 @@ const val channelID = "channel1"
 const val titleExtra = "titleExtra"
 const val messageExtra = "messageExtra"
 
-class Notification : BroadcastReceiver()
-{
+class Notification : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent)
     {
         val notification = NotificationCompat.Builder(context, channelID)

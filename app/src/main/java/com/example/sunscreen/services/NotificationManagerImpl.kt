@@ -25,11 +25,6 @@ class NotificationManagerImpl: NotificationManager {
             set(Calendar.HOUR_OF_DAY, hours)
             set(Calendar.MINUTE, minutes)
         }
-
-        // If the trigger time you specify is in the past, the alarm triggers immediately.
-        // if soo just add one day to required calendar
-        // Note: i'm also adding one min cuz if the user clicked on the notification as soon as
-        // he receive it it will reschedule the alarm to fire another notification immediately
         if (Calendar.getInstance(Locale.ENGLISH)
                 .apply { add(Calendar.MINUTE, 1) }.timeInMillis - calendar.timeInMillis > 0
         ) {

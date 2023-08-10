@@ -9,13 +9,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.example.sunscreen.R
+import com.example.sunscreen.ui.theme.UiColors
 
 @Composable
 fun BottomBar(navController: NavController) {
+
     val items = listOf(
         BottomNavItem.Profile,
         BottomNavItem.UvIndex,
@@ -31,25 +33,23 @@ fun BottomBar(navController: NavController) {
         items.forEach { item ->
             NavigationBarItem(
                 colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = colorResource(id = R.color.primary_text_color),
-                    selectedTextColor = colorResource(id = R.color.primary_text_color),
-                    unselectedIconColor = colorResource(id = R.color.disable),
-                    unselectedTextColor = colorResource(id = R.color.disable),
-                    indicatorColor = Color.White
+                    selectedIconColor = UiColors.textContent.primary,
+                    selectedTextColor = UiColors.textContent.primary,
+                    unselectedIconColor = UiColors.textContent.disabled,
+                    unselectedTextColor = UiColors.textContent.disabled,
+                    indicatorColor = UiColors.background.baseWhite
                 ),
                 selected = item.screenRoute ==  currentDestination.value,
                 onClick = {
                     navController.navigate(item.screenRoute)
                 },
                 label = {
-                    Text(
-                        text = item.title
-                    )
+                    Text(text = item.title)
                 },
                 icon = {
                     Icon(
                         painter = painterResource(id = item.icon),
-                        contentDescription = "${item.title} Icon",
+                        contentDescription = "${item.title} ${stringResource(id = R.string.icon).uppercase()}",
                     )
                 }
             )

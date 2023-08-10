@@ -43,7 +43,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.domain.models.ForecastModel
-import com.example.domain.models.IndexModel
 import com.example.domain.models.UvValueModel
 import com.example.sunscreen.R
 

@@ -6,14 +6,10 @@ import com.example.domain.usecases.FetchUvUseCase
 import com.example.domain.usecases.FetchUvUseCaseImpl
 import com.example.domain.usecases.GetDateAndDayOfWeekUseCase
 import com.example.domain.usecases.GetDateAndDayOfWeekUseCaseImpl
-import com.example.domain.usecases.GetForecastByDateUseCase
-import com.example.domain.usecases.GetForecastByDateUseCaseImpl
 import com.example.domain.usecases.GetLocationInBackgroundUseCase
 import com.example.domain.usecases.GetLocationInBackgroundUseCaseImpl
 import com.example.domain.usecases.GetUserNameUseCase
 import com.example.domain.usecases.GetUserNameUseCaseImpl
-import com.example.domain.usecases.GetUserUseCase
-import com.example.domain.usecases.GetUserUseCaseImpl
 import com.example.domain.usecases.GetUvValueUseCase
 import com.example.domain.usecases.GetUvValueUseCaseImpl
 import com.example.domain.usecases.UpdateNotificationsUseCase
