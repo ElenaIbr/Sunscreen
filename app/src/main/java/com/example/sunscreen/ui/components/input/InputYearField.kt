@@ -50,6 +50,7 @@ fun InputYearField(
         },
         shape = RoundedCornerShape(4.dp),
         colors = TextFieldDefaults.outlinedTextFieldColors(
+            textColor = UiColors.textContent.primary,
             cursorColor = UiColors.textContent.primary,
             focusedBorderColor = UiColors.mainBrand.primary,
             unfocusedBorderColor = UiColors.textContent.disabled,

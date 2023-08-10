@@ -1,13 +1,17 @@
 package com.example.sunscreen.extensions
 
 import android.annotation.SuppressLint
-import android.icu.text.SimpleDateFormat
 import java.time.Instant
-import java.util.Date
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
+import java.util.Locale
+
 
 @SuppressLint("SimpleDateFormat")
 fun Instant.toStringDate(): String {
-    val myDate: Date = Date.from(this)
-    val formatter = SimpleDateFormat("dd/mm/yyyy")
-    return formatter.format(myDate)
+    val formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)
+        .withLocale(Locale.getDefault() )
+        .withZone(ZoneId.systemDefault())
+    return formatter.format(this)
 }
