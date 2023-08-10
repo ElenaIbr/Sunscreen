@@ -111,25 +111,25 @@ fun getNotificationBody(
     ) {
         UvValueModel.SolarActivityLevel.Low -> {
             ForecastNotificationBody(
-                image = R.drawable.ic_sun_1,
+                image = R.drawable.ic_sun_chart,
                 message = R.string.low_level_notification_message
             )
         }
         UvValueModel.SolarActivityLevel.Medium -> {
             ForecastNotificationBody(
-                image = R.drawable.ic_sun_1,
+                image = R.drawable.ic_sun_chart,
                 message = R.string.low_level_notification_message
             )
         }
         UvValueModel.SolarActivityLevel.High -> {
             ForecastNotificationBody(
-                image = R.drawable.ic_sun_1,
+                image = R.drawable.ic_sun_chart,
                 message = R.string.low_level_notification_message
             )
         }
         UvValueModel.SolarActivityLevel.VeryHigh -> {
             ForecastNotificationBody(
-                image = R.drawable.ic_sun_1,
+                image = R.drawable.ic_sun_chart,
                 message = R.string.low_level_notification_message
             )
         }

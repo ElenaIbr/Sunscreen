@@ -39,7 +39,7 @@ fun SplashScreen() {
     ) {
         Icon(
             modifier = Modifier.size(150.dp),
-            painter = painterResource(id = R.drawable.ic_sunny),
+            painter = painterResource(id = R.drawable.ic_sun),
             tint = UiColors.mainBrand.primary,
             contentDescription = null
         )

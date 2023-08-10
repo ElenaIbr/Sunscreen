@@ -21,12 +21,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.domain.models.UvValueModel
-import com.example.sunscreen.R
 import com.example.sunscreen.extensions.toStringDate
 import com.example.sunscreen.ui.GetLocation
 import com.example.sunscreen.ui.components.Chart
@@ -74,36 +72,16 @@ fun IndexScreen() {
 
     val backgroundGradientColor = when (mainState.solarActivityLevel) {
         UvValueModel.SolarActivityLevel.Low -> {
-            listOf(
-                UiColors.background.baseWhite,
-                colorResource(id = R.color.background_low_uv_top),
-                colorResource(id = R.color.background_low_uv_bottom),
-                Color.White
-            )
+            UiColors.solarActivityLevel.low.background
         }
         UvValueModel.SolarActivityLevel.Medium -> {
-            listOf(
-                UiColors.background.baseWhite,
-                colorResource(id = R.color.background_medium_uv_top),
-                colorResource(id = R.color.background_medium_uv_bottom),
-                UiColors.background.baseWhite
-            )
+            UiColors.solarActivityLevel.medium.background
         }
         UvValueModel.SolarActivityLevel.High -> {
-            listOf(
-                UiColors.background.baseWhite,
-                colorResource(id = R.color.background_high_uv_top),
-                colorResource(id = R.color.background_high_uv_bottom),
-                UiColors.background.baseWhite
-            )
+            UiColors.solarActivityLevel.high.background
         }
         UvValueModel.SolarActivityLevel.VeryHigh -> {
-            listOf(
-                UiColors.background.baseWhite,
-                colorResource(id = R.color.background_very_high_uv_top),
-                colorResource(id = R.color.background_very_high_uv_bottom),
-                UiColors.background.baseWhite
-            )
+            UiColors.solarActivityLevel.veryHigh.background
         }
         else -> listOf(
             Color.Transparent,
@@ -112,11 +90,11 @@ fun IndexScreen() {
     }
 
     val textColor = when (mainState.solarActivityLevel) {
-        UvValueModel.SolarActivityLevel.Low -> colorResource(id = R.color.text_medium_uv_color)
-        UvValueModel.SolarActivityLevel.Medium -> colorResource(id = R.color.text_medium_uv_color)
-        UvValueModel.SolarActivityLevel.High -> colorResource(id = R.color.text_high_uv_color)
-        UvValueModel.SolarActivityLevel.VeryHigh -> colorResource(id = R.color.text_very_high_uv_color)
-        else -> colorResource(id = R.color.text_very_high_uv_color)
+        UvValueModel.SolarActivityLevel.Low ->  UiColors.solarActivityLevel.low.textColor
+        UvValueModel.SolarActivityLevel.Medium -> UiColors.solarActivityLevel.medium.textColor
+        UvValueModel.SolarActivityLevel.High -> UiColors.solarActivityLevel.high.textColor
+        UvValueModel.SolarActivityLevel.VeryHigh -> UiColors.solarActivityLevel.veryHigh.textColor
+        else -> UiColors.textContent.primary
     }
 
     Column(

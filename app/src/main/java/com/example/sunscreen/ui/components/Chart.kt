@@ -70,7 +70,7 @@ fun Chart(
                 modifier = Modifier
                     .clip(CircleShape)
                     .size(220.dp),
-                painter = painterResource(id = R.drawable.ic_sun_1),
+                painter = painterResource(id = R.drawable.ic_sun_chart),
                 tint = UiColors.mainBrand.primary,
                 contentDescription = null
             )

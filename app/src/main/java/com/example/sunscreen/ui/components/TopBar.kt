@@ -11,7 +11,6 @@ import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.sunscreen.R
@@ -36,8 +35,7 @@ fun TopBar(
                 Text(
                     text = stringResource(id = R.string.save).uppercase(),
                     style = MaterialTheme.typography.subtitle1,
-                    color = if (enabled) Color.Black else Color.Gray
-                )
+                    color = if (enabled) UiColors.mainBrand.primary else UiColors.textContent.disabled                )
             }
         }
         Divider(

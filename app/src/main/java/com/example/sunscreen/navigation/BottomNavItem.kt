@@ -7,7 +7,7 @@ sealed class BottomNavItem(
     var icon: Int,
     var screenRoute: String
 ) {
-    object UvIndex : BottomNavItem("Index", R.drawable.ic_sunny,"uv_index")
+    object UvIndex : BottomNavItem("Index", R.drawable.ic_sun,"uv_index")
     object Profile: BottomNavItem("Profile",R.drawable.ic_person,"profile")
     object Notifications: BottomNavItem("Notifications",R.drawable.ic_notifications,"notifications")
     object Questionnaire: BottomNavItem("Questionnaire",R.drawable.person,"questionnaire")
