@@ -25,9 +25,7 @@ import com.example.sunscreen.ui.theme.UiColors
 fun CheckMark(checked: Boolean) {
     AnimatedContent(
         targetState = checked,
-        transitionSpec = {
-            scaleIn() with scaleOut()
-        }
+        transitionSpec = { scaleIn() with scaleOut() }
     ) { isVisible ->
         Box(
             modifier = Modifier

@@ -17,6 +17,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.sp
 import com.example.sunscreen.R
 import com.example.sunscreen.ui.theme.UiColors
 
@@ -57,6 +58,7 @@ fun QuestionItem(
             color = UiColors.textContent.primary,
             text = value,
             textAlign = TextAlign.Start,
+            fontSize = 16.sp
 
         )
     }

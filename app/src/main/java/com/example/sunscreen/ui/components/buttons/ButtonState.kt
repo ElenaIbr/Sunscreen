@@ -1,4 +1,4 @@
-package com.example.sunscreen.ui.components
+package com.example.sunscreen.ui.components.buttons
 
 enum class ButtonState {
     DEFAULT,

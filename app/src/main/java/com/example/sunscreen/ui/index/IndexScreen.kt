@@ -1,6 +1,5 @@
 package com.example.sunscreen.ui.main
 
-import android.icu.text.SimpleDateFormat
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -28,19 +27,20 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.domain.models.UvValueModel
 import com.example.sunscreen.R
+import com.example.sunscreen.extensions.toStringDate
 import com.example.sunscreen.ui.GetLocation
-import com.example.sunscreen.ui.components.Banner
 import com.example.sunscreen.ui.components.Chart
-import com.example.sunscreen.ui.components.UvBannerValues
+import com.example.sunscreen.ui.components.banner.Banner
+import com.example.sunscreen.ui.components.banner.BannerValue
+import com.example.sunscreen.ui.index.viewmodel.IndexViewModel
 import com.example.sunscreen.ui.theme.UiColors
 import java.time.Instant
-import java.util.Date
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun IndexScreen() {
-    val viewModel: MainViewModel = hiltViewModel()
-    val mainState by viewModel.mainState.collectAsState()
+    val viewModel: IndexViewModel = hiltViewModel()
+    val mainState by viewModel.indexState.collectAsState()
 
     /*OnLifecycleEvent { _, event ->
         when (event) {
@@ -163,11 +163,11 @@ fun IndexScreen() {
         Banner(
             modifier = Modifier.weight(0.2F),
             when (mainState.solarActivityLevel) {
-                UvValueModel.SolarActivityLevel.Low -> UvBannerValues.Low
-                UvValueModel.SolarActivityLevel.Medium -> UvBannerValues.Medium
-                UvValueModel.SolarActivityLevel.High -> UvBannerValues.High
-                UvValueModel.SolarActivityLevel.VeryHigh -> UvBannerValues.High
-                else ->  UvBannerValues.Low
+                UvValueModel.SolarActivityLevel.Low -> BannerValue.Low
+                UvValueModel.SolarActivityLevel.Medium -> BannerValue.Medium
+                UvValueModel.SolarActivityLevel.High -> BannerValue.High
+                UvValueModel.SolarActivityLevel.VeryHigh -> BannerValue.High
+                else ->  BannerValue.Low
             }
         )
         HorizontalPager(
@@ -211,10 +211,4 @@ fun IndexScreen() {
             )
         }
     }
-}
-
-fun Instant.toStringDate(): String {
-    val myDate: Date = Date.from(this)
-    val formatter = SimpleDateFormat("dd/mm/yyyy")
-    return formatter.format(myDate)
 }

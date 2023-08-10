@@ -20,7 +20,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.sunscreen.R
-import com.example.sunscreen.ui.components.ButtonState
+import com.example.sunscreen.ui.components.buttons.ButtonState
 import com.example.sunscreen.ui.components.PrimaryButton
 
 @Composable
