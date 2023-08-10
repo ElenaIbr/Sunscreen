@@ -67,7 +67,7 @@
     <color name="text_high_uv_color">#146371</color>
     <color name="background_medium_uv_top">#fff3cd</color>
     <color name="background_medium_uv_bottom">#e2e3e5</color>
-    <color name="background_low_uv_top">#B4B5AC</color>
+    <color name="background_low_uv_top">#9C434663</color>
     <color name="background_low_uv_bottom">#d6d8d9</color>
     <color name="text_medium_uv_color">#707273</color>
     <color name="chart_very_high">#C67575</color>

@@ -132,7 +132,7 @@ fun IndexScreen() {
             mainState.index?.temperature?.let { temperature ->
                 Text(
                     text = "${temperature.toInt()}°C",
-                    style = MaterialTheme.typography.h5,
+                    style = MaterialTheme.typography.h4,
                     color = textColor,
                     textAlign = TextAlign.Center
                 )

@@ -54,8 +54,8 @@ fun Chart(
     activity: SolarActivity? = SolarActivity.Low,
     currentValue: Double?
 ) {
-    val barGraphHeight by remember { mutableStateOf(200.dp) }
-    val barGraphWidth by remember { mutableStateOf(24.dp) }
+    val barGraphHeight by remember { mutableStateOf(300.dp) }
+    val barGraphWidth by remember { mutableStateOf(32.dp) }
 
     Box(
         modifier = Modifier
@@ -239,7 +239,7 @@ fun ChartCircularProgressBar(
             text = "${stringResource(id = R.string.uv_index)}$percentage",
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.body1,
-            color = UiColors.mainBrand.secondary
+            color = UiColors.mainBrand.primary
         )
     }
 }
