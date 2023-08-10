@@ -45,18 +45,17 @@ import androidx.compose.ui.unit.sp
 import com.example.domain.models.ForecastModel
 import com.example.domain.models.UvValueModel
 import com.example.sunscreen.R
+import com.example.sunscreen.ui.theme.UiColors
 
 @Composable
 fun Chart(
     forecast: List<ForecastModel.Hour>,
     textColor: Color,
-    maxValue: Int = 10,
     activity: UvValueModel.SolarActivityLevel? = UvValueModel.SolarActivityLevel.Low,
     currentValue: Double?
 ) {
     val barGraphHeight by remember { mutableStateOf(200.dp) }
     val barGraphWidth by remember { mutableStateOf(24.dp) }
-    val scaleYAxisWidth by remember { mutableStateOf(50.dp) }
 
     Box(
         modifier = Modifier
@@ -72,14 +71,15 @@ fun Chart(
                     .clip(CircleShape)
                     .size(220.dp),
                 painter = painterResource(id = R.drawable.ic_sun_1),
-                tint = colorResource(id = R.color.color_primary_light),
+                tint = UiColors.mainBrand.primary,
                 contentDescription = null
             )
         }
         currentValue?.let { value ->
             CircularProgressBar(
                 radius = 50.dp,
-                percentage = value.toFloat()
+                percentage = value.toFloat(),
+                color = UiColors.mainBrand.primary
             )
         }
     }
@@ -138,17 +138,16 @@ fun Chart(
                             text = hour.uv.toString(),
                             textAlign = TextAlign.Center,
                             fontSize = 12.sp,
-                            color = colorResource(id = R.color.background_bottom)
+                            color = textColor
                         )
                     }
                 }
             }
             Row(
                 modifier = Modifier
-                    .height(16.dp)
                     .padding(
                         start = barGraphWidth,
-                        bottom = 12.dp
+                        bottom = 4.dp
                     )
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(barGraphWidth)
@@ -159,7 +158,7 @@ fun Chart(
                         text = "${hour.hour}h",
                         textAlign = TextAlign.Center,
                         fontSize = 12.sp,
-                        color = textColor
+                        color = UiColors.textContent.primary
                     )
                 }
             }
@@ -182,7 +181,7 @@ fun getSolarActivityLevel(uvValue: String): UvValueModel.SolarActivityLevel {
 fun CircularProgressBar(
     percentage: Float,
     radius: Dp = 50.dp,
-    color: Color = colorResource(id = R.color.color_primary_light),
+    color: Color = UiColors.mainBrand.primary,
     strokeWidth: Dp = 8.dp,
     animDuration: Int = 3000,
     animDelay: Int = 0
@@ -244,7 +243,7 @@ fun CircularProgressBar(
             text = "${stringResource(id = R.string.uv_index)}$percentage",
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.body1,
-            color = colorResource(id = R.color.color_secondary_dark)
+            color = UiColors.mainBrand.secondary
         )
     }
 }

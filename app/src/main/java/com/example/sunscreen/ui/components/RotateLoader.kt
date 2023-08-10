@@ -12,17 +12,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.sunscreen.R
+import com.example.sunscreen.ui.theme.UiColors
 
 @Composable
 fun RotateLoader(
     modifier: Modifier = Modifier,
-    color: Color = colorResource(id = R.color.primary_button_content),
-    size: Dp = 28.dp
+    color: Color = UiColors.mainBrand.primary,
+    size: Dp = 16.dp
 ) {
     val animation = rememberInfiniteTransition()
     val angle = animation.animateFloat(

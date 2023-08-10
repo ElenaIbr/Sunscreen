@@ -1,4 +1,4 @@
-package com.example.sunscreen.ui.main
+package com.example.sunscreen.ui.index
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -134,7 +134,7 @@ fun IndexScreen() {
                 .weight(0.2F)
                 .padding(
                     top = 24.dp,
-                    start = 12.dp
+                    start = 48.dp
                 )
         ) {
             mainState.index?.location?.let { location ->
@@ -180,8 +180,6 @@ fun IndexScreen() {
                     .fillMaxSize()
             )
         }
-
-
         Box(
             modifier = Modifier
                 .fillMaxWidth()

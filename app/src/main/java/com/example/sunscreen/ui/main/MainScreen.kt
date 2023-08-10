@@ -21,6 +21,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavController
 import com.example.sunscreen.extensions.OnLifecycleEvent
 import com.example.sunscreen.navigation.BottomBar
+import com.example.sunscreen.ui.index.IndexScreen
 import com.example.sunscreen.ui.index.PermissionsDeniedScreen
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 

@@ -34,7 +34,7 @@ import com.example.domain.models.UserModel
 import com.example.sunscreen.R
 import com.example.sunscreen.ui.components.buttons.ButtonState
 import com.example.sunscreen.ui.components.InputField
-import com.example.sunscreen.ui.components.InputYearField
+import com.example.sunscreen.ui.components.input.InputYearField
 import com.example.sunscreen.ui.components.buttons.PrimaryButton
 import com.example.sunscreen.ui.components.buttons.SecondaryButton
 import com.example.sunscreen.ui.components.SplashScreen

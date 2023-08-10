@@ -1,4 +1,4 @@
-package com.example.sunscreen.ui.components
+package com.example.sunscreen.ui.components.input
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -12,11 +12,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import com.example.sunscreen.R
 import com.example.sunscreen.ui.theme.UiColors
 
 @OptIn(ExperimentalMaterial3Api::class)
