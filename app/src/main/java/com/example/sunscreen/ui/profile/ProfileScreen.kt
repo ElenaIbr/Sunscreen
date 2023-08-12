@@ -19,7 +19,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.domain.models.UserModel
@@ -65,8 +64,8 @@ fun ProfileScreen(navController: NavHostController) {
                 .padding(
                     bottom = paddings.calculateBottomPadding(),
                     top = paddings.calculateTopPadding(),
-                    start = 16.dp,
-                    end = 16.dp
+                    start = dimensionResource(id = R.dimen.profile_padding),
+                    end = dimensionResource(id = R.dimen.profile_padding)
                 )
                 .verticalScroll(rememberScrollState())
         ) {
@@ -99,7 +98,7 @@ fun ProfileScreen(navController: NavHostController) {
                     modifier = Modifier.height(dimensionResource(id = R.dimen.spacer_24))
                 )
                 DropDown(
-                    label = "Skin type: ",
+                    label = stringResource(id = R.string.Skin_type),
                     value = skinType.name
                 ) {
                     UserModel.SkinType.values().map { it.name }.forEach { type ->
@@ -113,7 +112,7 @@ fun ProfileScreen(navController: NavHostController) {
                             }
                         )
                         Spacer(
-                            modifier = Modifier.height(12.dp)
+                            modifier = Modifier.height(dimensionResource(id = R.dimen.spacer_12))
                         )
                     }
                 }
@@ -123,7 +122,7 @@ fun ProfileScreen(navController: NavHostController) {
                     modifier = Modifier.height(dimensionResource(id = R.dimen.spacer_20))
                 )
                 DropDown(
-                    label = "Skin color: ",
+                    label = stringResource(id = R.string.Skin_color),
                     value = skinColor.name
                 ) {
                     UserModel.SkinColor.values().map { it.name }.forEach { color ->
@@ -137,7 +136,9 @@ fun ProfileScreen(navController: NavHostController) {
                             }
                         )
                         Spacer(
-                            modifier = Modifier.height(12.dp)
+                            modifier = Modifier.height(
+                                dimensionResource(id = R.dimen.spacer_12)
+                            )
                         )
                     }
                 }

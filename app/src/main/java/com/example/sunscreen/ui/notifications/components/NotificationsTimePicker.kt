@@ -17,7 +17,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import com.example.sunscreen.R
 import com.example.sunscreen.ui.theme.UiColors
 import java.util.Calendar
@@ -51,12 +50,8 @@ fun NotificationsTimePicker(
 
     Row(
         modifier = modifier
-            .clickable {
-                timePickerDialog.show()
-            }
-            .padding(
-                vertical = 8.dp
-            )
+            .clickable { timePickerDialog.show() }
+            .padding(vertical = dimensionResource(id = R.dimen.time_picker_padding))
     ) {
         Text(
             color = UiColors.textContent.primary,

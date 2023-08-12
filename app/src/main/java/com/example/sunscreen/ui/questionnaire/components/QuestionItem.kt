@@ -59,7 +59,6 @@ fun QuestionItem(
             text = value,
             textAlign = TextAlign.Start,
             fontSize = 16.sp
-
         )
     }
 }

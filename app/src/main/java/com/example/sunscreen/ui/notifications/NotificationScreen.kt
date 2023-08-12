@@ -20,6 +20,7 @@ import com.example.sunscreen.R
 import com.example.sunscreen.navigation.BottomBar
 import com.example.sunscreen.ui.components.TopBar
 import com.example.sunscreen.ui.notifications.components.NotificationLayout
+import com.example.sunscreen.ui.notifications.viewmodel.NotificationViewModel
 
 @Composable
 fun NotificationScreen(

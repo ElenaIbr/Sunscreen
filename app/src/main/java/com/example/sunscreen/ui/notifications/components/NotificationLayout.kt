@@ -25,7 +25,6 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import com.example.domain.models.Notification
 import com.example.sunscreen.R
 import com.example.sunscreen.ui.theme.UiColors
@@ -57,8 +56,8 @@ fun NotificationLayout(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(
-                    vertical = 16.dp,
-                    horizontal = 24.dp
+                    vertical = dimensionResource(id = R.dimen.notification_screen_switch_vertical_padding),
+                    horizontal = dimensionResource(id = R.dimen.notification_screen_horizontal_padding)
                 ),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
@@ -72,8 +71,8 @@ fun NotificationLayout(
             )
             Switch(
                 checked = switchCheckedState,
-                onCheckedChange = {
-                    switchCheckedState = it
+                onCheckedChange = { state ->
+                    switchCheckedState = state
                 },
                 colors = SwitchDefaults.colors(
                     checkedThumbColor = UiColors.mainBrand.secondary,
@@ -95,25 +94,25 @@ fun NotificationLayout(
             Divider(
                 modifier = Modifier
                     .padding(
-                        vertical = 16.dp,
+                        vertical = dimensionResource(id = R.dimen.spacer_16),
                     ),
                 color = UiColors.textContent.disabled
             )
             NotificationsTimePicker(
                 modifier = Modifier
                     .padding(
-                        horizontal = 24.dp
+                        horizontal = dimensionResource(id = R.dimen.notification_screen_horizontal_padding)
                     ),
                 label = stringResource(id = R.string.start),
                 initialTime = start.value,
-                onClick = {
-                    start.value = it
+                onClick = { value ->
+                    start.value = value
                 }
             )
             Divider(
                 modifier = Modifier
                     .padding(
-                        vertical = 16.dp,
+                        vertical = dimensionResource(id = R.dimen.spacer_16),
                     ),
                 color = UiColors.textContent.disabled
             )
@@ -121,7 +120,7 @@ fun NotificationLayout(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(
-                        horizontal = 16.dp,
+                        horizontal = dimensionResource(id = R.dimen.spacer_16),
                     ),
                 verticalAlignment = Alignment.CenterVertically
             ) {
