@@ -12,8 +12,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.unit.dp
+import com.example.sunscreen.R
 import com.example.sunscreen.ui.theme.UiColors
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -48,7 +49,9 @@ fun InputYearField(
                 style = MaterialTheme.typography.subtitle1
             )
         },
-        shape = RoundedCornerShape(4.dp),
+        shape = RoundedCornerShape(
+            dimensionResource(id = R.dimen.input_field_corner),
+        ),
         colors = TextFieldDefaults.outlinedTextFieldColors(
             textColor = UiColors.textContent.primary,
             cursorColor = UiColors.textContent.primary,

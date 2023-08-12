@@ -14,4 +14,23 @@
     <dimen name="spacer_20">20dp</dimen>
     <dimen name="spacer_16">16dp</dimen>
     <dimen name="spacer_12">16dp</dimen>
+
+    <dimen name="banner_horizontal_padding">24dp</dimen>
+    <dimen name="banner_vertical_padding">12dp</dimen>
+    <dimen name="banner_content_padding">16dp</dimen>
+    <dimen name="banner_elevation">0dp</dimen>
+    <dimen name="banner_corner">4dp</dimen>
+    <dimen name="banner_icon_size">30dp</dimen>
+
+    <dimen name="primary_button_height">48dp</dimen>
+    <dimen name="primary_button_elevation">2dp</dimen>
+    <dimen name="primary_button_corner">8dp</dimen>
+
+    <dimen name="secondary_button_height">48dp</dimen>
+    <dimen name="secondary_button_elevation">2dp</dimen>
+    <dimen name="secondary_button_corner">8dp</dimen>
+    <dimen name="secondary_button_border">1dp</dimen>
+
+    <dimen name="input_field_corner">4dp</dimen>
+
 </resources>

@@ -1,4 +1,4 @@
-package com.example.sunscreen.ui.components
+package com.example.sunscreen.ui.components.input
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -16,9 +16,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
-import androidx.compose.ui.unit.dp
+import com.example.sunscreen.R
 import com.example.sunscreen.ui.theme.UiColors
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -52,7 +53,9 @@ fun InputField(
                 style = MaterialTheme.typography.subtitle1
             )
         },
-        shape = RoundedCornerShape(4.dp),
+        shape = RoundedCornerShape(
+            dimensionResource(id = R.dimen.input_field_corner),
+        ),
         colors = TextFieldDefaults.outlinedTextFieldColors(
             textColor = UiColors.textContent.primary,
             cursorColor = UiColors.textContent.primary,
