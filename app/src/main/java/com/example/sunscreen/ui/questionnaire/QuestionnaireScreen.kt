@@ -1,5 +1,7 @@
 package com.example.sunscreen.ui.questionnaire
 
+import android.app.Activity
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -22,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.dimensionResource
@@ -53,6 +56,7 @@ fun QuestionnaireScreen(
     val questionsState by viewModel.questionsState.collectAsState()
 
     val systemUiController = rememberSystemUiController()
+    val activity = LocalContext.current as Activity
 
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
@@ -66,6 +70,17 @@ fun QuestionnaireScreen(
             color = Color.Transparent,
             darkIcons = true
         )
+    }
+
+    BackHandler {
+        when(questionsState.questionStep) {
+            QuestionStep.PersonalData -> {
+                activity.finish()
+            }
+            QuestionStep.SkinType -> viewModel.setQuestionNumber(QuestionStep.PersonalData)
+            QuestionStep.SkinColor -> viewModel.setQuestionNumber(QuestionStep.SkinType)
+            QuestionStep.Notifications -> viewModel.setQuestionNumber(QuestionStep.SkinColor)
+        }
     }
 
     LaunchedEffect(key1 = questionsState.user) {
