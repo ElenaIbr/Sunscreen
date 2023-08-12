@@ -10,11 +10,11 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
-import androidx.compose.ui.unit.dp
 import com.example.sunscreen.R
 import com.example.sunscreen.ui.components.RotateLoader
 import com.example.sunscreen.ui.theme.UiColors
@@ -29,19 +29,23 @@ fun PrimaryButton(
     Button(
         modifier = modifier
             .fillMaxWidth()
-            .height(48.dp),
+            .height(
+                dimensionResource(id = R.dimen.primary_button_height)
+            ),
         onClick = onClick,
         elevation = ButtonDefaults.elevation(
-            defaultElevation = 2.dp,
-            pressedElevation = 2.dp,
-            disabledElevation = 2.dp
+            defaultElevation = dimensionResource(id = R.dimen.primary_button_elevation),
+            pressedElevation = dimensionResource(id = R.dimen.primary_button_elevation),
+            disabledElevation = dimensionResource(id = R.dimen.primary_button_elevation),
         ),
         enabled = buttonState == ButtonState.DEFAULT,
         colors = ButtonDefaults.buttonColors(
             backgroundColor = UiColors.buttons.primary,
             contentColor = UiColors.buttons.primaryContent
         ),
-        shape = RoundedCornerShape(8.dp)
+        shape = RoundedCornerShape(
+            dimensionResource(id = R.dimen.primary_button_corner)
+        )
     ) {
         when (buttonState) {
             ButtonState.DEFAULT, ButtonState.DISABLED, null -> {

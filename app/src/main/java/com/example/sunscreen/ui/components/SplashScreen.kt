@@ -9,8 +9,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
 import com.example.sunscreen.R
 import com.example.sunscreen.ui.theme.UiColors
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -38,8 +38,8 @@ fun SplashScreen() {
         contentAlignment = Alignment.Center
     ) {
         Icon(
-            modifier = Modifier.size(150.dp),
-            painter = painterResource(id = R.drawable.ic_sun),
+            modifier = Modifier.size(dimensionResource(id = R.dimen.splash_screen_icon_size)),
+            painter = painterResource(id = R.drawable.sun_skinny),
             tint = UiColors.mainBrand.primary,
             contentDescription = null
         )

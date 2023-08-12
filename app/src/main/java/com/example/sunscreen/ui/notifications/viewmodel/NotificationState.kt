@@ -1,4 +1,4 @@
-package com.example.sunscreen.ui.notifications
+package com.example.sunscreen.ui.notifications.viewmodel
 
 import com.example.domain.models.Notification
 import com.example.domain.models.UserModel

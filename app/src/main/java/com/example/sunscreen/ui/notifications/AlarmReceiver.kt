@@ -10,13 +10,13 @@ import androidx.annotation.StringRes
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.example.domain.models.ForecastModel
-import com.example.domain.models.UvValueModel
 import com.example.domain.usecases.GetForecastByDateUseCase
 import com.example.domain.usecases.GetUserEntity
 import com.example.domain.usecases.GetUserUseCase
 import com.example.sunscreen.MainActivity
 import com.example.sunscreen.R
 import com.example.sunscreen.ui.components.getSolarActivityLevel
+import com.example.sunscreen.ui.index.viewmodel.SolarActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -109,25 +109,25 @@ fun getNotificationBody(
     return when (
         getSolarActivityLevel(indexValue)
     ) {
-        UvValueModel.SolarActivityLevel.Low -> {
+        SolarActivity.Low -> {
             ForecastNotificationBody(
                 image = R.drawable.ic_sun_chart,
                 message = R.string.low_level_notification_message
             )
         }
-        UvValueModel.SolarActivityLevel.Medium -> {
+        SolarActivity.Medium -> {
             ForecastNotificationBody(
                 image = R.drawable.ic_sun_chart,
                 message = R.string.low_level_notification_message
             )
         }
-        UvValueModel.SolarActivityLevel.High -> {
+        SolarActivity.High -> {
             ForecastNotificationBody(
                 image = R.drawable.ic_sun_chart,
                 message = R.string.low_level_notification_message
             )
         }
-        UvValueModel.SolarActivityLevel.VeryHigh -> {
+        SolarActivity.VeryHigh -> {
             ForecastNotificationBody(
                 image = R.drawable.ic_sun_chart,
                 message = R.string.low_level_notification_message

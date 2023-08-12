@@ -13,8 +13,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
+import com.example.sunscreen.R
 import com.example.sunscreen.ui.theme.UiColors
 
 @Composable
@@ -27,7 +28,7 @@ fun ProfileTextField(
         modifier = Modifier
             .fillMaxWidth()
             .padding(
-                bottom = 8.dp
+                bottom = dimensionResource(id = R.dimen.profile_input_field_text_padding),
             ),
         text = title,
         fontWeight = FontWeight.Bold,
@@ -38,18 +39,18 @@ fun ProfileTextField(
         modifier = Modifier
             .fillMaxWidth()
             .clip(
-                RoundedCornerShape(8.dp)
+                RoundedCornerShape(dimensionResource(id = R.dimen.profile_input_field_corner))
             )
             .border(
                 BorderStroke(
-                    width = 1.dp,
+                    width = dimensionResource(id = R.dimen.profile_input_field_border),
                     color = UiColors.textContent.disabled
                 ),
-                shape = RoundedCornerShape(8.dp)
+                shape = RoundedCornerShape(dimensionResource(id = R.dimen.profile_input_field_corner))
             ),
         value = value,
         textStyle = MaterialTheme.typography.body1,
-        shape = RoundedCornerShape(8.dp),
+        shape = RoundedCornerShape(dimensionResource(id = R.dimen.profile_input_field_corner)),
         colors = TextFieldDefaults.textFieldColors(
             cursorColor = UiColors.textContent.disabled,
             backgroundColor = UiColors.background.baseWhite,

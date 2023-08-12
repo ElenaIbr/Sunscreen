@@ -12,11 +12,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
-import androidx.compose.ui.unit.dp
 import com.example.sunscreen.R
 import com.example.sunscreen.ui.components.RotateLoader
 import com.example.sunscreen.ui.theme.UiColors
@@ -31,7 +31,9 @@ fun SecondaryButton(
     OutlinedButton(
         modifier = modifier
             .fillMaxWidth()
-            .height(48.dp),
+            .height(
+                dimensionResource(id = R.dimen.secondary_button_height)
+            ),
         onClick = onClick,
         enabled = buttonState == ButtonState.DEFAULT,
         colors = ButtonDefaults.outlinedButtonColors(
@@ -39,10 +41,12 @@ fun SecondaryButton(
             contentColor = UiColors.buttons.primaryContent
         ),
         border = BorderStroke(
-            width = 1.dp,
+            width = dimensionResource(id = R.dimen.secondary_button_border),
             color = UiColors.buttons.primaryContent
         ),
-        shape = RoundedCornerShape(8.dp)
+        shape = RoundedCornerShape(
+            dimensionResource(id = R.dimen.secondary_button_corner)
+        )
     ) {
         when (buttonState) {
             ButtonState.DEFAULT, ButtonState.DISABLED, null -> {

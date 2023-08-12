@@ -15,24 +15,13 @@ class GetUvValueUseCaseImpl @Inject constructor(
 {
     override fun action(input: Unit): Flow<UvValueModel?> = flow {
         indexRepository.getLastValueInFlow().collect { flow ->
-            flow?.value?.let { uvValue ->
+            flow?.value?.let {
                 emit(
                     UvValueModel(
-                        solarActivityLevel = getSolarActivityLevel(uvValue),
                         indexModel = flow
                     )
                 )
             } ?: emit(null)
-        }
-    }
-
-    private fun getSolarActivityLevel(uvValue: Double): UvValueModel.SolarActivityLevel {
-        return when (uvValue) {
-            in 0.0..2.0 -> UvValueModel.SolarActivityLevel.Low
-            in 3.0..5.0 -> UvValueModel.SolarActivityLevel.Medium
-            in 6.0..7.0 -> UvValueModel.SolarActivityLevel.High
-            in 8.0..10.00 -> UvValueModel.SolarActivityLevel.VeryHigh
-            else -> UvValueModel.SolarActivityLevel.VeryHigh
         }
     }
 }

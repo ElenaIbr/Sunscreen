@@ -1,4 +1,4 @@
-package com.example.sunscreen.ui.notifications
+package com.example.sunscreen.ui.notifications.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

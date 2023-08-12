@@ -1,6 +1,5 @@
 package com.example.sunscreen.ui.index
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -8,10 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -21,24 +17,25 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.domain.models.UvValueModel
+import com.example.sunscreen.R
 import com.example.sunscreen.extensions.toStringDate
-import com.example.sunscreen.ui.GetLocation
 import com.example.sunscreen.ui.components.Chart
+import com.example.sunscreen.ui.components.Loader
 import com.example.sunscreen.ui.components.banner.Banner
 import com.example.sunscreen.ui.components.banner.BannerValue
+import com.example.sunscreen.ui.index.location.GetLocation
 import com.example.sunscreen.ui.index.viewmodel.IndexViewModel
+import com.example.sunscreen.ui.index.viewmodel.SolarActivity
 import com.example.sunscreen.ui.theme.UiColors
 import java.time.Instant
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun IndexScreen() {
     val viewModel: IndexViewModel = hiltViewModel()
-    val mainState by viewModel.indexState.collectAsState()
+    val indexState by viewModel.indexState.collectAsState()
 
     /*OnLifecycleEvent { _, event ->
         when (event) {
@@ -52,10 +49,10 @@ fun IndexScreen() {
     }*/
 
     LaunchedEffect(
-        key1 = mainState.latitude,
-        key2 = mainState.longitude
+        key1 = indexState.latitude,
+        key2 = indexState.longitude
     ) {
-        if (mainState.latitude != null && mainState.longitude != null) {
+        if (indexState.latitude != null && indexState.longitude != null) {
             viewModel.fetchUvValue()
             viewModel.fetchForecast()
         }
@@ -70,17 +67,17 @@ fun IndexScreen() {
         }
     )
 
-    val backgroundGradientColor = when (mainState.solarActivityLevel) {
-        UvValueModel.SolarActivityLevel.Low -> {
+    val backgroundGradientColor = when (indexState.solarActivityLevel) {
+        SolarActivity.Low -> {
             UiColors.solarActivityLevel.low.background
         }
-        UvValueModel.SolarActivityLevel.Medium -> {
+        SolarActivity.Medium -> {
             UiColors.solarActivityLevel.medium.background
         }
-        UvValueModel.SolarActivityLevel.High -> {
+        SolarActivity.High -> {
             UiColors.solarActivityLevel.high.background
         }
-        UvValueModel.SolarActivityLevel.VeryHigh -> {
+        SolarActivity.VeryHigh -> {
             UiColors.solarActivityLevel.veryHigh.background
         }
         else -> listOf(
@@ -89,20 +86,18 @@ fun IndexScreen() {
         )
     }
 
-    val textColor = when (mainState.solarActivityLevel) {
-        UvValueModel.SolarActivityLevel.Low ->  UiColors.solarActivityLevel.low.textColor
-        UvValueModel.SolarActivityLevel.Medium -> UiColors.solarActivityLevel.medium.textColor
-        UvValueModel.SolarActivityLevel.High -> UiColors.solarActivityLevel.high.textColor
-        UvValueModel.SolarActivityLevel.VeryHigh -> UiColors.solarActivityLevel.veryHigh.textColor
+    val textColor = when (indexState.solarActivityLevel) {
+        SolarActivity.Low ->  UiColors.solarActivityLevel.low.textColor
+        SolarActivity.Medium -> UiColors.solarActivityLevel.medium.textColor
+        SolarActivity.High -> UiColors.solarActivityLevel.high.textColor
+        SolarActivity.VeryHigh -> UiColors.solarActivityLevel.veryHigh.textColor
         else -> UiColors.textContent.primary
     }
 
     Column(
         modifier = Modifier
             .background(
-                brush = Brush.verticalGradient(
-                    colors = backgroundGradientColor
-                )
+                brush = Brush.verticalGradient(colors = backgroundGradientColor)
             ),
         verticalArrangement = Arrangement.SpaceBetween
     ) {
@@ -111,11 +106,11 @@ fun IndexScreen() {
                 .fillMaxWidth()
                 .weight(0.2F)
                 .padding(
-                    top = 24.dp,
-                    start = 48.dp
+                    top = dimensionResource(id = R.dimen.index_screen_top_padding),
+                    start = dimensionResource(id = R.dimen.index_screen_start_padding)
                 )
         ) {
-            mainState.index?.location?.let { location ->
+            indexState.index?.location?.let { location ->
                 Text(
                     text = location,
                     style = MaterialTheme.typography.h6,
@@ -129,10 +124,10 @@ fun IndexScreen() {
                 color = textColor,
                 textAlign = TextAlign.Center
             )
-            mainState.index?.temperature?.let { temperature ->
+            indexState.index?.temperature?.let { temperature ->
                 Text(
                     text = "${temperature.toInt()}°C",
-                    style = MaterialTheme.typography.h5,
+                    style = MaterialTheme.typography.h4,
                     color = textColor,
                     textAlign = TextAlign.Center
                 )
@@ -140,51 +135,37 @@ fun IndexScreen() {
         }
         Banner(
             modifier = Modifier.weight(0.2F),
-            when (mainState.solarActivityLevel) {
-                UvValueModel.SolarActivityLevel.Low -> BannerValue.Low
-                UvValueModel.SolarActivityLevel.Medium -> BannerValue.Medium
-                UvValueModel.SolarActivityLevel.High -> BannerValue.High
-                UvValueModel.SolarActivityLevel.VeryHigh -> BannerValue.High
+            when (indexState.solarActivityLevel) {
+                SolarActivity.Low -> BannerValue.Low
+                SolarActivity.Medium -> BannerValue.Medium
+                SolarActivity.High -> BannerValue.High
+                SolarActivity.VeryHigh -> BannerValue.High
                 else ->  BannerValue.Low
             }
         )
-        HorizontalPager(
-            pageCount = 0,
-        ) {
-            Box(
-                modifier = Modifier
-                    .padding(20.dp)
-                    .background(Color.LightGray)
-                    .fillMaxSize()
-            )
-        }
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(12.dp)
+                .padding(dimensionResource(id = R.dimen.index_screen_chart_padding))
                 .weight(0.6F),
             contentAlignment = Alignment.Center
         ) {
             Chart(
-                forecast = mainState.forecast ?: emptyList(),
+                forecast = indexState.forecast ?: emptyList(),
                 textColor = textColor,
-                activity = mainState.solarActivityLevel,
-                currentValue = mainState.forecast?.first()?.uv
+                activity = indexState.solarActivityLevel,
+                currentValue = indexState.forecast?.first()?.uv
             )
         }
     }
-    if (mainState.isLoading) {
+    if (indexState.isLoading) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.White),
+                .background(UiColors.background.baseWhite),
             contentAlignment = Alignment.Center
         ) {
-            CircularProgressIndicator(
-                modifier = Modifier.size(size = 48.dp),
-                color = UiColors.mainBrand.primary.copy(alpha = 0.5F),
-                strokeWidth = 6.dp
-            )
+            Loader()
         }
     }
 }

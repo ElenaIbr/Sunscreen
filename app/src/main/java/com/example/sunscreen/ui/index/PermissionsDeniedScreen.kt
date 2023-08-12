@@ -14,10 +14,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import com.example.sunscreen.R
 import com.example.sunscreen.ui.components.buttons.ButtonState
 import com.example.sunscreen.ui.components.buttons.PrimaryButton
@@ -33,7 +33,7 @@ fun PermissionsDeniedScreen() {
         Icon(
             modifier = Modifier
                 .fillMaxWidth()
-                .size(220.dp),
+                .size(dimensionResource(id = R.dimen.permissions_denied_screen_icon_size)),
             painter = painterResource(id = R.drawable.ic_sun_chart),
             tint = UiColors.textContent.disabled,
             contentDescription = null
@@ -48,14 +48,15 @@ fun PermissionsDeniedScreen() {
         Text(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(24.dp),
+                .padding(dimensionResource(id = R.dimen.permissions_denied_screen_text_padding)),
             text = stringResource(id = R.string.access_denied_message),
             style = MaterialTheme.typography.body2,
             color = UiColors.textContent.disabled,
             textAlign = TextAlign.Center
         )
         PrimaryButton(
-            modifier = Modifier.padding(horizontal = 48.dp),
+            modifier = Modifier
+                .padding(horizontal = dimensionResource(id = R.dimen.permissions_denied_button_padding)),
             text = stringResource(id = R.string.settings).uppercase(),
             buttonState = ButtonState.DEFAULT,
             onClick = {

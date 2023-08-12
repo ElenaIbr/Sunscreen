@@ -1,4 +1,4 @@
-package com.example.sunscreen.ui
+package com.example.sunscreen.ui.index.location
 
 import android.annotation.SuppressLint
 import android.os.Looper
@@ -14,7 +14,6 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
-import com.example.sunscreen.LocationDetails
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
