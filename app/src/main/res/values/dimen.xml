@@ -13,6 +13,7 @@
     <dimen name="spacer_24">24dp</dimen>
     <dimen name="spacer_20">20dp</dimen>
     <dimen name="spacer_16">16dp</dimen>
+    <dimen name="spacer_10">10dp</dimen>
     <dimen name="spacer_12">16dp</dimen>
 
     <dimen name="banner_horizontal_padding">24dp</dimen>
@@ -32,5 +33,26 @@
     <dimen name="secondary_button_border">1dp</dimen>
 
     <dimen name="input_field_corner">4dp</dimen>
+
+    <dimen name="chart_bar_graph_height">300dp</dimen>
+    <dimen name="chart_bar_graph_width">32dp</dimen>
+    <dimen name="chart_corner">8dp</dimen>
+    <dimen name="chart_sun_icon">220dp</dimen>
+    <dimen name="chart_graph_end_padding">16dp</dimen>
+    <dimen name="chart_bar_bottom_padding">1dp</dimen>
+    <dimen name="chart_bar_corner">8dp</dimen>
+    <dimen name="chart_bar_text_height">16dp</dimen>
+    <dimen name="chart_text_bottom_padding">4dp</dimen>
+    <dimen name="chart_progress_bar_default_radius">50dp</dimen>
+    <dimen name="chart_progress_bar_default_stroke">8dp</dimen>
+
+    <dimen name="rotate_loader_default_size">16dp</dimen>
+
+    <dimen name="splash_screen_icon_size">120dp</dimen>
+
+    <dimen name="top_bar_padding">16dp</dimen>
+
+    TopBar
+
 
 </resources>

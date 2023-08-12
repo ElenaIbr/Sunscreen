@@ -25,8 +25,9 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
+import com.example.sunscreen.R
 import com.example.sunscreen.ui.theme.UiColors
 
 @Composable
@@ -79,7 +80,9 @@ fun DropDown(
             )
         }
         if (isOpen) {
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(
+                modifier = Modifier.height(dimensionResource(id = R.dimen.spacer_10))
+            )
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
