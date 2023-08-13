@@ -114,21 +114,21 @@ fun IndexScreen() {
                 Text(
                     text = location,
                     style = MaterialTheme.typography.h6,
-                    color = textColor,
+                    color = UiColors.textContent.secondary,
                     textAlign = TextAlign.Center
                 )
             }
             Text(
                 text = Instant.now().toStringDate(),
                 style = MaterialTheme.typography.body1,
-                color = textColor,
+                color = UiColors.textContent.secondary,
                 textAlign = TextAlign.Center
             )
             indexState.index?.temperature?.let { temperature ->
                 Text(
                     text = "${temperature.toInt()}°C",
                     style = MaterialTheme.typography.h4,
-                    color = textColor,
+                    color = UiColors.textContent.secondary,
                     textAlign = TextAlign.Center
                 )
             }

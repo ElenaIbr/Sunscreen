@@ -251,7 +251,7 @@ fun ChartCircularProgressBar(
             text = "${stringResource(id = R.string.uv_index)}$percentage",
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.body1,
-            color = UiColors.mainBrand.primary
+            color = UiColors.textContent.secondary
         )
     }
 }
