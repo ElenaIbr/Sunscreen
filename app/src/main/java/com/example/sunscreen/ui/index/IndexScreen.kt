@@ -27,7 +27,10 @@ import com.example.sunscreen.ui.components.Loader
 import com.example.sunscreen.ui.components.banner.Banner
 import com.example.sunscreen.ui.components.banner.BannerValue
 import com.example.sunscreen.ui.index.location.GetLocation
+import com.example.sunscreen.ui.index.viewmodel.FetchForecast
+import com.example.sunscreen.ui.index.viewmodel.FetchUvValue
 import com.example.sunscreen.ui.index.viewmodel.IndexViewModel
+import com.example.sunscreen.ui.index.viewmodel.SetCoordinates
 import com.example.sunscreen.ui.index.viewmodel.SolarActivity
 import com.example.sunscreen.ui.theme.UiColors
 import java.time.Instant
@@ -53,16 +56,18 @@ fun IndexScreen() {
         key2 = indexState.longitude
     ) {
         if (indexState.latitude != null && indexState.longitude != null) {
-            viewModel.fetchUvValue()
-            viewModel.fetchForecast()
+            viewModel.sendEvent(FetchUvValue())
+            viewModel.sendEvent(FetchForecast())
         }
     }
 
     GetLocation(
         locationDetails = { location ->
-            viewModel.setCoordinates(
-                latitude = location.latitude,
-                longitude = location.longitude
+            viewModel.sendEvent(
+                SetCoordinates(
+                    latitude = location.latitude,
+                    longitude = location.longitude
+                )
             )
         }
     )

@@ -39,6 +39,20 @@ class IndexViewModel @Inject constructor(
         getDateAndDayOfWeekUseCase()
     }
 
+    fun sendEvent(indexEvent: IndexEvent) {
+        when(indexEvent) {
+            is FetchForecast -> {
+                fetchForecast()
+            }
+            is FetchUvValue -> {
+                fetchUvValue()
+            }
+            is SetCoordinates -> {
+                setCoordinates(indexEvent.latitude, indexEvent.longitude)
+            }
+        }
+    }
+
     private fun getUvValue() {
         viewModelScope.launch {
             getUvValueUseCase.execute(Unit).collect { flow ->
@@ -70,12 +84,12 @@ class IndexViewModel @Inject constructor(
             }
         }
     }
-    fun fetchForecast() {
+    private fun fetchForecast() {
         viewModelScope.launch {
             fetchForecastInBackgroundUseCase.execute("${_indexState.value.latitude},${_indexState.value.longitude}")
         }
     }
-    fun fetchUvValue() {
+    private fun fetchUvValue() {
         viewModelScope.launch {
             fetchUvUseCase.execute(
                 "${_indexState.value.latitude},${_indexState.value.longitude}"
@@ -100,7 +114,7 @@ class IndexViewModel @Inject constructor(
             }
         }
     }
-    fun setCoordinates(latitude: Double, longitude: Double) {
+    private fun setCoordinates(latitude: Double, longitude: Double) {
         if (
             _indexState.value.latitude?.toInt() != latitude.toInt() ||
             _indexState.value.longitude?.toInt() != longitude.toInt()
