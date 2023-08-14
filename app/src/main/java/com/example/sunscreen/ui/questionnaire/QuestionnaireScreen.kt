@@ -43,7 +43,14 @@ import com.example.sunscreen.ui.components.SplashScreen
 import com.example.sunscreen.ui.notifications.components.NotificationLayout
 import com.example.sunscreen.ui.questionnaire.components.QuestionList
 import com.example.sunscreen.ui.questionnaire.models.QuestionStep
+import com.example.sunscreen.ui.questionnaire.viewmodel.EnableNotification
 import com.example.sunscreen.ui.questionnaire.viewmodel.QuestionnaireViewModel
+import com.example.sunscreen.ui.questionnaire.viewmodel.SetBirthDate
+import com.example.sunscreen.ui.questionnaire.viewmodel.SetQuestionNumber
+import com.example.sunscreen.ui.questionnaire.viewmodel.SetSkinColor
+import com.example.sunscreen.ui.questionnaire.viewmodel.SetSkinType
+import com.example.sunscreen.ui.questionnaire.viewmodel.SetUserName
+import com.example.sunscreen.ui.questionnaire.viewmodel.UpdateUser
 import com.example.sunscreen.ui.theme.UiColors
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
@@ -77,9 +84,15 @@ fun QuestionnaireScreen(
             QuestionStep.PersonalData -> {
                 activity.finish()
             }
-            QuestionStep.SkinType -> viewModel.setQuestionNumber(QuestionStep.PersonalData)
-            QuestionStep.SkinColor -> viewModel.setQuestionNumber(QuestionStep.SkinType)
-            QuestionStep.Notifications -> viewModel.setQuestionNumber(QuestionStep.SkinColor)
+            QuestionStep.SkinType -> {
+                viewModel.sendEvent(SetQuestionNumber(QuestionStep.PersonalData))
+            }
+            QuestionStep.SkinColor -> {
+                viewModel.sendEvent(SetQuestionNumber(QuestionStep.SkinType))
+            }
+            QuestionStep.Notifications -> {
+                viewModel.sendEvent(SetQuestionNumber(QuestionStep.SkinColor))
+            }
         }
     }
 
@@ -149,7 +162,9 @@ fun QuestionnaireScreen(
                     QuestionStep.PersonalData -> {
                         InputField(
                             value = questionsState.userName,
-                            onValueChange = { value -> viewModel.setUserName(value) },
+                            onValueChange = { value ->
+                                viewModel.sendEvent(SetUserName(value))
+                            },
                             onDone = {
                                 if (questionsState.userName.isNotEmpty()) {
                                     keyboardController?.hide()
@@ -166,7 +181,7 @@ fun QuestionnaireScreen(
                         InputYearField(
                             value = questionsState.birthDate,
                             onValueChange = { value ->
-                                viewModel.setBirthDate(value)
+                                viewModel.sendEvent(SetBirthDate(value))
                                 if (value.length == 4) {
                                     keyboardController?.hide()
                                     focusManager.clearFocus()
@@ -180,8 +195,8 @@ fun QuestionnaireScreen(
                             variants = UserModel.SkinType.values().map { it.name },
                             selectedItem = questionsState.skinType?.name ?: "",
                             onItemClick = { type ->
-                                viewModel.setSkinType(
-                                    UserModel.SkinType.fromValue(type)
+                                viewModel.sendEvent(
+                                    SetSkinType(UserModel.SkinType.fromValue(type))
                                 )
                             }
                         )
@@ -191,8 +206,8 @@ fun QuestionnaireScreen(
                             variants = UserModel.SkinColor.values().map { it.name },
                             selectedItem = questionsState.skinColor?.name ?: "",
                             onItemClick = { type ->
-                                viewModel.setSkinColor(
-                                    UserModel.SkinColor.fromValue(type)
+                                viewModel.sendEvent(
+                                    SetSkinColor(UserModel.SkinColor.fromValue(type))
                                 )
                             }
                         )
@@ -201,7 +216,9 @@ fun QuestionnaireScreen(
                         NotificationLayout(
                             notification = Notification(),
                             onSetNotificationTime = { notification ->
-                                viewModel.enableNotification(notification)
+                                viewModel.sendEvent(
+                                    EnableNotification(notification)
+                                )
                             }
                         )
                     }
@@ -222,8 +239,8 @@ fun QuestionnaireScreen(
                         text = stringResource(id = R.string.previous),
                         buttonState = ButtonState.DEFAULT,
                         onClick = {
-                            viewModel.setQuestionNumber(
-                                QuestionStep.getPreviousStep(questionsState.questionStep)
+                            viewModel.sendEvent(
+                                SetQuestionNumber(QuestionStep.getPreviousStep(questionsState.questionStep))
                             )
                         }
                     )
@@ -254,11 +271,11 @@ fun QuestionnaireScreen(
                         if (
                             questionsState.questionStep.number != QuestionStep.values().last().number
                         ) {
-                            viewModel.setQuestionNumber(
-                                QuestionStep.getNextStep(questionsState.questionStep)
+                            viewModel.sendEvent(
+                                SetQuestionNumber(QuestionStep.getNextStep(questionsState.questionStep))
                             )
                         } else {
-                            viewModel.updateUser()
+                            viewModel.sendEvent(UpdateUser())
                             onCompletedClick.invoke()
                         }
                     }

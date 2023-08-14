@@ -28,6 +28,32 @@ class QuestionnaireViewModel @Inject constructor(
         getUser()
     }
 
+    fun sendEvent(questionnaireEvent: QuestionnaireEvent) {
+        when(questionnaireEvent) {
+            is SetUserName -> {
+                setUserName(questionnaireEvent.name)
+            }
+            is SetBirthDate -> {
+                setBirthDate(questionnaireEvent.date)
+            }
+            is SetSkinType -> {
+                setSkinType(questionnaireEvent.skinType)
+            }
+            is SetSkinColor -> {
+                setSkinColor(questionnaireEvent.skinColor)
+            }
+            is SetQuestionNumber -> {
+                setQuestionNumber(questionnaireEvent.questionStep)
+            }
+            is EnableNotification -> {
+                EnableNotification(questionnaireEvent.notification)
+            }
+            is UpdateUser -> {
+                updateUser()
+            }
+        }
+    }
+
     private fun getUser() {
         viewModelScope.launch {
             getUserUseCase.execute(Unit).collect { flow ->
@@ -48,43 +74,43 @@ class QuestionnaireViewModel @Inject constructor(
         }
     }
 
-    fun setUserName(name: String) {
+    private fun setUserName(name: String) {
         _questionsState.value = _questionsState.value.copy(
             userName = name
         )
     }
 
-    fun setBirthDate(date: String) {
+    private fun setBirthDate(date: String) {
         _questionsState.value = _questionsState.value.copy(
             birthDate = date
         )
     }
 
-    fun setSkinType(skinType: UserModel.SkinType) {
+    private fun setSkinType(skinType: UserModel.SkinType) {
         _questionsState.value = _questionsState.value.copy(
             skinType = skinType
         )
     }
 
-    fun setSkinColor(skinColor: UserModel.SkinColor) {
+    private fun setSkinColor(skinColor: UserModel.SkinColor) {
         _questionsState.value = _questionsState.value.copy(
             skinColor = skinColor
         )
     }
 
-    fun setQuestionNumber(questionStep: QuestionStep) {
+    private fun setQuestionNumber(questionStep: QuestionStep) {
         _questionsState.value = _questionsState.value.copy(
             questionStep = questionStep
         )
     }
 
-    fun enableNotification(notification: Notification) {
+    private fun enableNotification(notification: Notification) {
         _questionsState.value = _questionsState.value.copy(
             notification = notification
         )
     }
 
-    fun updateUser() {
+    private fun updateUser() {
         viewModelScope.launch {
             updateUserUseCase.execute(
                 UserModel(
