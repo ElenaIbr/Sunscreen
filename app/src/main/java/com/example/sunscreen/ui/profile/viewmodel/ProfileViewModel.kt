@@ -7,7 +7,6 @@ import com.example.domain.models.UserModel
 import com.example.domain.usecases.GetUserEntity
 import com.example.domain.usecases.GetUserUseCase
 import com.example.domain.usecases.UpdateUserUseCase
-import com.example.sunscreen.R
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -26,6 +25,26 @@ class ProfileViewModel @Inject constructor(
 
     init {
         getUser()
+    }
+
+    fun sendEvent(profileEvent: ProfileEvent) {
+        when (profileEvent) {
+            is UpdateUserName -> {
+                updateUserName(profileEvent.name)
+            }
+            is UpdateUserBirthDate -> {
+                updateUserBirthDate(profileEvent.birthDate)
+            }
+            is UpdateUserSkinType -> {
+                updateUserSkinType(profileEvent.skinType)
+            }
+            is UpdateUserSkinColor -> {
+                updateUserSkinColor(profileEvent.skinColor)
+            }
+            is UpdateUser -> {
+                updateUser()
+            }
+        }
     }
 
     private fun getUser() {
@@ -48,33 +67,33 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    fun updateUserName(name: String) {
+    private fun updateUserName(name: String) {
         _profileState.value = _profileState.value.copy(
             updatedUserName = name
         )
         userDataWasChanged()
     }
 
-    fun updateUserBirthDate(birthDate: String) {
+    private fun updateUserBirthDate(birthDate: String) {
         _profileState.value = _profileState.value.copy(
             updatedBirthDate = birthDate
         )
         userDataWasChanged()
     }
 
-    fun updateUserSkinType(skinType: UserModel.SkinType) {
+    private fun updateUserSkinType(skinType: UserModel.SkinType) {
         _profileState.value = _profileState.value.copy(
             updatedSkinType = skinType
         )
         userDataWasChanged()
     }
-    fun updateUserSkinColor(skinColor: UserModel.SkinColor) {
+    private fun updateUserSkinColor(skinColor: UserModel.SkinColor) {
         _profileState.value = _profileState.value.copy(
             updatedSkinColor = skinColor
         )
         userDataWasChanged()
     }
-    fun updateUser() {
+    private fun updateUser() {
         viewModelScope.launch {
             updateUserUseCase.execute(
                 UserModel(

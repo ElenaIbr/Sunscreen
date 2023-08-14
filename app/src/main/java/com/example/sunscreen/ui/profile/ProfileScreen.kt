@@ -29,6 +29,11 @@ import com.example.sunscreen.ui.components.TopBar
 import com.example.sunscreen.ui.profile.components.ProfileTextDateField
 import com.example.sunscreen.ui.profile.components.ProfileTextField
 import com.example.sunscreen.ui.profile.viewmodel.ProfileViewModel
+import com.example.sunscreen.ui.profile.viewmodel.UpdateUser
+import com.example.sunscreen.ui.profile.viewmodel.UpdateUserBirthDate
+import com.example.sunscreen.ui.profile.viewmodel.UpdateUserName
+import com.example.sunscreen.ui.profile.viewmodel.UpdateUserSkinColor
+import com.example.sunscreen.ui.profile.viewmodel.UpdateUserSkinType
 import com.example.sunscreen.ui.questionnaire.components.QuestionItem
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -49,7 +54,7 @@ fun ProfileScreen(navController: NavHostController) {
             TopBar(
                 enabled = profileState.userDataWasChanged,
                 onClick = {
-                    viewModel.updateUser()
+                    viewModel.sendEvent(UpdateUser())
                     keyboardController?.hide()
                     Toast.makeText(context, "Changes saved", Toast.LENGTH_SHORT).show()
                 }
@@ -77,7 +82,7 @@ fun ProfileScreen(navController: NavHostController) {
                     title = stringResource(id = R.string.name),
                     value = userName,
                     onValueChange = { newValue ->
-                        viewModel.updateUserName(newValue)
+                        viewModel.sendEvent(UpdateUserName(newValue))
                     }
                 )
             }
@@ -89,7 +94,7 @@ fun ProfileScreen(navController: NavHostController) {
                     title = stringResource(id = R.string.dateOfBirth),
                     value = birthDate,
                     onValueChange = { newValue ->
-                        viewModel.updateUserBirthDate(newValue)
+                        viewModel.sendEvent(UpdateUserBirthDate(newValue))
                     }
                 )
             }
@@ -106,8 +111,8 @@ fun ProfileScreen(navController: NavHostController) {
                             value = type,
                             isSelected = UserModel.SkinType.fromValue(type) == skinType,
                             onItemClick = {
-                                viewModel.updateUserSkinType(
-                                    UserModel.SkinType.fromValue(type)
+                                viewModel.sendEvent(
+                                    UpdateUserSkinType(UserModel.SkinType.fromValue(type))
                                 )
                             }
                         )
@@ -130,8 +135,8 @@ fun ProfileScreen(navController: NavHostController) {
                             value = color,
                             isSelected = UserModel.SkinColor.fromValue(color) == skinColor,
                             onItemClick = {
-                                viewModel.updateUserSkinColor(
-                                    UserModel.SkinColor.fromValue(color)
+                                viewModel.sendEvent(
+                                    UpdateUserSkinColor(UserModel.SkinColor.fromValue(color))
                                 )
                             }
                         )
