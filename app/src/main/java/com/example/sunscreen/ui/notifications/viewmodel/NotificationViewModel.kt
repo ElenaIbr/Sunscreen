@@ -25,6 +25,17 @@ class NotificationViewModel @Inject constructor(
         getUser()
     }
 
+    fun sendEvent(notificationEvent: NotificationEvent) {
+        when (notificationEvent) {
+            is SetNotifications -> {
+                setNotifications(notificationEvent.notification)
+            }
+            is UpdateNotifications -> {
+                updateNotifications()
+            }
+        }
+    }
+
     private fun getUser() {
         viewModelScope.launch {
             getUserUseCase.execute(Unit).collect { flow ->
@@ -45,13 +56,13 @@ class NotificationViewModel @Inject constructor(
             }
         }
     }
-    fun setNotifications(notification: Notification) {
+    private fun setNotifications(notification: Notification) {
         _notificationState.value = _notificationState.value.copy(
             notification = notification
         )
         userDataWasChanged()
     }
-    fun updateNotifications() {
+    private fun updateNotifications() {
         _notificationState.value.notification?.let { notification ->
             viewModelScope.launch {
                 updateNotificationsUseCase.execute(notification)

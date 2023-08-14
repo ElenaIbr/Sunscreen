@@ -21,6 +21,8 @@ import com.example.sunscreen.navigation.BottomBar
 import com.example.sunscreen.ui.components.TopBar
 import com.example.sunscreen.ui.notifications.components.NotificationLayout
 import com.example.sunscreen.ui.notifications.viewmodel.NotificationViewModel
+import com.example.sunscreen.ui.notifications.viewmodel.SetNotifications
+import com.example.sunscreen.ui.notifications.viewmodel.UpdateNotifications
 
 @Composable
 fun NotificationScreen(
@@ -39,7 +41,7 @@ fun NotificationScreen(
             TopBar(
                 enabled = notificationState.notificationWasChanged,
                 onClick = {
-                    notificationViewModel.updateNotifications()
+                    notificationViewModel.sendEvent(UpdateNotifications())
                     createNotificationsChannels(context)
                     notificationState.notification?.let {
                         RemindersManager.startReminder(
@@ -61,7 +63,7 @@ fun NotificationScreen(
                 NotificationLayout(
                     notification = notification,
                     onSetNotificationTime = { notifications ->
-                        notificationViewModel.setNotifications(notifications)
+                        notificationViewModel.sendEvent(SetNotifications(notifications))
                     }
                 )
             }
