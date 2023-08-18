@@ -1,10 +1,10 @@
 package com.example.sunscreen.workers
 
 import android.content.Context
-import android.util.Log
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import com.example.domain.models.FetchForecastModel
 import com.example.domain.usecases.FetchForecastUseCase
 import com.example.domain.usecases.UpdateLocationUseCase
 import com.example.domain.utils.Resource
@@ -21,21 +21,28 @@ class FetchForecastWorker @AssistedInject constructor(
     override suspend fun doWork(): Result {
         updateLocationUseCase.execute(Unit).let { result ->
             when (result) {
-                is Resource.Success -> {
-                    Log.d("dadfsdg", "rrrrrr")
-                }
+                is Resource.Success -> {}
                 is Resource.Error -> Result.retry()
             }
         }
-        return inputData.getString("coordinates")?.let { coordinates ->
+        val latitude = inputData.getDouble("latitude", 0.0)
+        val longitude = inputData.getDouble("longitude", 0.0)
+        val date = inputData.getString("date")
+
+        return if (latitude != 0.0 && longitude != 0.0 && !date.isNullOrEmpty()) {
             fetchForecastUseCase.execute(
-                input = coordinates
+                input = FetchForecastModel(
+                    latitude = latitude,
+                    longitude = longitude,
+                    date = date
+                )
             ).let {
                 when (it) {
                     is Resource.Success -> Result.success()
                     is Resource.Error -> Result.failure()
                 }
             }
-        } ?: Result.failure()
+            Result.success()
+        } else Result.failure()
     }
 }

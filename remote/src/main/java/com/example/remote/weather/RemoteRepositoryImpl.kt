@@ -9,6 +9,7 @@ import androidx.work.Data
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
+import com.example.domain.models.FetchForecastModel
 import com.example.domain.models.ForecastModel
 import com.example.domain.models.IndexModel
 import com.example.domain.repositories.remote.RemoteRepository
@@ -22,6 +23,7 @@ import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import java.time.Instant
 import javax.inject.Inject
 
 class RemoteRepositoryImpl @Inject constructor(
@@ -52,12 +54,16 @@ class RemoteRepositoryImpl @Inject constructor(
             }
         }
     }
-    override suspend fun getForecast(daysAmount: Int, coordinates: String): Resource<ForecastModel> {
+    override suspend fun getForecast(
+        latitude: Double,
+        longitude: Double,
+        date: String
+    ): Resource<ForecastModel> {
         return forecastApi.getUvIndexForecast(
-            lat = 52.050710,
-            lng = 4.339360,
+            lat = latitude,
+            lng = longitude,
             alt = 100,
-            dt = "2023-08-18T09:20:07.443Z"
+            dt = date
         ).let { response ->
             when (response) {
                 is ApiNetworkResult.Success -> {
@@ -75,27 +81,13 @@ class RemoteRepositoryImpl @Inject constructor(
                 }
             }
         }
-
-        /*return weatherApi.getForecast(coordinates, daysAmount.toString()).let { response ->
-            when (response) {
-                is ApiNetworkResult.Success -> {
-                    if (response.data != null) {
-                        Resource.Success(forecastMapper.convertFromRemote(response.data))
-                    } else {
-                        Resource.Error("Empty body")
-                    }
-                }
-                is ApiNetworkResult.Error -> {
-                    Resource.Error(response.message.toString())
-                }
-                is ApiNetworkResult.Exception -> {
-                    Resource.Error(response.e.message.toString())
-                }
-            }
-        }*/
     }
-    override fun startFetchForecastInBackground(coordinates: String) {
-        val data = Data.Builder().putString("coordinates", coordinates).build()
+    override fun startFetchForecastInBackground(fetchForecastModel: FetchForecastModel) {
+        val data = Data.Builder()
+            .putDouble("latitude", fetchForecastModel.latitude)
+            .putDouble("longitude", fetchForecastModel.longitude)
+            .putString("date", fetchForecastModel.date)
+            .build()
         val fetchForecastWork = fetchForecastWorker.setInputData(data).build()
         WorkManager.getInstance(context).enqueueUniquePeriodicWork(
             "FetchForecastWorker",
@@ -113,7 +105,6 @@ class RemoteRepositoryImpl @Inject constructor(
             getLocationWork
         )
     }
-
     override fun getCurrentLocation(): Flow<String?> = callbackFlow {
         val permissions = arrayOf(
             Manifest.permission.ACCESS_COARSE_LOCATION,

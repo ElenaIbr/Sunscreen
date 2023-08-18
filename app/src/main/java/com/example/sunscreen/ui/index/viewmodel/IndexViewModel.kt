@@ -3,6 +3,7 @@ package com.example.sunscreen.ui.index.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.entities.FetchUvEntity
+import com.example.domain.models.FetchForecastModel
 import com.example.domain.models.ForecastModel
 import com.example.domain.usecases.FetchForecastInBackgroundUseCase
 import com.example.domain.usecases.FetchUvUseCase
@@ -15,6 +16,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import java.time.Instant
 import java.util.Calendar
 import javax.inject.Inject
 
@@ -86,7 +88,13 @@ class IndexViewModel @Inject constructor(
     }
     private fun fetchForecast() {
         viewModelScope.launch {
-            fetchForecastInBackgroundUseCase.execute("${_indexState.value.latitude},${_indexState.value.longitude}")
+            fetchForecastInBackgroundUseCase.execute(
+                FetchForecastModel(
+                    longitude = _indexState.value.longitude ?: 0.0,
+                    latitude = _indexState.value.latitude ?: 0.0,
+                    date = Instant.now().toString()
+                )
+            )
         }
     }
     private fun fetchUvValue() {

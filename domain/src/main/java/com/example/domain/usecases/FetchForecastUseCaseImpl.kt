@@ -1,6 +1,7 @@
 package com.example.domain.usecases
 
 import com.example.domain.base.SingleUseCase
+import com.example.domain.models.FetchForecastModel
 import com.example.domain.models.ForecastModel
 import com.example.domain.repositories.remote.RemoteRepository
 import com.example.domain.repositories.storage.ForecastRepository
@@ -12,12 +13,13 @@ class FetchForecastUseCaseImpl @Inject constructor(
     private val remoteRepository: RemoteRepository,
     private val forecastRepository: ForecastRepository
 ) : FetchForecastUseCase,
-    SingleUseCase<String, Resource<Unit>>(Dispatchers.IO) {
-    override suspend fun action(input: String): Resource<Unit> {
+    SingleUseCase<FetchForecastModel, Resource<Unit>>(Dispatchers.IO) {
+    override suspend fun action(input: FetchForecastModel): Resource<Unit> {
         return when (
             val result = remoteRepository.getForecast(
-                daysAmount = 3,
-                coordinates = input
+                latitude = input.latitude,
+                longitude = input.longitude,
+                date = input.date
             )
         ) {
             is Resource.Success -> {
