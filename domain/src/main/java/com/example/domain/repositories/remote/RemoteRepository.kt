@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface RemoteRepository {
     suspend fun getWeather(coordinates: String): Resource<IndexModel>
-    suspend fun getForecast(daysAmount: Int, coordinates: String): Resource<List<ForecastModel>>
+    suspend fun getForecast(daysAmount: Int, coordinates: String): Resource<ForecastModel>
     fun startFetchForecastInBackground(coordinates: String)
     fun startGetLocationInBackground()
     fun getCurrentLocation(): Flow<String?>

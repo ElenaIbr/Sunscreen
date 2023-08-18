@@ -22,7 +22,9 @@ class FetchForecastUseCaseImpl @Inject constructor(
         ) {
             is Resource.Success -> {
                 result.successData?.let { list ->
-                    updateForecast(list)
+                    updateForecast(
+                        listOf(list)
+                    )
                 }
                 Resource.Success(Unit)
             }

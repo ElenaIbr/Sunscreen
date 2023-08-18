@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Looper
-import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.work.Data
 import androidx.work.ExistingPeriodicWorkPolicy
@@ -15,6 +14,7 @@ import com.example.domain.models.IndexModel
 import com.example.domain.repositories.remote.RemoteRepository
 import com.example.domain.utils.Resource
 import com.example.remote.base.ApiNetworkResult
+import com.example.remote.forecast.ForecastApi
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
@@ -22,12 +22,12 @@ import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
-import java.time.Instant
 import javax.inject.Inject
 
 class RemoteRepositoryImpl @Inject constructor(
     private val context: Context,
     private val weatherApi: WeatherApi,
+    private val forecastApi: ForecastApi,
     private val weatherMapper: WeatherMapper,
     private val forecastMapper: ForecastMapper,
     private val fetchForecastWorker: PeriodicWorkRequest.Builder,
@@ -52,8 +52,13 @@ class RemoteRepositoryImpl @Inject constructor(
             }
         }
     }
-    override suspend fun getForecast(daysAmount: Int, coordinates: String): Resource<List<ForecastModel>> {
-        return weatherApi.getForecast(coordinates, daysAmount.toString()).let { response ->
+    override suspend fun getForecast(daysAmount: Int, coordinates: String): Resource<ForecastModel> {
+        return forecastApi.getUvIndexForecast(
+            lat = 52.050710,
+            lng = 4.339360,
+            alt = 100,
+            dt = "2023-08-18T09:20:07.443Z"
+        ).let { response ->
             when (response) {
                 is ApiNetworkResult.Success -> {
                     if (response.data != null) {
@@ -70,6 +75,24 @@ class RemoteRepositoryImpl @Inject constructor(
                 }
             }
         }
+
+        /*return weatherApi.getForecast(coordinates, daysAmount.toString()).let { response ->
+            when (response) {
+                is ApiNetworkResult.Success -> {
+                    if (response.data != null) {
+                        Resource.Success(forecastMapper.convertFromRemote(response.data))
+                    } else {
+                        Resource.Error("Empty body")
+                    }
+                }
+                is ApiNetworkResult.Error -> {
+                    Resource.Error(response.message.toString())
+                }
+                is ApiNetworkResult.Exception -> {
+                    Resource.Error(response.e.message.toString())
+                }
+            }
+        }*/
     }
     override fun startFetchForecastInBackground(coordinates: String) {
         val data = Data.Builder().putString("coordinates", coordinates).build()
