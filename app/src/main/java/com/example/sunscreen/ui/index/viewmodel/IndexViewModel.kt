@@ -16,9 +16,14 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.ZoneOffset
+import java.time.ZonedDateTime
 import java.util.Calendar
+import java.util.Date
 import javax.inject.Inject
+
 
 @HiltViewModel
 class IndexViewModel @Inject constructor(
@@ -92,7 +97,7 @@ class IndexViewModel @Inject constructor(
                 FetchForecastModel(
                     longitude = _indexState.value.longitude ?: 0.0,
                     latitude = _indexState.value.latitude ?: 0.0,
-                    date = Instant.now().toString()
+                    date = getLocalDateTime().toString()
                 )
             )
         }
@@ -176,4 +181,11 @@ fun getForecastByCurrentTime(forecast: List<ForecastModel.Hour>?): SolarActivity
         in 8.0..10.0 -> SolarActivity.VeryHigh
         else -> SolarActivity.VeryHigh
     }
+}
+
+fun getLocalDateTime(): LocalDateTime {
+    val date = Date()
+    val utc: ZonedDateTime = date.toInstant().atZone(ZoneOffset.UTC)
+    val default = utc.withZoneSameInstant(ZoneId.systemDefault())
+    return default.toLocalDateTime()
 }

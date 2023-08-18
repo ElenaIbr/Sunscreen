@@ -107,7 +107,7 @@ fun Chart(
                     Box(
                         modifier = Modifier
                             .padding(
-                                start = barGraphWidth,
+                                start = barGraphWidth / 4,
                                 bottom = dimensionResource(id = R.dimen.chart_bar_bottom_padding)
                             )
                             .width(barGraphWidth)
@@ -123,15 +123,12 @@ fun Chart(
                                     SolarActivity.Low -> {
                                         colorResource(id = R.color.chart_low).copy(alpha = 0.3F)
                                     }
-
                                     SolarActivity.Medium -> {
                                         colorResource(id = R.color.chart_medium).copy(alpha = 0.3F)
                                     }
-
                                     SolarActivity.High -> {
                                         colorResource(id = R.color.chart_high).copy(alpha = 0.3F)
                                     }
-
                                     SolarActivity.VeryHigh -> {
                                         colorResource(id = R.color.chart_very_high).copy(alpha = 0.3F)
                                     }
@@ -143,7 +140,7 @@ fun Chart(
                             modifier = Modifier
                                 .width(barGraphWidth)
                                 .height(dimensionResource(id = R.dimen.chart_bar_text_height)),
-                            text = hour.uv.toString(),
+                            text = String.format("%.2f", hour.uv),
                             textAlign = TextAlign.Center,
                             fontSize = 12.sp,
                             color = textColor
@@ -154,11 +151,11 @@ fun Chart(
             Row(
                 modifier = Modifier
                     .padding(
-                        start = barGraphWidth,
+                        start = barGraphWidth / 4,
                         bottom = dimensionResource(id = R.dimen.chart_text_bottom_padding)
                     )
                     .fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(barGraphWidth)
+                horizontalArrangement = Arrangement.spacedBy(barGraphWidth / 4)
             ) {
                 forecast.forEach { hour ->
                     Text(
@@ -176,9 +173,9 @@ fun Chart(
 
 fun getSolarActivityLevel(uvValue: String): SolarActivity {
     return when (uvValue.toDouble()) {
-        in 0.0..2.0 -> SolarActivity.Low
+        in 0.0..3.0 -> SolarActivity.Low
         in 3.0..5.0 -> SolarActivity.Medium
-        in 6.0..7.0 -> SolarActivity.High
+        in 5.0..8.0 -> SolarActivity.High
         in 8.0..10.00 -> SolarActivity.VeryHigh
         else -> SolarActivity.VeryHigh
     }

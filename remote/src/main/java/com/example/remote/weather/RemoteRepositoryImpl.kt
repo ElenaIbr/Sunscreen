@@ -23,7 +23,6 @@ import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
-import java.time.Instant
 import javax.inject.Inject
 
 class RemoteRepositoryImpl @Inject constructor(

@@ -155,12 +155,14 @@ fun IndexScreen() {
                 .weight(0.6F),
             contentAlignment = Alignment.Center
         ) {
-            Chart(
-                forecast = indexState.forecast ?: emptyList(),
-                textColor = textColor,
-                activity = indexState.solarActivityLevel,
-                currentValue = indexState.forecast?.first()?.uv
-            )
+            indexState.forecast?.let { forecast ->
+                Chart(
+                    forecast = forecast,
+                    textColor = textColor,
+                    activity = indexState.solarActivityLevel,
+                    currentValue = indexState.forecast?.first()?.uv
+                )
+            }
         }
     }
     if (indexState.isLoading) {
