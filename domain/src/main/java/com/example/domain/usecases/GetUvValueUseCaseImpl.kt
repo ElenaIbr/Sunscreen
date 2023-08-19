@@ -15,13 +15,13 @@ class GetUvValueUseCaseImpl @Inject constructor(
 {
     override fun action(input: Unit): Flow<UvValueModel?> = flow {
         indexRepository.getLastValueInFlow().collect { flow ->
-            flow?.value?.let {
+            flow?.let { indexModel ->
                 emit(
                     UvValueModel(
-                        indexModel = flow
+                        indexModel = indexModel
                     )
                 )
-            } ?: emit(null)
+            }
         }
     }
 }

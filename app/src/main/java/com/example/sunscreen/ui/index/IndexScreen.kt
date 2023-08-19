@@ -3,6 +3,7 @@ package com.example.sunscreen.ui.index
 import android.content.Context
 import android.location.Address
 import android.location.Geocoder
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -20,10 +21,14 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
@@ -42,6 +47,7 @@ import com.example.sunscreen.ui.index.viewmodel.IndexViewModel
 import com.example.sunscreen.ui.index.viewmodel.SetCoordinates
 import com.example.sunscreen.ui.index.viewmodel.SolarActivity
 import com.example.sunscreen.ui.theme.UiColors
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import java.io.IOException
 import java.util.Locale
 
@@ -52,6 +58,7 @@ fun IndexScreen() {
     val indexState by viewModel.indexState.collectAsState()
 
     val context = LocalContext.current
+    val systemUiController = rememberSystemUiController()
 
     /*OnLifecycleEvent { _, event ->
         when (event) {
@@ -85,20 +92,30 @@ fun IndexScreen() {
         }
     )
 
-    val background = when (indexState.solarActivityLevel) {
-        SolarActivity.Low -> {
-            UiColors.solarActivityLevel.low.background
+    val low = UiColors.solarActivityLevel.low.background
+    val medium = UiColors.solarActivityLevel.medium.background
+    val high = UiColors.solarActivityLevel.high.background
+    val veryHigh = UiColors.solarActivityLevel.veryHigh.background
+    val unknown = UiColors.background.baseWhite
+
+    val background = remember { mutableStateOf(unknown) }
+
+    SideEffect {
+        systemUiController.setStatusBarColor(
+            color = background.value,
+            darkIcons = true
+        )
+    }
+
+    LaunchedEffect(indexState.solarActivityLevel) {
+        indexState.solarActivityLevel?.let { activity ->
+            background.value = when (activity) {
+                SolarActivity.Low -> low
+                SolarActivity.Medium -> medium
+                SolarActivity.High -> high
+                SolarActivity.VeryHigh -> veryHigh
+            }
         }
-        SolarActivity.Medium -> {
-            UiColors.solarActivityLevel.medium.background
-        }
-        SolarActivity.High -> {
-            UiColors.solarActivityLevel.high.background
-        }
-        SolarActivity.VeryHigh -> {
-            UiColors.solarActivityLevel.veryHigh.background
-        }
-        else -> UiColors.background.baseWhite
     }
 
     val textColor = when (indexState.solarActivityLevel) {
@@ -111,7 +128,7 @@ fun IndexScreen() {
 
     Column(
         modifier = Modifier
-            .background(background)
+            .background(background.value)
             .navigationBarsPadding(),
         verticalArrangement = Arrangement.SpaceBetween
     ) {
@@ -192,7 +209,7 @@ fun IndexScreen() {
                         horizontal = dimensionResource(id = R.dimen.index_screen_horizontal_padding),
                         vertical = dimensionResource(id = R.dimen.index_screen_greeting_padding)
                     ),
-                text = "Forecast for today:",
+                text = "UV-index forecast for today:",
                 style = MaterialTheme.typography.body1,
                 color = UiColors.textContent.primary,
                 textAlign = TextAlign.Start

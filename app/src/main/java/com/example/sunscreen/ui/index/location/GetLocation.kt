@@ -27,15 +27,13 @@ fun GetLocation(
 ) {
     val context = LocalContext.current
     val lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
-
     var currentLocation by remember {
         mutableStateOf(
             LocationDetails(0.0, 0.0)
         )
     }
-
-    var locationCallback: LocationCallback? = null
-    var fusedLocationClient: FusedLocationProviderClient? = null
+    val locationCallback: LocationCallback?
+    val fusedLocationClient: FusedLocationProviderClient?
 
     fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
     locationCallback = object : LocationCallback() {
@@ -45,7 +43,6 @@ fun GetLocation(
             }
         }
     }
-
     DisposableEffect(lifecycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
             when (event) {
@@ -72,7 +69,6 @@ fun GetLocation(
             lifecycleOwner.lifecycle.removeObserver(observer)
         }
     }
-
     LaunchedEffect(key1 = currentLocation) {
         if (currentLocation.latitude != 0.0 && currentLocation.longitude != 0.0) {
             locationDetails.invoke(currentLocation)

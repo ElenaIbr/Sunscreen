@@ -69,7 +69,7 @@ fun Banner(
             ) {
                 ChartCircularProgressBar(
                     percentage = uvIndex,
-                    color = UiColors.mainBrand.primary
+                    color = colorResource(id = uvValue.progressColor)
                 )
                 Spacer(
                     modifier = Modifier.width(

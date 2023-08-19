@@ -3,10 +3,8 @@ package com.example.sunscreen.ui.index.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.models.FetchUvIndexModel
-import com.example.domain.models.ForecastModel
 import com.example.domain.usecases.FetchForecastInBackgroundUseCase
 import com.example.domain.usecases.FetchUvUseCase
-import com.example.domain.usecases.GetDateAndDayOfWeekUseCase
 import com.example.domain.usecases.GetForecastByDateUseCase
 import com.example.domain.usecases.GetLocationInBackgroundUseCase
 import com.example.domain.usecases.GetUserNameUseCase
@@ -19,7 +17,6 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZoneOffset
 import java.time.ZonedDateTime
-import java.util.Calendar
 import java.util.Date
 import javax.inject.Inject
 
@@ -29,7 +26,6 @@ class IndexViewModel @Inject constructor(
     private val fetchUvUseCase: FetchUvUseCase,
     private val getUvValueUseCase: GetUvValueUseCase,
     private val getUserNameUseCase: GetUserNameUseCase,
-    private val getDateAndDayOfWeekUseCase: GetDateAndDayOfWeekUseCase,
     private val fetchForecastInBackgroundUseCase: FetchForecastInBackgroundUseCase,
     private val getLocationInBackgroundUseCase: GetLocationInBackgroundUseCase,
     private val getForecastByDateUseCase: GetForecastByDateUseCase
@@ -42,7 +38,6 @@ class IndexViewModel @Inject constructor(
         getLocation()
         getUvValue()
         getUserName()
-        getDateAndDayOfWeekUseCase()
     }
 
     fun sendEvent(indexEvent: IndexEvent) {
@@ -62,10 +57,16 @@ class IndexViewModel @Inject constructor(
     private fun getUvValue() {
         viewModelScope.launch {
             getUvValueUseCase.execute(Unit).collect { flow ->
-                _indexState.value = _indexState.value.copy(
-                    index = flow?.indexModel,
-                    solarActivityLevel = getSolarActivityLevel(flow?.indexModel?.value ?: 0.0)
-                )
+                flow?.indexModel?.let { indexModel ->
+                    _indexState.value = _indexState.value.copy(
+                        index = indexModel,
+                    )
+                }
+                flow?.indexModel?.value?.let { value ->
+                    _indexState.value = _indexState.value.copy(
+                        solarActivityLevel = getSolarActivityLevel(value)
+                    )
+                }
                 getForecast()
             }
         }
@@ -74,7 +75,8 @@ class IndexViewModel @Inject constructor(
         viewModelScope.launch {
             getForecastByDateUseCase.execute(getLocalDateTime()).collect { flow ->
                 _indexState.value = _indexState.value.copy(
-                    forecast = flow
+                    forecast = flow,
+                    isLoading = false
                 )
             }
         }
@@ -126,15 +128,6 @@ class IndexViewModel @Inject constructor(
     private fun getLocation() {
         viewModelScope.launch {
             getLocationInBackgroundUseCase.execute(Unit)
-        }
-    }
-    private fun getDateAndDayOfWeekUseCase() {
-        viewModelScope.launch {
-            getDateAndDayOfWeekUseCase.execute(Unit).collect { flow ->
-                _indexState.value = _indexState.value.copy(
-                    date = flow
-                )
-            }
         }
     }
 }

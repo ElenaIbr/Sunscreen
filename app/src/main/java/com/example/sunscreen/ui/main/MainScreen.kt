@@ -10,11 +10,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
@@ -23,25 +21,12 @@ import com.example.sunscreen.extensions.OnLifecycleEvent
 import com.example.sunscreen.navigation.BottomBar
 import com.example.sunscreen.ui.index.IndexScreen
 import com.example.sunscreen.ui.index.PermissionsDeniedScreen
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
 fun MainScreen(
     navController: NavController
 ) {
-    val systemUiController = rememberSystemUiController()
     val context = LocalContext.current
-
-    SideEffect {
-        systemUiController.setStatusBarColor(
-            color = Color.White,
-            darkIcons = true
-        )
-        systemUiController.setNavigationBarColor(
-            color = Color.Transparent,
-            darkIcons = true
-        )
-    }
 
     val locationPermissionsGranted = remember {
         mutableStateOf(false)
@@ -58,7 +43,7 @@ fun MainScreen(
 
     OnLifecycleEvent { _, event ->
         when (event) {
-            Lifecycle.Event.ON_CREATE -> {
+            Lifecycle.Event.ON_CREATE, Lifecycle.Event.ON_RESUME -> {
                 if (permissions.all { ContextCompat.checkSelfPermission(context, it) == PackageManager.PERMISSION_GRANTED }) {
                     locationPermissionsGranted.value = true
                 } else launcherMultiplePermissions.launch(permissions)
