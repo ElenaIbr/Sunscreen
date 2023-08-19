@@ -15,7 +15,6 @@ object RemindersManager {
         reminderTime: String = "08:00",
         reminderId: Int = REMINDER_NOTIFICATION_REQUEST_CODE
     ) {
-        Log.d("sdfdsf", reminderTime)
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val (hours, minutes) = reminderTime.split(":").map { it.toInt() }
         val intent =

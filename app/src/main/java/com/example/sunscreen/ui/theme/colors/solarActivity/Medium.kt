@@ -8,26 +8,31 @@ import com.example.sunscreen.R
 abstract class Medium {
     abstract val textColor: Color
         @Composable get
-    abstract val background: List<Color>
+    abstract val backgroundGradient: List<Color>
         @Composable get
+    abstract val background: Color
+        @Composable get
+    
 }
 
 object MediumLight : Medium() {
     override val textColor: Color @Composable get() = colorResource(id = R.color.text_medium_uv_color)
-    override val background: List<Color> @Composable get() = listOf(
-        Color.White,
+    override val backgroundGradient: List<Color> @Composable get() = listOf(
+        colorResource(id = R.color.background_medium),
         colorResource(id = R.color.background_low_uv_top),
         colorResource(id = R.color.background_low_uv_bottom),
-        Color.White
+        colorResource(id = R.color.background_medium)
     )
+    override val background: Color @Composable get() = colorResource(id = R.color.background_medium)
 }
 
 object MediumDark : Medium() {
     override val textColor: Color @Composable get() = colorResource(id = R.color.text_medium_uv_color)
-    override val background: List<Color> @Composable get() = listOf(
-        Color.White,
+    override val backgroundGradient: List<Color> @Composable get() = listOf(
+        colorResource(id = R.color.background_medium),
         colorResource(id = R.color.background_low_uv_top),
         colorResource(id = R.color.background_low_uv_bottom),
-        Color.White
+        colorResource(id = R.color.background_medium)
     )
+    override val background: Color @Composable get() = colorResource(id = R.color.background_medium)
 }

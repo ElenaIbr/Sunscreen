@@ -2,8 +2,10 @@ package com.example.sunscreen.ui.components
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -31,14 +33,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.sp
@@ -59,9 +59,18 @@ fun Chart(
 
     Box(
         modifier = Modifier
-            .fillMaxWidth()
-            .height(barGraphHeight),
-        contentAlignment = Alignment.Center
+            .clip(RoundedCornerShape(dimensionResource(id = R.dimen.chart_corner)))
+            .background(UiColors.background.baseWhite)
+            .fillMaxSize()
+            .height(barGraphHeight)
+            .border(
+                BorderStroke(
+                    width = dimensionResource(id = R.dimen.profile_input_field_border),
+                    color = UiColors.textContent.disabled
+                ),
+                shape = RoundedCornerShape(dimensionResource(id = R.dimen.profile_input_field_corner))
+            ),
+        contentAlignment = Alignment.TopCenter
     ) {
         Icon(
             modifier = Modifier
@@ -72,17 +81,10 @@ fun Chart(
             contentDescription = null
         )
     }
-    Row(
-        modifier = Modifier
-            .clip(RoundedCornerShape(dimensionResource(id = R.dimen.chart_corner)))
-            .background(Color.Black.copy(alpha = 0.1F))
-    ) {
+    Row {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(
-                    end = dimensionResource(id = R.dimen.chart_graph_end_padding)
-                )
                 .horizontalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.Bottom
         ) {
@@ -113,19 +115,16 @@ fun Chart(
                             .background(
                                 when (getSolarActivityLevel(hour.uv.toString())) {
                                     SolarActivity.Low -> {
-                                        colorResource(id = R.color.chart_low).copy(alpha = 0.3F)
+                                        colorResource(id = R.color.chart_low).copy(alpha = 0.5F)
                                     }
-
                                     SolarActivity.Medium -> {
-                                        colorResource(id = R.color.chart_medium).copy(alpha = 0.3F)
+                                        colorResource(id = R.color.chart_medium).copy(alpha = 0.5F)
                                     }
-
                                     SolarActivity.High -> {
-                                        colorResource(id = R.color.chart_high).copy(alpha = 0.3F)
+                                        colorResource(id = R.color.chart_high).copy(alpha = 0.5F)
                                     }
-
                                     SolarActivity.VeryHigh -> {
-                                        colorResource(id = R.color.chart_very_high).copy(alpha = 0.3F)
+                                        colorResource(id = R.color.chart_very_high).copy(alpha = 0.5F)
                                     }
                                 }
                             ),
@@ -198,31 +197,17 @@ fun ChartCircularProgressBar(
         )
     )
 
-    val gradient = listOf(
-        colorResource(id = R.color.color_gradient_7),
-        colorResource(id = R.color.color_gradient_6),
-        colorResource(id = R.color.color_gradient_5),
-        colorResource(id = R.color.color_gradient_4),
-        colorResource(id = R.color.color_gradient_3),
-        Color.Transparent
-    )
-
     LaunchedEffect(key1 = Unit) {
         animationPlayed = true
     }
 
     Box(
-        modifier = Modifier.size(radius * 2F),
+        modifier = Modifier,
         contentAlignment = Alignment.Center
     ) {
         Canvas(
             modifier = Modifier.size(radius * 2F)
         ) {
-            drawCircle(
-                brush = Brush.radialGradient(gradient),
-                radius = radius.toPx()
-            )
-
             drawArc(
                 color = Color.LightGray,
                 -90F,
@@ -239,8 +224,8 @@ fun ChartCircularProgressBar(
                 style = Stroke(strokeWidth.toPx(), cap = StrokeCap.Round)
             )
         }
-        androidx.compose.material3.Text(
-            text = "${stringResource(id = R.string.uv_index)}${String.format("%.2f", percentage)}",
+        Text(
+            text = String.format("%.2f", percentage),
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.body1,
             color = UiColors.textContent.secondary

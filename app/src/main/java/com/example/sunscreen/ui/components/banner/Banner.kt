@@ -6,6 +6,9 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,17 +26,21 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.example.sunscreen.R
+import com.example.sunscreen.ui.components.ChartCircularProgressBar
+import com.example.sunscreen.ui.theme.UiColors
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun Banner(
     modifier: Modifier = Modifier,
-    uvValue: BannerValue
+    uvValue: BannerValue,
+    uvIndex: Double
 ) {
     val showBanner = remember { mutableStateOf(false) }
 
@@ -45,38 +52,34 @@ fun Banner(
         exit = scaleOut() + shrinkVertically(shrinkTowards = Alignment.CenterVertically)
     ) {
         Card(
-            modifier = modifier.padding(
-                horizontal = dimensionResource(id = R.dimen.banner_horizontal_padding),
-                vertical = dimensionResource(id = R.dimen.banner_vertical_padding)
-            ),
-            shape = RoundedCornerShape(dimensionResource(id = R.dimen.banner_corner)),
-            backgroundColor = colorResource(id = uvValue.backgroundColor).copy(alpha = 0.5F),
+            modifier = modifier,
+            backgroundColor = Color.Transparent,
             contentColor = colorResource(id = uvValue.contentColor),
             elevation = dimensionResource(id = R.dimen.banner_elevation)
         ) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .background(colorResource(id = uvValue.backgroundColor).copy(alpha = 0.1F))
                     .padding(
                         dimensionResource(id = R.dimen.banner_content_padding)
                     ),
+                horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(
-                    modifier = Modifier.size(dimensionResource(id = R.dimen.banner_icon_size)),
-                    painter = painterResource(id = uvValue.icon),
-                    tint = colorResource(id = uvValue.iconColor),
-                    contentDescription = null
+                ChartCircularProgressBar(
+                    percentage = uvIndex,
+                    color = UiColors.mainBrand.primary
                 )
                 Spacer(
                     modifier = Modifier.width(
-                        dimensionResource(id = R.dimen.spacer_16)
+                        dimensionResource(id = R.dimen.spacer_10)
                     )
                 )
                 Text(
                     text = stringResource(id = uvValue.text),
                     color = colorResource(id = uvValue.contentColor),
-                    style = MaterialTheme.typography.body1
+                    style = MaterialTheme.typography.body2
                 )
             }
         }

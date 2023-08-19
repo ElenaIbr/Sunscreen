@@ -12,25 +12,32 @@ enum class BannerValue(
     @DrawableRes val icon: Int,
     @StringRes val text: Int
 ) {
+    VeryHigh(
+        contentColor = R.color.banner_high_level_content_color,
+        backgroundColor = R.color.banner_high_level_background_color,
+        iconColor = R.color.banner_high_level_icon_color,
+        icon = R.drawable.ic_sun_activity_very_high,
+        text = R.string.very_high_level_message
+    ),
     High(
         contentColor = R.color.banner_high_level_content_color,
         backgroundColor = R.color.banner_high_level_background_color,
         iconColor = R.color.banner_high_level_icon_color,
-        icon = R.drawable.sun_skinny,
-        text = R.string.very_high_level_message
+        icon = R.drawable.ic_sun_activity_high,
+        text = R.string.high_level_message
     ),
     Medium(
         contentColor = R.color.banner_medium_level_content_color,
         backgroundColor = R.color.banner_medium_level_background_color,
         iconColor = R.color.banner_medium_level_icon_color,
-        icon = R.drawable.ic_partly_cloudy,
+        icon = R.drawable.ic_sun_activity_medium,
         text = R.string.moderate_level_message
     ),
     Low(
         contentColor = R.color.banner_low_level_content_color,
         backgroundColor = R.color.banner_low_level_background_color,
         iconColor = R.color.banner_low_level_icon_color,
-        icon = R.drawable.ic_cloud,
+        icon = R.drawable.ic_sun_activity_low,
         text = R.string.low_level_message
     );
 }

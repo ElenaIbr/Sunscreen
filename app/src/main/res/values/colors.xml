@@ -49,15 +49,23 @@
     <color name="background_top">#56FFEB3B</color>
     <color name="background_bottom">#634D649F</color>
 
+    <color name="banner_very_high_level_content_color">#371212</color>
+    <color name="banner_very_high_level_background_color">#0FEC5E5E</color>
+    <color name="banner_very_high_level_icon_color">#371212</color>
     <color name="banner_high_level_content_color">#371212</color>
-    <color name="banner_high_level_background_color">#C5A4A4</color>
-    <color name="banner_high_level_icon_color">#8E0808</color>
-    <color name="banner_medium_level_content_color">#683404</color>
-    <color name="banner_medium_level_background_color">#D5C8A5</color>
-    <color name="banner_medium_level_icon_color">#FF9800</color>
-    <color name="banner_low_level_content_color">#C7C7C7</color>
-    <color name="banner_low_level_background_color">#79615754</color>
-    <color name="banner_low_level_icon_color">#FFFFFF</color>
+    <color name="banner_high_level_background_color">#11FF6F00</color>
+    <color name="banner_high_level_icon_color">#371212</color>
+    <color name="banner_medium_level_content_color">#271708</color>
+    <color name="banner_medium_level_background_color">#0FEAC68A</color>
+    <color name="banner_medium_level_icon_color">#271708</color>
+    <color name="banner_low_level_content_color">#0E1B04</color>
+    <color name="banner_low_level_background_color">#11CFEDBC</color>
+    <color name="banner_low_level_icon_color">#003204</color>
+
+    <color name="background_very_high">#0CA20000</color>
+    <color name="background_high">#0AE19509</color>
+    <color name="background_medium">#0DE0E005</color>
+    <color name="background_low">#08146814</color>
 
     <color name="background_very_high_uv_top">#56FFEB3B</color>
     <color name="background_very_high_uv_bottom">#F4DDDD</color>
