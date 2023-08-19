@@ -31,7 +31,7 @@ fun CheckMark(checked: Boolean) {
             modifier = Modifier
                 .clip(CircleShape)
                 .background(
-                    if (isVisible) UiColors.mainBrand.primary else UiColors.background.baseWhite
+                    if (isVisible) UiColors.mainBrand.primary.copy(alpha = 0.3F) else UiColors.background.baseWhite
                 ),
             contentAlignment = Alignment.Center
         ) {

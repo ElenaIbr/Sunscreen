@@ -9,7 +9,7 @@
     <dimen name="questionnaire_buttons_padding">16dp</dimen>
     <dimen name="check_mark_padding">4dp</dimen>
     <dimen name="question_item_corners">4dp</dimen>
-    <dimen name="question_item_padding">12dp</dimen>
+    <dimen name="question_item_padding">8dp</dimen>
     <dimen name="spacer_24">24dp</dimen>
     <dimen name="spacer_20">20dp</dimen>
     <dimen name="spacer_16">16dp</dimen>

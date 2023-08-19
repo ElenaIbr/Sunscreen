@@ -35,7 +35,7 @@ fun QuestionItem(
             .fillMaxWidth()
             .background(
                 color = if (isSelected) Color.Transparent
-                else UiColors.mainBrand.primary
+                else UiColors.mainBrand.primary.copy(alpha = 0.3F)
             )
             .clickable {
                 onItemClick.invoke(!isSelected)
@@ -58,7 +58,7 @@ fun QuestionItem(
             color = UiColors.textContent.primary,
             text = value,
             textAlign = TextAlign.Start,
-            fontSize = 16.sp
+            fontSize = 14.sp
         )
     }
 }
