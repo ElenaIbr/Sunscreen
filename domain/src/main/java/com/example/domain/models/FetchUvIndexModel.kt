@@ -1,8 +1,6 @@
 package com.example.domain.models
 
-import java.time.Instant
-
-data class FetchForecastModel (
+data class FetchUvIndexModel (
     val latitude: Double,
     val longitude: Double,
     val date: String

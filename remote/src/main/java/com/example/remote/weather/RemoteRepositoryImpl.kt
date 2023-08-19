@@ -4,18 +4,20 @@ import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Looper
+import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.work.Data
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
-import com.example.domain.models.FetchForecastModel
+import com.example.domain.models.FetchUvIndexModel
 import com.example.domain.models.ForecastModel
 import com.example.domain.models.IndexModel
 import com.example.domain.repositories.remote.RemoteRepository
 import com.example.domain.utils.Resource
 import com.example.remote.base.ApiNetworkResult
 import com.example.remote.forecast.ForecastApi
+import com.example.remote.forecast.ForecastMapper
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
@@ -81,7 +83,38 @@ class RemoteRepositoryImpl @Inject constructor(
             }
         }
     }
-    override fun startFetchForecastInBackground(fetchForecastModel: FetchForecastModel) {
+    override suspend fun getCurrentUvIndex(
+        latitude: Double,
+        longitude: Double,
+        date: String
+    ): Resource<Double> {
+        Log.d("sfsfsdf", latitude.toString())
+        Log.d("sfsfsdf", longitude.toString())
+        Log.d("sfsfsdf", date.toString())
+        return forecastApi.getCurrentUvIndex(
+            lat = latitude,
+            lng = longitude,
+            alt = 100,
+            dt = date
+        ).let { response ->
+            when (response) {
+                is ApiNetworkResult.Success -> {
+                    if (response.data != null) {
+                        Resource.Success(response.data.result?.uv)
+                    } else {
+                        Resource.Error("Empty body")
+                    }
+                }
+                is ApiNetworkResult.Error -> {
+                    Resource.Error(response.message.toString())
+                }
+                is ApiNetworkResult.Exception -> {
+                    Resource.Error(response.e.message.toString())
+                }
+            }
+        }
+    }
+    override fun startFetchForecastInBackground(fetchForecastModel: FetchUvIndexModel) {
         val data = Data.Builder()
             .putDouble("latitude", fetchForecastModel.latitude)
             .putDouble("longitude", fetchForecastModel.longitude)

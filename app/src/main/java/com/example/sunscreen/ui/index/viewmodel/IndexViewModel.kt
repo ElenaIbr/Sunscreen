@@ -2,8 +2,7 @@ package com.example.sunscreen.ui.index.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.entities.FetchUvEntity
-import com.example.domain.models.FetchForecastModel
+import com.example.domain.models.FetchUvIndexModel
 import com.example.domain.models.ForecastModel
 import com.example.domain.usecases.FetchForecastInBackgroundUseCase
 import com.example.domain.usecases.FetchUvUseCase
@@ -94,7 +93,7 @@ class IndexViewModel @Inject constructor(
     private fun fetchForecast() {
         viewModelScope.launch {
             fetchForecastInBackgroundUseCase.execute(
-                FetchForecastModel(
+                FetchUvIndexModel(
                     longitude = _indexState.value.longitude ?: 0.0,
                     latitude = _indexState.value.latitude ?: 0.0,
                     date = getLocalDateTime().toString()
@@ -104,26 +103,14 @@ class IndexViewModel @Inject constructor(
     }
     private fun fetchUvValue() {
         viewModelScope.launch {
-            fetchUvUseCase.execute(
-                "${_indexState.value.latitude},${_indexState.value.longitude}"
-            ).collect { flow ->
-                when (flow) {
-                    is FetchUvEntity.Success -> {
-                        _indexState.value = _indexState.value.copy(
-                            isLoading = false
-                        )
-                    }
-                    is FetchUvEntity.Loading -> {
-                        _indexState.value = _indexState.value.copy(
-                            isLoading = true
-                        )
-                    }
-                    is FetchUvEntity.Failure -> {
-                        _indexState.value = _indexState.value.copy(
-                            isLoading = false
-                        )
-                    }
-                }
+            if (_indexState.value.latitude != null && _indexState.value.longitude != null) {
+                fetchUvUseCase.execute(
+                    input = FetchUvIndexModel(
+                        latitude = _indexState.value.latitude ?: 0.0,
+                        longitude = _indexState.value.longitude ?: 0.0,
+                        date = getLocalDateTime().toString()
+                    )
+                )
             }
         }
     }
@@ -153,17 +140,6 @@ class IndexViewModel @Inject constructor(
         }
     }
 }
-
-private fun getSolarActivityLevel(uvValue: Double): SolarActivity {
-    return when (uvValue) {
-        in 0.0..2.0 -> SolarActivity.Low
-        in 3.0..5.0 -> SolarActivity.Medium
-        in 6.0..7.0 -> SolarActivity.High
-        in 8.0..10.00 -> SolarActivity.VeryHigh
-        else -> SolarActivity.VeryHigh
-    }
-}
-
 enum class SolarActivity {
     Low,
     Medium,
@@ -175,9 +151,9 @@ fun getForecastByCurrentTime(forecast: List<ForecastModel.Hour>?): SolarActivity
     val rightNow = Calendar.getInstance()
     val currentHourIn24Format: Int =rightNow.get(Calendar.HOUR_OF_DAY)
     return when (forecast?.find { it.hour.toInt() ==  currentHourIn24Format }?.uv ?: 0.0) {
-        in 0.0..2.0 -> SolarActivity.Low
-        in 3.0..5.0 -> SolarActivity.Medium
-        in 6.0..7.0 -> SolarActivity.High
+        in 0.0..3.0 -> SolarActivity.Low
+        in 3.0..6.0 -> SolarActivity.Medium
+        in 6.0..8.0 -> SolarActivity.High
         in 8.0..10.0 -> SolarActivity.VeryHigh
         else -> SolarActivity.VeryHigh
     }

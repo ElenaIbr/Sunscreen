@@ -6,8 +6,8 @@ import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequest
 import com.example.domain.repositories.remote.RemoteRepository
 import com.example.remote.forecast.ForecastApi
+import com.example.remote.forecast.ForecastMapper
 import com.example.remote.interceptor.AuthenticationInterceptor
-import com.example.remote.weather.ForecastMapper
 import com.example.remote.weather.WeatherApi
 import com.example.remote.weather.WeatherApiFactory
 import com.example.remote.weather.WeatherMapper

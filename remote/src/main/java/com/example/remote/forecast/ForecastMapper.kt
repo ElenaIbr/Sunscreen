@@ -1,8 +1,7 @@
-package com.example.remote.weather
+package com.example.remote.forecast
 
 import com.example.domain.models.ForecastModel
 import com.example.remote.base.RemoteConverter
-import com.example.remote.forecast.ForecastResponse
 import java.time.Instant
 import java.time.ZoneOffset
 import java.time.ZonedDateTime

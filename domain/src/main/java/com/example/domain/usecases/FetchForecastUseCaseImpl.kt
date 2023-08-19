@@ -1,7 +1,7 @@
 package com.example.domain.usecases
 
 import com.example.domain.base.SingleUseCase
-import com.example.domain.models.FetchForecastModel
+import com.example.domain.models.FetchUvIndexModel
 import com.example.domain.models.ForecastModel
 import com.example.domain.repositories.remote.RemoteRepository
 import com.example.domain.repositories.storage.ForecastRepository
@@ -13,8 +13,8 @@ class FetchForecastUseCaseImpl @Inject constructor(
     private val remoteRepository: RemoteRepository,
     private val forecastRepository: ForecastRepository
 ) : FetchForecastUseCase,
-    SingleUseCase<FetchForecastModel, Resource<Unit>>(Dispatchers.IO) {
-    override suspend fun action(input: FetchForecastModel): Resource<Unit> {
+    SingleUseCase<FetchUvIndexModel, Resource<Unit>>(Dispatchers.IO) {
+    override suspend fun action(input: FetchUvIndexModel): Resource<Unit> {
         return when (
             val result = remoteRepository.getForecast(
                 latitude = input.latitude,
