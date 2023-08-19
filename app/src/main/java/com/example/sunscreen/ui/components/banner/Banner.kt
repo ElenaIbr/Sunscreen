@@ -60,7 +60,7 @@ fun Banner(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(colorResource(id = uvValue.backgroundColor).copy(alpha = 0.1F))
+                    .background(colorResource(id = uvValue.backgroundColor))
                     .padding(
                         dimensionResource(id = R.dimen.banner_content_padding)
                     ),

@@ -3,7 +3,6 @@ package com.example.sunscreen.ui.index
 import android.content.Context
 import android.location.Address
 import android.location.Geocoder
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -28,7 +27,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
@@ -51,7 +49,6 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import java.io.IOException
 import java.util.Locale
 
-
 @Composable
 fun IndexScreen() {
     val viewModel: IndexViewModel = hiltViewModel()
@@ -59,17 +56,6 @@ fun IndexScreen() {
 
     val context = LocalContext.current
     val systemUiController = rememberSystemUiController()
-
-    /*OnLifecycleEvent { _, event ->
-        when (event) {
-            Lifecycle.Event.ON_RESUME -> {
-                if (mainState.latitude != null && mainState.longitude != null) {
-                    viewModel.fetchUvValue()
-                }
-            }
-            else -> {}
-        }
-    }*/
 
     LaunchedEffect(
         key1 = indexState.latitude,
@@ -194,7 +180,7 @@ fun IndexScreen() {
                         SolarActivity.Low -> BannerValue.Low
                         SolarActivity.Medium -> BannerValue.Medium
                         SolarActivity.High -> BannerValue.High
-                        SolarActivity.VeryHigh -> BannerValue.High
+                        SolarActivity.VeryHigh -> BannerValue.VeryHigh
                         else ->  BannerValue.Low
                     },
                     uvIndex = value

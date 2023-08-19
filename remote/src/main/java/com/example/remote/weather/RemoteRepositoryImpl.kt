@@ -25,6 +25,7 @@ import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import java.time.Instant
 import javax.inject.Inject
 
 class RemoteRepositoryImpl @Inject constructor(
@@ -66,7 +67,106 @@ class RemoteRepositoryImpl @Inject constructor(
             alt = 100,
             dt = date
         ).let { response ->
-            when (response) {
+            Resource.Success(
+                ForecastModel(
+                    date = Instant.now(),
+                    forecast = listOf(
+                        ForecastModel.Hour(
+                            hour = "1",
+                            uv = 0.01
+                        ),
+                        ForecastModel.Hour(
+                            hour = "2",
+                            uv = 0.01
+                        ),
+                        ForecastModel.Hour(
+                            hour = "3",
+                            uv = 0.01
+                        ),
+                        ForecastModel.Hour(
+                            hour = "4",
+                            uv = 0.01
+                        ),
+                        ForecastModel.Hour(
+                            hour = "5",
+                            uv = 0.01
+                        ),
+                        ForecastModel.Hour(
+                            hour = "6",
+                            uv = 0.01
+                        ),
+                        ForecastModel.Hour(
+                            hour = "7",
+                            uv = 0.01
+                        ),
+                        ForecastModel.Hour(
+                            hour = "8",
+                            uv = 0.01
+                        ),
+                        ForecastModel.Hour(
+                            hour = "9",
+                            uv = 0.01
+                        ),
+                        ForecastModel.Hour(
+                            hour = "10",
+                            uv = 0.01
+                        ),
+                        ForecastModel.Hour(
+                            hour = "11",
+                            uv = 0.01
+                        ),
+                        ForecastModel.Hour(
+                            hour = "12",
+                            uv = 0.01
+                        ),
+                        ForecastModel.Hour(
+                            hour = "13",
+                            uv = 0.01
+                        ),
+                        ForecastModel.Hour(
+                            hour = "14",
+                            uv = 0.01
+                        ),
+                        ForecastModel.Hour(
+                            hour = "15",
+                            uv = 0.01
+                        ),
+                        ForecastModel.Hour(
+                            hour = "16",
+                            uv = 0.01
+                        ),
+                        ForecastModel.Hour(
+                            hour = "17",
+                            uv = 0.01
+                        ),
+                        ForecastModel.Hour(
+                            hour = "18",
+                            uv = 0.01
+                        ),
+                        ForecastModel.Hour(
+                            hour = "19",
+                            uv = 0.01
+                        ),
+                        ForecastModel.Hour(
+                            hour = "20",
+                            uv = 0.01
+                        ),
+                        ForecastModel.Hour(
+                            hour = "21",
+                            uv = 0.01
+                        ),
+                        ForecastModel.Hour(
+                            hour = "22",
+                            uv = 0.01
+                        ),
+                        ForecastModel.Hour(
+                            hour = "23",
+                            uv = 0.01
+                        )
+                    )
+                )
+            )
+            /*when (response) {
                 is ApiNetworkResult.Success -> {
                     if (response.data != null) {
                         Resource.Success(forecastMapper.convertFromRemote(response.data))
@@ -80,7 +180,7 @@ class RemoteRepositoryImpl @Inject constructor(
                 is ApiNetworkResult.Exception -> {
                     Resource.Error(response.e.message.toString())
                 }
-            }
+            }*/
         }
     }
     override suspend fun getCurrentUvIndex(
@@ -94,7 +194,10 @@ class RemoteRepositoryImpl @Inject constructor(
             alt = 100,
             dt = date
         ).let { response ->
-            when (response) {
+            Resource.Success(
+                9.0
+            )
+            /*when (response) {
                 is ApiNetworkResult.Success -> {
                     if (response.data != null) {
                         Resource.Success(response.data.result?.uv)
@@ -108,7 +211,7 @@ class RemoteRepositoryImpl @Inject constructor(
                 is ApiNetworkResult.Exception -> {
                     Resource.Error(response.e.message.toString())
                 }
-            }
+            }*/
         }
     }
     override fun startFetchForecastInBackground(fetchForecastModel: FetchUvIndexModel) {

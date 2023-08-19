@@ -12,7 +12,7 @@ enum class BannerValue(
 ) {
     VeryHigh(
         contentColor = R.color.banner_high_level_content_color,
-        backgroundColor = R.color.banner_high_level_background_color,
+        backgroundColor = R.color.banner_very_high_level_background_color,
         progressColor = R.color.banner_very_high_level_progress_color,
         text = R.string.very_high_level_message
     ),
