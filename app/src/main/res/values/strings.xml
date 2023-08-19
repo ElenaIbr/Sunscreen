@@ -37,8 +37,8 @@
     <string name="enable_notifications">Enable notifications</string>
     <string name="start">Start</string>
     <string name="icon">icon</string>
-    <string name="Skin_color">Skin color: </string>
-    <string name="Skin_type">Skin type: </string>
+    <string name="Skin_color">Skin color:</string>
+    <string name="Skin_type">Skin type:</string>
 
     <string name="hello">Hello</string>
 

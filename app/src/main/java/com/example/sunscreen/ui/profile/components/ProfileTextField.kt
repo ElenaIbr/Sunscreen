@@ -5,6 +5,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
@@ -14,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import com.example.sunscreen.R
 import com.example.sunscreen.ui.theme.UiColors
@@ -32,7 +34,7 @@ fun ProfileTextField(
             ),
         text = title,
         fontWeight = FontWeight.Bold,
-        color = UiColors.textContent.primary,
+        color = if (value.isEmpty()) UiColors.textContent.error else UiColors.textContent.primary,
         style = MaterialTheme.typography.subtitle1
     )
     TextField(
@@ -57,10 +59,21 @@ fun ProfileTextField(
             focusedLabelColor = UiColors.textContent.disabled,
             unfocusedLabelColor = UiColors.textContent.disabled,
             focusedIndicatorColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent
+            unfocusedIndicatorColor = Color.Transparent,
+            errorIndicatorColor = Color.Transparent,
+            errorCursorColor = UiColors.textContent.error
         ),
         onValueChange = { newValue ->
             onValueChange.invoke(newValue)
+        },
+        trailingIcon = {
+            if (value.isEmpty()) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_info),
+                    tint = UiColors.textContent.error,
+                    contentDescription = null
+                )
+            }
         }
     )
 }

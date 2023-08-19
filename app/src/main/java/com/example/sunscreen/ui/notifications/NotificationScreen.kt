@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -23,6 +24,8 @@ import com.example.sunscreen.ui.notifications.components.NotificationLayout
 import com.example.sunscreen.ui.notifications.viewmodel.NotificationViewModel
 import com.example.sunscreen.ui.notifications.viewmodel.SetNotifications
 import com.example.sunscreen.ui.notifications.viewmodel.UpdateNotifications
+import com.example.sunscreen.ui.theme.UiColors
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
 fun NotificationScreen(
@@ -32,6 +35,16 @@ fun NotificationScreen(
     val notificationState by notificationViewModel.notificationState.collectAsState()
 
     val context = LocalContext.current
+
+    val systemUiController = rememberSystemUiController()
+    val statusBarColor = UiColors.background.baseWhite
+
+    SideEffect {
+        systemUiController.setStatusBarColor(
+            color = statusBarColor,
+            darkIcons = true
+        )
+    }
 
     Scaffold(
         modifier = Modifier

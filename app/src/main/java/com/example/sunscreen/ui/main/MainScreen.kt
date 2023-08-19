@@ -41,7 +41,7 @@ fun MainScreen(
 
     OnLifecycleEvent { _, event ->
         when (event) {
-            Lifecycle.Event.ON_RESUME -> {
+            Lifecycle.Event.ON_CREATE, Lifecycle.Event.ON_RESUME -> {
                 if (permissions.all { ContextCompat.checkSelfPermission(context, it) == PackageManager.PERMISSION_GRANTED }) {
                     locationPermissionsGranted.value = true
                 } else {
@@ -68,9 +68,7 @@ fun MainScreen(
         ) {
             if (locationPermissionsGranted.value) {
                 IndexScreen()
-            } else {
-                PermissionsDeniedScreen()
-            }
+            } else PermissionsDeniedScreen()
         }
     }
 }

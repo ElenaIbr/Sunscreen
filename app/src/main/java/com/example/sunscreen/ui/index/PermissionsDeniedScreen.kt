@@ -12,6 +12,8 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
@@ -21,11 +23,23 @@ import androidx.compose.ui.text.style.TextAlign
 import com.example.sunscreen.R
 import com.example.sunscreen.ui.components.buttons.ButtonState
 import com.example.sunscreen.ui.components.buttons.PrimaryButton
+import com.example.sunscreen.ui.index.viewmodel.FetchForecast
+import com.example.sunscreen.ui.index.viewmodel.FetchUvValue
 import com.example.sunscreen.ui.theme.UiColors
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
 fun PermissionsDeniedScreen() {
     val context = LocalContext.current
+    val systemUiController = rememberSystemUiController()
+    val statusBarColor = UiColors.background.baseWhite
+
+    SideEffect {
+        systemUiController.setStatusBarColor(
+            color = statusBarColor,
+            darkIcons = true
+        )
+    }
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center

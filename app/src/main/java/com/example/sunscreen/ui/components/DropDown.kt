@@ -60,7 +60,7 @@ fun DropDown(
         ) {
             Row {
                 Text(
-                    text = label,
+                    text = "$label ",
                     fontWeight = FontWeight.Bold,
                     color = UiColors.textContent.primary,
                     style = MaterialTheme.typography.subtitle1

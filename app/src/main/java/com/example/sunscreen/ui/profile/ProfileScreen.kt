@@ -11,6 +11,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -35,24 +36,35 @@ import com.example.sunscreen.ui.profile.viewmodel.UpdateUserName
 import com.example.sunscreen.ui.profile.viewmodel.UpdateUserSkinColor
 import com.example.sunscreen.ui.profile.viewmodel.UpdateUserSkinType
 import com.example.sunscreen.ui.questionnaire.components.QuestionItem
+import com.example.sunscreen.ui.theme.UiColors
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun ProfileScreen(navController: NavHostController) {
-
     val viewModel: ProfileViewModel = hiltViewModel()
     val profileState by viewModel.profileState.collectAsState()
 
     val context = LocalContext.current
     val keyboardController = LocalSoftwareKeyboardController.current
 
+    val systemUiController = rememberSystemUiController()
+    val statusBarColor = UiColors.background.baseWhite
+
+    SideEffect {
+        systemUiController.setStatusBarColor(
+            color = statusBarColor,
+            darkIcons = true
+        )
+    }
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
             .systemBarsPadding(),
         topBar = {
             TopBar(
-                enabled = profileState.userDataWasChanged,
+                enabled = profileState.userDataWasChanged && profileState.updatedUserName?.isNotEmpty() == true
+                        && profileState.updatedBirthDate?.length == 4,
                 onClick = {
                     viewModel.sendEvent(UpdateUser())
                     keyboardController?.hide()

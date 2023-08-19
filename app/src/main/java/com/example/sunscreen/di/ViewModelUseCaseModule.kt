@@ -4,8 +4,6 @@ import com.example.domain.usecases.FetchForecastInBackgroundUseCase
 import com.example.domain.usecases.FetchForecastInBackgroundUseCaseImpl
 import com.example.domain.usecases.FetchUvUseCase
 import com.example.domain.usecases.FetchUvUseCaseImpl
-import com.example.domain.usecases.GetDateAndDayOfWeekUseCase
-import com.example.domain.usecases.GetDateAndDayOfWeekUseCaseImpl
 import com.example.domain.usecases.GetLocationInBackgroundUseCase
 import com.example.domain.usecases.GetLocationInBackgroundUseCaseImpl
 import com.example.domain.usecases.GetUserNameUseCase
@@ -44,10 +42,6 @@ abstract class ViewModelUseCaseModule {
         updateUserUseCase: UpdateUserUseCaseImpl
     ): UpdateUserUseCase
 
-    @Binds
-    abstract fun bindGetDateAndDayOfWeekUseCase(
-        getDateAndDayOfWeekUseCase: GetDateAndDayOfWeekUseCaseImpl
-    ): GetDateAndDayOfWeekUseCase
 
     @Binds
     abstract fun bindUpdateNotificationsUseCase(
