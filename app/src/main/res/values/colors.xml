@@ -51,7 +51,7 @@
 
     <color name="banner_very_high_level_content_color">#3A0909</color>
     <color name="banner_very_high_level_background_color">#DDBCBC</color>
-    <color name="banner_very_high_level_progress_color">#F80202</color>
+    <color name="banner_very_high_level_progress_color">#963939</color>
 
     <color name="banner_high_level_content_color">#371212</color>
     <color name="banner_high_level_background_color">#CCB5A4</color>

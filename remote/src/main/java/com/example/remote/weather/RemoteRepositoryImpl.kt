@@ -117,11 +117,11 @@ class RemoteRepositoryImpl @Inject constructor(
                         ),
                         ForecastModel.Hour(
                             hour = "12",
-                            uv = 0.01
+                            uv = 10.00
                         ),
                         ForecastModel.Hour(
                             hour = "13",
-                            uv = 0.01
+                            uv = 11.00
                         ),
                         ForecastModel.Hour(
                             hour = "14",

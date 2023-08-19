@@ -37,16 +37,17 @@ fun MainScreen(
     )
     val launcherMultiplePermissions = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
-    ) { permissionsMap ->
-        locationPermissionsGranted.value = (permissionsMap.values.all { it })
-    }
+    ) { _ -> }
 
     OnLifecycleEvent { _, event ->
         when (event) {
-            Lifecycle.Event.ON_CREATE, Lifecycle.Event.ON_RESUME -> {
+            Lifecycle.Event.ON_RESUME -> {
                 if (permissions.all { ContextCompat.checkSelfPermission(context, it) == PackageManager.PERMISSION_GRANTED }) {
                     locationPermissionsGranted.value = true
-                } else launcherMultiplePermissions.launch(permissions)
+                } else {
+                    locationPermissionsGranted.value = false
+                    launcherMultiplePermissions.launch(permissions)
+                }
             }
             else -> {}
         }
