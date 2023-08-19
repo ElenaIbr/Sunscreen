@@ -88,9 +88,6 @@ class RemoteRepositoryImpl @Inject constructor(
         longitude: Double,
         date: String
     ): Resource<Double> {
-        Log.d("sfsfsdf", latitude.toString())
-        Log.d("sfsfsdf", longitude.toString())
-        Log.d("sfsfsdf", date.toString())
         return forecastApi.getCurrentUvIndex(
             lat = latitude,
             lng = longitude,

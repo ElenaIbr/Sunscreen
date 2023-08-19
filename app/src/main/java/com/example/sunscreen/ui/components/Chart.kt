@@ -49,10 +49,8 @@ import com.example.sunscreen.ui.theme.UiColors
 
 @Composable
 fun Chart(
-    forecast: List<ForecastModel.Hour>,
-    textColor: Color,
-    activity: SolarActivity? = SolarActivity.Low,
-    currentValue: Double?
+    forecast: ForecastModel,
+    textColor: Color
 ) {
     val chartBarGraphHeight = dimensionResource(id = R.dimen.chart_bar_graph_height)
     val chartBarGraphWidth = dimensionResource(id = R.dimen.chart_bar_graph_width)
@@ -61,32 +59,24 @@ fun Chart(
 
     Box(
         modifier = Modifier
-            .clip(RoundedCornerShape(dimensionResource(id = R.dimen.chart_corner)))
-            .background(Color.Black.copy(alpha = 0.1F))
-            .fillMaxSize()
-            .padding(bottom = barGraphHeight / 2),
+            .fillMaxWidth()
+            .height(barGraphHeight),
         contentAlignment = Alignment.Center
     ) {
-        if (activity != SolarActivity.Low) {
-            Icon(
-                modifier = Modifier
-                    .clip(CircleShape)
-                    .size(
-                        dimensionResource(id = R.dimen.chart_sun_icon)
-                    ),
-                painter = painterResource(id = R.drawable.ic_sun_chart),
-                tint = UiColors.mainBrand.primary,
-                contentDescription = null
-            )
-        }
-        currentValue?.let { value ->
-            ChartCircularProgressBar(
-                percentage = value.toFloat(),
-                color = UiColors.mainBrand.primary
-            )
-        }
+        Icon(
+            modifier = Modifier
+                .clip(CircleShape)
+                .size(dimensionResource(id = R.dimen.chart_sun_icon)),
+            painter = painterResource(id = R.drawable.ic_sun_chart),
+            tint = UiColors.mainBrand.primary.copy(alpha = 0.2F),
+            contentDescription = null
+        )
     }
-    Row {
+    Row(
+        modifier = Modifier
+            .clip(RoundedCornerShape(dimensionResource(id = R.dimen.chart_corner)))
+            .background(Color.Black.copy(alpha = 0.1F))
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -103,7 +93,7 @@ fun Chart(
                 verticalAlignment = Alignment.Bottom,
                 horizontalArrangement = Arrangement.Start
             ) {
-                forecast.forEach { hour ->
+                forecast.forecast?.forEach { hour ->
                     Box(
                         modifier = Modifier
                             .padding(
@@ -117,18 +107,23 @@ fun Chart(
                                     topEnd = dimensionResource(id = R.dimen.chart_bar_corner)
                                 )
                             )
-                            .fillMaxHeight((hour.uv / 10).toFloat())
+                            .fillMaxHeight(
+                                if ((hour.uv / 10).toFloat() > 0.1f) (hour.uv / 10).toFloat() else 0.1f
+                            )
                             .background(
                                 when (getSolarActivityLevel(hour.uv.toString())) {
                                     SolarActivity.Low -> {
                                         colorResource(id = R.color.chart_low).copy(alpha = 0.3F)
                                     }
+
                                     SolarActivity.Medium -> {
                                         colorResource(id = R.color.chart_medium).copy(alpha = 0.3F)
                                     }
+
                                     SolarActivity.High -> {
                                         colorResource(id = R.color.chart_high).copy(alpha = 0.3F)
                                     }
+
                                     SolarActivity.VeryHigh -> {
                                         colorResource(id = R.color.chart_very_high).copy(alpha = 0.3F)
                                     }
@@ -157,7 +152,7 @@ fun Chart(
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(barGraphWidth / 4)
             ) {
-                forecast.forEach { hour ->
+                forecast.forecast?.forEach { hour ->
                     Text(
                         modifier = Modifier.width(barGraphWidth),
                         text = "${hour.hour}h",
@@ -184,7 +179,7 @@ fun getSolarActivityLevel(uvValue: String): SolarActivity {
 
 @Composable
 fun ChartCircularProgressBar(
-    percentage: Float,
+    percentage: Double,
     radius: Dp = dimensionResource(id = R.dimen.chart_progress_bar_default_radius),
     color: Color = UiColors.mainBrand.primary,
     strokeWidth: Dp = dimensionResource(id = R.dimen.chart_progress_bar_default_stroke),
@@ -196,7 +191,7 @@ fun ChartCircularProgressBar(
     }
 
     val currentPercentage = animateFloatAsState(
-        targetValue = if (animationPlayed) (percentage / 10) else 0F,
+        targetValue = if (animationPlayed) (percentage.toFloat() / 10) else 0F,
         animationSpec = tween(
             durationMillis = animDuration,
             delayMillis = animDelay
@@ -245,7 +240,7 @@ fun ChartCircularProgressBar(
             )
         }
         androidx.compose.material3.Text(
-            text = "${stringResource(id = R.string.uv_index)}$percentage",
+            text = "${stringResource(id = R.string.uv_index)}${String.format("%.2f", percentage)}",
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.body1,
             color = UiColors.textContent.secondary

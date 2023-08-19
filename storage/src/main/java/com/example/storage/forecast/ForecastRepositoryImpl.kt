@@ -36,6 +36,11 @@ class ForecastRepositoryImpl @Inject constructor(
             } ?: run { null }
         }
     }
+    override fun getForecastInFlow(): Flow<List<ForecastModel>> {
+        return appDatabase.forecastDao().getAllInFlow().map { list ->
+            list.map { converter.convertFromStorage(it) }
+        }
+    }
     override suspend fun addValue(forecastModel: ForecastModel) {
         appDatabase.forecastDao().addValue(
             converter.convertToStorage(forecastModel)

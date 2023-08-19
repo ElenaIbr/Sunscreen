@@ -63,21 +63,19 @@ class IndexViewModel @Inject constructor(
         viewModelScope.launch {
             getUvValueUseCase.execute(Unit).collect { flow ->
                 _indexState.value = _indexState.value.copy(
-                    index = flow?.indexModel
+                    index = flow?.indexModel,
+                    solarActivityLevel = getSolarActivityLevel(flow?.indexModel?.value ?: 0.0)
                 )
                 getForecast()
             }
         }
     }
     private fun getForecast() {
-        _indexState.value.index?.date?.let { date ->
-            viewModelScope.launch {
-                getForecastByDateUseCase.execute(date).collect { flow ->
-                    _indexState.value = _indexState.value.copy(
-                        forecast = flow,
-                        solarActivityLevel = getForecastByCurrentTime(flow)
-                    )
-                }
+        viewModelScope.launch {
+            getForecastByDateUseCase.execute(getLocalDateTime()).collect { flow ->
+                _indexState.value = _indexState.value.copy(
+                    forecast = flow
+                )
             }
         }
     }
@@ -147,13 +145,11 @@ enum class SolarActivity {
     VeryHigh
 }
 
-fun getForecastByCurrentTime(forecast: List<ForecastModel.Hour>?): SolarActivity {
-    val rightNow = Calendar.getInstance()
-    val currentHourIn24Format: Int =rightNow.get(Calendar.HOUR_OF_DAY)
-    return when (forecast?.find { it.hour.toInt() ==  currentHourIn24Format }?.uv ?: 0.0) {
-        in 0.0..3.0 -> SolarActivity.Low
-        in 3.0..6.0 -> SolarActivity.Medium
-        in 6.0..8.0 -> SolarActivity.High
+fun getSolarActivityLevel(index: Double): SolarActivity {
+    return when (index) {
+        in 0.0..2.0 -> SolarActivity.Low
+        in 2.0..5.0 -> SolarActivity.Medium
+        in 5.0..8.0 -> SolarActivity.High
         in 8.0..10.0 -> SolarActivity.VeryHigh
         else -> SolarActivity.VeryHigh
     }

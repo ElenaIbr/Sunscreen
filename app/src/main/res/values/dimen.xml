@@ -29,7 +29,7 @@
     <dimen name="secondary_button_corner">8dp</dimen>
     <dimen name="secondary_button_border">1dp</dimen>
     <dimen name="input_field_corner">4dp</dimen>
-    <dimen name="chart_bar_graph_height">300dp</dimen>
+    <dimen name="chart_bar_graph_height">150dp</dimen>
     <dimen name="chart_bar_graph_width">32dp</dimen>
     <dimen name="chart_corner">8dp</dimen>
     <dimen name="chart_sun_icon">220dp</dimen>

@@ -9,6 +9,7 @@ interface ForecastRepository {
     suspend fun getAll(): List<ForecastModel>
     fun getFirstValue(): Flow<ForecastModel?>
     fun getForecastByrDate(date: Instant): Flow<ForecastModel?>
+    fun getForecastInFlow(): Flow<List<ForecastModel>>
     suspend fun addValue(forecastModel: ForecastModel)
     suspend fun updateValue(forecastModel: ForecastModel)
     suspend fun deleteValue(forecastModel: ForecastModel)

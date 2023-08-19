@@ -2,6 +2,6 @@ package com.example.domain.usecases
 
 import com.example.domain.base.FlowUseCaseInterface
 import com.example.domain.models.ForecastModel
-import java.time.Instant
+import java.time.LocalDateTime
 
-interface GetForecastByDateUseCase : FlowUseCaseInterface<Instant, List<ForecastModel.Hour>?>
+interface GetForecastByDateUseCase : FlowUseCaseInterface<LocalDateTime, ForecastModel?>

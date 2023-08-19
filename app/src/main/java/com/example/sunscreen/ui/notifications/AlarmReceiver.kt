@@ -45,7 +45,7 @@ class AlarmReceiver : BroadcastReceiver() {
                 .atZone(TimeZone.getDefault().toZoneId())
                 .toInstant()
                 .truncatedTo(ChronoUnit.DAYS)
-            getForecastByDateUseCase.execute(currentDate).collect { forecastList ->
+            /*getForecastByDateUseCase.execute(currentDate).collect { forecastList ->
                 val notificationManager = ContextCompat.getSystemService(
                     context,
                     NotificationManager::class.java
@@ -56,7 +56,7 @@ class AlarmReceiver : BroadcastReceiver() {
                     channelId = context.getString(R.string.reminders_notification_channel_id),
                     forecastList = forecastList
                 )
-            }
+            }*/
             getUserUseCase.execute(Unit).collect { flow ->
                 when(flow) {
                     is GetUserEntity.Success -> {
