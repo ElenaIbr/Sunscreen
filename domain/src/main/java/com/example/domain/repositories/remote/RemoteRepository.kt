@@ -19,6 +19,5 @@ interface RemoteRepository {
         date: String
     ): Resource<Double>
     fun startFetchForecastInBackground(fetchForecastModel: FetchUvIndexModel)
-    fun startGetLocationInBackground()
     fun getCurrentLocation(): Flow<String?>
 }

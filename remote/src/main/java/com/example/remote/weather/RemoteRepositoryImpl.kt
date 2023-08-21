@@ -34,8 +34,7 @@ class RemoteRepositoryImpl @Inject constructor(
     private val forecastApi: ForecastApi,
     private val weatherMapper: WeatherMapper,
     private val forecastMapper: ForecastMapper,
-    private val fetchForecastWorker: PeriodicWorkRequest.Builder,
-    private val getLocationWorker: PeriodicWorkRequest.Builder
+    private val fetchForecastWorker: PeriodicWorkRequest.Builder
 ): RemoteRepository {
     override suspend fun getWeather(coordinates: String): Resource<IndexModel> {
         return weatherApi.getCurrentWeather(coordinates).let { response ->
@@ -225,16 +224,6 @@ class RemoteRepositoryImpl @Inject constructor(
             "FetchForecastWorker",
             ExistingPeriodicWorkPolicy.KEEP,
             fetchForecastWork
-        )
-    }
-
-    override fun startGetLocationInBackground() {
-        val data = Data.Builder().putString("nothing", "").build()
-        val getLocationWork = getLocationWorker.setInputData(data).build()
-        WorkManager.getInstance(context).enqueueUniquePeriodicWork(
-            "GetLocationWorker",
-            ExistingPeriodicWorkPolicy.KEEP,
-            getLocationWork
         )
     }
     override fun getCurrentLocation(): Flow<String?> = callbackFlow {

@@ -91,13 +91,6 @@ fun NotificationLayout(
             )
         }
         if (switchCheckedState) {
-            Divider(
-                modifier = Modifier
-                    .padding(
-                        vertical = dimensionResource(id = R.dimen.spacer_16),
-                    ),
-                color = UiColors.textContent.disabled
-            )
             NotificationsTimePicker(
                 modifier = Modifier
                     .padding(

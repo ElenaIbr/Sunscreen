@@ -7,7 +7,6 @@ import com.example.domain.models.SolarActivity
 import com.example.domain.usecases.FetchForecastInBackgroundUseCase
 import com.example.domain.usecases.FetchUvUseCase
 import com.example.domain.usecases.GetForecastByDateUseCase
-import com.example.domain.usecases.GetLocationInBackgroundUseCase
 import com.example.domain.usecases.GetUserNameUseCase
 import com.example.domain.usecases.GetUvValueUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -28,7 +27,6 @@ class IndexViewModel @Inject constructor(
     private val getUvValueUseCase: GetUvValueUseCase,
     private val getUserNameUseCase: GetUserNameUseCase,
     private val fetchForecastInBackgroundUseCase: FetchForecastInBackgroundUseCase,
-    private val getLocationInBackgroundUseCase: GetLocationInBackgroundUseCase,
     private val getForecastByDateUseCase: GetForecastByDateUseCase
 ) : ViewModel() {
 
@@ -36,7 +34,6 @@ class IndexViewModel @Inject constructor(
     val indexState: StateFlow<IndexState> = _indexState
 
     init {
-        getLocation()
         getUvValue()
         getUserName()
     }
@@ -124,11 +121,6 @@ class IndexViewModel @Inject constructor(
                 latitude = latitude,
                 longitude = longitude
             )
-        }
-    }
-    private fun getLocation() {
-        viewModelScope.launch {
-            getLocationInBackgroundUseCase.execute(Unit)
         }
     }
 }
