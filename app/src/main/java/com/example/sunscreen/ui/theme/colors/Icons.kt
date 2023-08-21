@@ -8,12 +8,16 @@ import com.example.sunscreen.R
 abstract class Icons {
     abstract val primary: Color
         @Composable get
+    abstract val secondary: Color
+        @Composable get
 }
 
 object IconsLight : Icons() {
     override val primary: Color @Composable get() = colorResource(id = R.color.color_icon_primary)
+    override val secondary: Color @Composable get() = colorResource(id = R.color.color_icon_secondary)
 }
 
 object IconsDark : Icons() {
     override val primary: Color @Composable get() = colorResource(id = R.color.color_icon_primary)
+    override val secondary: Color @Composable get() = colorResource(id = R.color.color_icon_secondary)
 }

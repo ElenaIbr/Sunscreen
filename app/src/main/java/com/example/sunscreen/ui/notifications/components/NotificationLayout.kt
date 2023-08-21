@@ -10,8 +10,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material3.Switch
-import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -27,6 +25,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import com.example.domain.models.Notification
 import com.example.sunscreen.R
+import com.example.sunscreen.ui.components.PrimarySwitch
 import com.example.sunscreen.ui.theme.UiColors
 
 @Composable
@@ -69,28 +68,21 @@ fun NotificationLayout(
                 color = UiColors.textContent.primary,
                 style = MaterialTheme.typography.subtitle1
             )
-            Switch(
-                checked = switchCheckedState,
-                onCheckedChange = { state ->
-                    switchCheckedState = state
-                },
-                colors = SwitchDefaults.colors(
-                    checkedThumbColor = UiColors.mainBrand.secondary,
-                    checkedTrackColor = UiColors.background.baseWhite,
-                    checkedBorderColor = UiColors.mainBrand.secondary,
-                    uncheckedThumbColor = UiColors.textContent.disabled,
-                    uncheckedTrackColor = UiColors.background.baseWhite,
-                    uncheckedBorderColor = UiColors.textContent.disabled,
-                    disabledCheckedThumbColor = UiColors.mainBrand.secondary,
-                    disabledCheckedTrackColor = UiColors.background.baseWhite,
-                    disabledCheckedBorderColor = UiColors.mainBrand.secondary,
-                    disabledUncheckedThumbColor = UiColors.textContent.disabled,
-                    disabledUncheckedTrackColor = UiColors.background.baseWhite,
-                    disabledUncheckedBorderColor = UiColors.textContent.disabled,
-                )
+            PrimarySwitch(
+                initialState = switchCheckedState,
+                onStateChanged = { value ->
+                    switchCheckedState = value
+                }
             )
         }
         if (switchCheckedState) {
+            Divider(
+                modifier = Modifier
+                    .padding(
+                        vertical = dimensionResource(id = R.dimen.spacer_16),
+                    ),
+                color = UiColors.textContent.disabled
+            )
             NotificationsTimePicker(
                 modifier = Modifier
                     .padding(
@@ -102,17 +94,11 @@ fun NotificationLayout(
                     start.value = value
                 }
             )
-            Divider(
-                modifier = Modifier
-                    .padding(
-                        vertical = dimensionResource(id = R.dimen.spacer_16),
-                    ),
-                color = UiColors.textContent.disabled
-            )
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(
+                        vertical = dimensionResource(id = R.dimen.spacer_16),
                         horizontal = dimensionResource(id = R.dimen.spacer_16),
                     ),
                 verticalAlignment = Alignment.CenterVertically

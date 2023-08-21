@@ -62,6 +62,12 @@
     <dimen name="profile_input_field_border">1dp</dimen>
     <dimen name="profile_padding">16dp</dimen>
     <dimen name="questionnaire_screen_top_padding">16dp</dimen>
-
     <dimen name="location_icon_size">18dp</dimen>
+
+    <dimen name="switch_default_width">60dp</dimen>
+    <dimen name="switch_default_height">30dp</dimen>
+    <dimen name="switch_track_size">28dp</dimen>
+    <dimen name="switch_border_width">2dp</dimen>
+    <dimen name="switch_icon_padding">4dp</dimen>
+
 </resources>

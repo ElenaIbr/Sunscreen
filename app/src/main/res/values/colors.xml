@@ -28,6 +28,7 @@
     <color name="primary_button_disable">#86AEAEAA</color>
     <color name="primary_button_content_disable">#B3ADAD</color>
     <color name="color_icon_primary">#001D3D</color>
+    <color name="color_icon_secondary">#DAFFFFFF</color>
     <color name="background_base_white">#FFFFFF</color>
     <color name="background_base_primary">#F4E6C2</color>
     <color name="text_primary">#001219</color>
