@@ -1,7 +1,9 @@
 package com.example.sunscreen.ui.main
 
 import android.Manifest
+import android.app.Activity
 import android.content.pm.PackageManager
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Box
@@ -38,6 +40,10 @@ fun MainScreen(
     val launcherMultiplePermissions = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { _ -> }
+
+    BackHandler() {
+        (context as Activity).finish()
+    }
 
     OnLifecycleEvent { _, event ->
         when (event) {

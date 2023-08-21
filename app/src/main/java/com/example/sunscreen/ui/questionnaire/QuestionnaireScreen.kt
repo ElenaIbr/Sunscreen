@@ -31,19 +31,16 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.domain.models.Notification
 import com.example.domain.models.UserModel
 import com.example.sunscreen.R
+import com.example.sunscreen.ui.components.SplashScreen
 import com.example.sunscreen.ui.components.buttons.ButtonState
-import com.example.sunscreen.ui.components.input.InputField
-import com.example.sunscreen.ui.components.input.InputYearField
 import com.example.sunscreen.ui.components.buttons.PrimaryButton
 import com.example.sunscreen.ui.components.buttons.SecondaryButton
-import com.example.sunscreen.ui.components.SplashScreen
-import com.example.sunscreen.ui.notifications.components.NotificationLayout
+import com.example.sunscreen.ui.components.input.InputField
+import com.example.sunscreen.ui.components.input.InputYearField
 import com.example.sunscreen.ui.questionnaire.components.QuestionList
 import com.example.sunscreen.ui.questionnaire.models.QuestionStep
-import com.example.sunscreen.ui.questionnaire.viewmodel.EnableNotification
 import com.example.sunscreen.ui.questionnaire.viewmodel.QuestionnaireViewModel
 import com.example.sunscreen.ui.questionnaire.viewmodel.SetBirthDate
 import com.example.sunscreen.ui.questionnaire.viewmodel.SetQuestionNumber
@@ -89,9 +86,6 @@ fun QuestionnaireScreen(
             }
             QuestionStep.SkinColor -> {
                 viewModel.sendEvent(SetQuestionNumber(QuestionStep.SkinType))
-            }
-            QuestionStep.Notifications -> {
-                viewModel.sendEvent(SetQuestionNumber(QuestionStep.SkinColor))
             }
         }
     }
@@ -212,16 +206,6 @@ fun QuestionnaireScreen(
                             }
                         )
                     }
-                    QuestionStep.Notifications -> {
-                        NotificationLayout(
-                            notification = Notification(),
-                            onSetNotificationTime = { notification ->
-                                viewModel.sendEvent(
-                                    EnableNotification(notification)
-                                )
-                            }
-                        )
-                    }
                 }
             }
             Row(
@@ -262,10 +246,7 @@ fun QuestionnaireScreen(
                         QuestionStep.SkinType -> {
                             if (questionsState.skinType == null) ButtonState.DISABLED else ButtonState.DEFAULT
                         }
-                        QuestionStep.SkinColor -> {
-                            if (questionsState.skinColor == null) ButtonState.DISABLED else ButtonState.DEFAULT
-                        }
-                        QuestionStep.Notifications -> ButtonState.DEFAULT
+                        QuestionStep.SkinColor -> ButtonState.DEFAULT
                     },
                     onClick = {
                         if (

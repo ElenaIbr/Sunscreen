@@ -17,10 +17,6 @@ enum class QuestionStep(
     SkinColor (
         number = 2,
         question = R.string.skin_color_question
-    ),
-    Notifications (
-        number = 3,
-        question = R.string.notifications_question
     );
 
     companion object {
@@ -39,7 +35,6 @@ enum class QuestionStep(
             0 -> PersonalData
             1 -> SkinType
             2 -> SkinColor
-            3 -> Notifications
             else -> PersonalData
         }
     }
