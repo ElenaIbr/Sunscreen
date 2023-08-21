@@ -1,5 +1,7 @@
 package com.example.sunscreen.di
 
+import com.example.domain.usecases.FetchForecastForNotification
+import com.example.domain.usecases.FetchForecastForNotificationImpl
 import com.example.domain.usecases.FetchForecastUseCase
 import com.example.domain.usecases.FetchForecastUseCaseImpl
 import com.example.domain.usecases.GetForecastByDateUseCase
@@ -35,4 +37,9 @@ abstract class WorkerUseCaseModule {
     abstract fun bindGetUserUseCase(
         getUserUseCase: GetUserUseCaseImpl
     ): GetUserUseCase
+
+    @Binds
+    abstract fun bindFetchForecastForNotification(
+        fetchForecastForNotification: FetchForecastForNotificationImpl
+    ): FetchForecastForNotification
 }

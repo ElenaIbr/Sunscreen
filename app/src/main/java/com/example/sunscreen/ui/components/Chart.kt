@@ -43,8 +43,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.sp
 import com.example.domain.models.ForecastModel
+import com.example.domain.models.SolarActivity
 import com.example.sunscreen.R
-import com.example.sunscreen.ui.index.viewmodel.SolarActivity
 import com.example.sunscreen.ui.theme.UiColors
 
 @Composable

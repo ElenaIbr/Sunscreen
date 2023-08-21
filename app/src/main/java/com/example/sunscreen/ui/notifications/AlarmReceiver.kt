@@ -9,22 +9,22 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
-import com.example.domain.models.ForecastModel
-import com.example.domain.usecases.GetForecastByDateUseCase
+import com.example.domain.models.SolarActivity
+import com.example.domain.usecases.FetchForecastForNotification
 import com.example.domain.usecases.GetUserEntity
 import com.example.domain.usecases.GetUserUseCase
 import com.example.sunscreen.MainActivity
 import com.example.sunscreen.R
-import com.example.sunscreen.ui.components.getSolarActivityLevel
-import com.example.sunscreen.ui.index.viewmodel.SolarActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
-import java.time.Instant
-import java.time.temporal.ChronoUnit
-import java.util.TimeZone
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.ZoneOffset
+import java.time.ZonedDateTime
+import java.util.Date
 import javax.inject.Inject
 
 const val NOTIFICATION_ID = 1
@@ -32,7 +32,7 @@ const val NOTIFICATION_ID = 1
 @AndroidEntryPoint
 class AlarmReceiver : BroadcastReceiver() {
     @Inject
-    lateinit var getForecastByDateUseCase: GetForecastByDateUseCase
+    lateinit var fetchForecastForNotification: FetchForecastForNotification
     @Inject
     lateinit var getUserUseCase: GetUserUseCase
 
@@ -41,26 +41,20 @@ class AlarmReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         coroutineScope.launch {
-            val currentDate = Instant.now()
-                .atZone(TimeZone.getDefault().toZoneId())
-                .toInstant()
-                .truncatedTo(ChronoUnit.DAYS)
-            /*getForecastByDateUseCase.execute(currentDate).collect { forecastList ->
-                val notificationManager = ContextCompat.getSystemService(
-                    context,
-                    NotificationManager::class.java
-                ) as NotificationManager
+            val notificationManager = ContextCompat.getSystemService(
+                context,
+                NotificationManager::class.java
+            ) as NotificationManager
 
-                notificationManager.sendReminderNotification(
-                    applicationContext = context,
-                    channelId = context.getString(R.string.reminders_notification_channel_id),
-                    forecastList = forecastList
-                )
-            }*/
+            notificationManager.sendReminderNotification(
+                applicationContext = context,
+                channelId = context.getString(R.string.reminders_notification_channel_id),
+                solarActivity = fetchForecastForNotification.execute(getLocalDateTime().toString()).data
+            )
             getUserUseCase.execute(Unit).collect { flow ->
                 when(flow) {
                     is GetUserEntity.Success -> {
-                        RemindersManager.startReminder(context.applicationContext, flow.userModel?.notifications?.start ?: "8:00", 0)
+                        RemindersManager.startReminder(context.applicationContext, flow.userModel?.notifications?.start ?: "22:15", 0)
                         cancelJob()
                     }
                     else -> {}
@@ -71,7 +65,7 @@ class AlarmReceiver : BroadcastReceiver() {
     private fun NotificationManager.sendReminderNotification(
         applicationContext: Context,
         channelId: String,
-        forecastList: List<ForecastModel.Hour>?,
+        solarActivity: SolarActivity?
     ) {
         val contentIntent = Intent(applicationContext, MainActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(
@@ -80,18 +74,16 @@ class AlarmReceiver : BroadcastReceiver() {
             contentIntent,
             PendingIntent.FLAG_IMMUTABLE
         )
-        forecastList?.maxOfOrNull { it.uv }?.let { index ->
-            val forecastNotificationBody = getNotificationBody(index.toString())
-            val builder = NotificationCompat.Builder(applicationContext, channelId)
-                .setContentTitle(applicationContext.getString(R.string.app_name))
-                .setContentText(
-                    applicationContext.getString(forecastNotificationBody.message)
-                )
-                .setSmallIcon(forecastNotificationBody.image)
-                .setContentIntent(pendingIntent)
-                .setAutoCancel(true)
-            notify(NOTIFICATION_ID, builder.build())
-        }
+        val forecastNotificationBody = getNotificationBody(solarActivity)
+        val builder = NotificationCompat.Builder(applicationContext, channelId)
+            .setContentTitle(applicationContext.getString(R.string.app_name))
+            .setContentText(
+                applicationContext.getString(forecastNotificationBody.message)
+            )
+            .setSmallIcon(forecastNotificationBody.image)
+            .setContentIntent(pendingIntent)
+            .setAutoCancel(true)
+        notify(NOTIFICATION_ID, builder.build())
     }
     private fun cancelJob() {
         job.cancel()
@@ -104,11 +96,9 @@ data class ForecastNotificationBody(
 )
 
 fun getNotificationBody(
-    indexValue: String
+    solarActivity: SolarActivity?
 ): ForecastNotificationBody {
-    return when (
-        getSolarActivityLevel(indexValue)
-    ) {
+    return when (solarActivity) {
         SolarActivity.Low -> {
             ForecastNotificationBody(
                 image = R.drawable.ic_sun_chart,
@@ -133,5 +123,18 @@ fun getNotificationBody(
                 message = R.string.low_level_notification_message
             )
         }
+        else -> {
+            ForecastNotificationBody(
+                image = R.drawable.ic_sun_chart,
+                message = R.string.low_level_notification_message
+            )
+        }
     }
+}
+
+fun getLocalDateTime(): LocalDateTime {
+    val date = Date()
+    val utc: ZonedDateTime = date.toInstant().atZone(ZoneOffset.UTC)
+    val default = utc.withZoneSameInstant(ZoneId.systemDefault())
+    return default.toLocalDateTime()
 }

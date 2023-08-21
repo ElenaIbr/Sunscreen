@@ -3,6 +3,7 @@ package com.example.sunscreen.ui.index.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.models.FetchUvIndexModel
+import com.example.domain.models.SolarActivity
 import com.example.domain.usecases.FetchForecastInBackgroundUseCase
 import com.example.domain.usecases.FetchUvUseCase
 import com.example.domain.usecases.GetForecastByDateUseCase
@@ -131,13 +132,6 @@ class IndexViewModel @Inject constructor(
         }
     }
 }
-enum class SolarActivity {
-    Low,
-    Medium,
-    High,
-    VeryHigh
-}
-
 fun getSolarActivityLevel(index: Double): SolarActivity {
     return when (index) {
         in 0.0..2.0 -> SolarActivity.Low

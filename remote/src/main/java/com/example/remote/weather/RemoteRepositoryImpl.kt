@@ -67,7 +67,7 @@ class RemoteRepositoryImpl @Inject constructor(
             alt = 100,
             dt = date
         ).let { response ->
-            Resource.Success(
+            /*Resource.Success(
                 ForecastModel(
                     date = Instant.now(),
                     forecast = listOf(
@@ -165,8 +165,8 @@ class RemoteRepositoryImpl @Inject constructor(
                         )
                     )
                 )
-            )
-            /*when (response) {
+            )*/
+            when (response) {
                 is ApiNetworkResult.Success -> {
                     if (response.data != null) {
                         Resource.Success(forecastMapper.convertFromRemote(response.data))
@@ -180,7 +180,7 @@ class RemoteRepositoryImpl @Inject constructor(
                 is ApiNetworkResult.Exception -> {
                     Resource.Error(response.e.message.toString())
                 }
-            }*/
+            }
         }
     }
     override suspend fun getCurrentUvIndex(
@@ -194,10 +194,10 @@ class RemoteRepositoryImpl @Inject constructor(
             alt = 100,
             dt = date
         ).let { response ->
-            Resource.Success(
+            /*Resource.Success(
                 9.0
-            )
-            /*when (response) {
+            )*/
+            when (response) {
                 is ApiNetworkResult.Success -> {
                     if (response.data != null) {
                         Resource.Success(response.data.result?.uv)
@@ -211,7 +211,7 @@ class RemoteRepositoryImpl @Inject constructor(
                 is ApiNetworkResult.Exception -> {
                     Resource.Error(response.e.message.toString())
                 }
-            }*/
+            }
         }
     }
     override fun startFetchForecastInBackground(fetchForecastModel: FetchUvIndexModel) {

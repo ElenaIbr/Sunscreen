@@ -2,6 +2,7 @@ package com.example.sunscreen.ui.index.viewmodel
 
 import com.example.domain.models.ForecastModel
 import com.example.domain.models.IndexModel
+import com.example.domain.models.SolarActivity
 
 data class IndexState(
     val userName: String? = null,

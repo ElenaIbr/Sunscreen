@@ -33,6 +33,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.domain.models.SolarActivity
 import com.example.sunscreen.R
 import com.example.sunscreen.ui.components.Chart
 import com.example.sunscreen.ui.components.Loader
@@ -43,7 +44,6 @@ import com.example.sunscreen.ui.index.viewmodel.FetchForecast
 import com.example.sunscreen.ui.index.viewmodel.FetchUvValue
 import com.example.sunscreen.ui.index.viewmodel.IndexViewModel
 import com.example.sunscreen.ui.index.viewmodel.SetCoordinates
-import com.example.sunscreen.ui.index.viewmodel.SolarActivity
 import com.example.sunscreen.ui.theme.UiColors
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import java.io.IOException
