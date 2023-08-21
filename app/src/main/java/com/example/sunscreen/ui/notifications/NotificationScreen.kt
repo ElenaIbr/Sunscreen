@@ -35,7 +35,6 @@ fun NotificationScreen(
     val notificationState by notificationViewModel.notificationState.collectAsState()
 
     val context = LocalContext.current
-
     val systemUiController = rememberSystemUiController()
     val statusBarColor = UiColors.background.baseWhite
 
