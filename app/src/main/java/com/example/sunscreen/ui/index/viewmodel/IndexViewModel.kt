@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.models.FetchUvIndexModel
 import com.example.domain.models.SolarActivity
-import com.example.domain.usecases.FetchForecastInBackgroundUseCase
+import com.example.domain.usecases.FetchForecastUseCase
 import com.example.domain.usecases.FetchUvUseCase
 import com.example.domain.usecases.GetForecastByDateUseCase
 import com.example.domain.usecases.GetUserNameUseCase
@@ -26,7 +26,7 @@ class IndexViewModel @Inject constructor(
     private val fetchUvUseCase: FetchUvUseCase,
     private val getUvValueUseCase: GetUvValueUseCase,
     private val getUserNameUseCase: GetUserNameUseCase,
-    private val fetchForecastInBackgroundUseCase: FetchForecastInBackgroundUseCase,
+    private val fetchForecastUseCase: FetchForecastUseCase,
     private val getForecastByDateUseCase: GetForecastByDateUseCase
 ) : ViewModel() {
 
@@ -90,7 +90,7 @@ class IndexViewModel @Inject constructor(
     }
     private fun fetchForecast() {
         viewModelScope.launch {
-            fetchForecastInBackgroundUseCase.execute(
+            fetchForecastUseCase.execute(
                 FetchUvIndexModel(
                     longitude = _indexState.value.longitude ?: 0.0,
                     latitude = _indexState.value.latitude ?: 0.0,

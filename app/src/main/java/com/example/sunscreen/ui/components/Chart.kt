@@ -136,7 +136,7 @@ fun Chart(
                                 .height(dimensionResource(id = R.dimen.chart_bar_text_height)),
                             text = String.format("%.2f", hour.uv),
                             textAlign = TextAlign.Center,
-                            fontSize = 12.sp,
+                            fontSize = 10.sp,
                             color = textColor
                         )
                     }

@@ -1,7 +1,5 @@
 package com.example.sunscreen.di
 
-import com.example.domain.usecases.FetchForecastInBackgroundUseCase
-import com.example.domain.usecases.FetchForecastInBackgroundUseCaseImpl
 import com.example.domain.usecases.FetchUvUseCase
 import com.example.domain.usecases.FetchUvUseCaseImpl
 import com.example.domain.usecases.GetUserNameUseCase
@@ -45,9 +43,4 @@ abstract class ViewModelUseCaseModule {
     abstract fun bindUpdateNotificationsUseCase(
         updateNotificationsUseCase: UpdateNotificationsUseCaseImpl
     ): UpdateNotificationsUseCase
-
-    @Binds
-    abstract fun bindFetchForecastInBackgroundUseCase(
-        fetchForecastInBackgroundUseCase: FetchForecastInBackgroundUseCaseImpl
-    ): FetchForecastInBackgroundUseCase
 }
