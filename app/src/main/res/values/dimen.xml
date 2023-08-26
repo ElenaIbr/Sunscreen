@@ -50,7 +50,7 @@
     <dimen name="index_screen_start_padding">48dp</dimen>
     <dimen name="index_screen_chart_padding">12dp</dimen>
     <dimen name="default_loader_size">48dp</dimen>
-    <dimen name="default_loader_stroke_width">6dp</dimen>
+    <dimen name="default_loader_stroke_width">4dp</dimen>
     <dimen name="permissions_denied_screen_icon_size">220dp</dimen>
     <dimen name="permissions_denied_screen_text_padding">24dp</dimen>
     <dimen name="permissions_denied_button_padding">48dp</dimen>
