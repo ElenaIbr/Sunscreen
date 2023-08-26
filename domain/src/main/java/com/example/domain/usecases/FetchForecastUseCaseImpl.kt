@@ -23,10 +23,8 @@ class FetchForecastUseCaseImpl @Inject constructor(
             )
         ) {
             is Resource.Success -> {
-                result.successData?.let { list ->
-                    updateForecast(
-                        listOf(list)
-                    )
+                result.successData?.let { forecastModel ->
+                    updateForecast(forecastModel)
                 }
                 Resource.Success(Unit)
             }
@@ -35,10 +33,8 @@ class FetchForecastUseCaseImpl @Inject constructor(
             }
         }
     }
-    private suspend fun updateForecast(forecastDays: List<ForecastModel>) {
+    private suspend fun updateForecast(forecastDay: ForecastModel) {
         forecastRepository.clear()
-        forecastDays.sortedBy { it.date }.forEach { day ->
-            forecastRepository.addValue(day)
-        }
+        forecastRepository.addValue(forecastDay)
     }
 }
