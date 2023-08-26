@@ -119,7 +119,8 @@ class QuestionnaireViewModel @Inject constructor(
                     birthDate = _questionsState.value.birthDate,
                     skinType = _questionsState.value.skinType ?: UserModel.SkinType.Unknown,
                     skinColor = _questionsState.value.skinColor ?: UserModel.SkinColor.Unknown,
-                    notifications = _questionsState.value.notification
+                    coordinates = null,
+                    notifications = Notification()
                 )
             )
         }

@@ -8,7 +8,8 @@ data class UserModel(
     val birthDate: String,
     val skinType: SkinType,
     val skinColor: SkinColor,
-    val notifications: Notification
+    val coordinates: Coordinates?,
+    val notifications: Notification?
 ) {
     enum class SkinType{
         Normal,

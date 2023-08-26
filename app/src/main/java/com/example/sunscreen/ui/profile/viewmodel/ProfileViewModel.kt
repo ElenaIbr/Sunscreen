@@ -102,7 +102,8 @@ class ProfileViewModel @Inject constructor(
                     birthDate = _profileState.value.updatedBirthDate ?: "",
                     skinType = _profileState.value.updatedSkinType ?: UserModel.SkinType.Unknown,
                     skinColor = _profileState.value.updatedSkinColor ?: UserModel.SkinColor.Unknown,
-                    notifications = Notification()
+                    coordinates = null,
+                    notifications = null
                 )
             )
         }

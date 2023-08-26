@@ -5,7 +5,6 @@ import com.example.domain.models.UserModel
 import com.example.domain.repositories.storage.UserRepository
 import com.example.domain.utils.Resource
 import kotlinx.coroutines.Dispatchers
-import java.util.UUID
 import javax.inject.Inject
 
 class UpdateUserUseCaseImpl @Inject constructor(
@@ -13,16 +12,19 @@ class UpdateUserUseCaseImpl @Inject constructor(
 ) : UpdateUserUseCase,
     SingleUseCase<UserModel, Resource<Unit>>(Dispatchers.IO) {
     override suspend fun action(input: UserModel): Resource<Unit> {
-        return try {
-            val currentUser = userRepository.getUser()
+        val currentUser = userRepository.getUser()
+        if (currentUser != null) {
             userRepository.updateUser(
-                input.copy(
-                    id = currentUser?.id ?: UUID.randomUUID()
+                currentUser.copy(
+                    name = input.name,
+                    birthDate = input.birthDate,
+                    skinType = input.skinType,
+                    skinColor = input.skinColor
                 )
             )
-            Resource.Success(Unit)
-        } catch (e: Exception) {
-            Resource.Error("")
+        } else {
+            userRepository.addUser(input)
         }
+        return Resource.Success(Unit)
     }
 }

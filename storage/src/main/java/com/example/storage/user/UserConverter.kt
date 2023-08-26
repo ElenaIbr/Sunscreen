@@ -13,6 +13,7 @@ class UserConverter @Inject constructor(): StorageConverter<UserStorageModel, Us
                 birthDate = birthDate,
                 skinType = skinType,
                 skinColor = skinColor,
+                coordinates = coordinates,
                 notifications = notifications
             )
         }
@@ -26,6 +27,7 @@ class UserConverter @Inject constructor(): StorageConverter<UserStorageModel, Us
                 birthDate = birthDate,
                 skinType = skinType,
                 skinColor = skinColor,
+                coordinates = coordinates,
                 notifications = notifications
             )
         }

@@ -12,6 +12,7 @@ import com.example.storage.forecast.ForecastStorageModel
 import com.example.storage.index.IndexDao
 import com.example.storage.index.IndexStorageModel
 import com.example.storage.index.InstantConverter
+import com.example.storage.user.CoordinatesConverter
 import com.example.storage.user.NotificationsConverter
 import com.example.storage.user.SkinColorConverter
 import com.example.storage.user.UserDao
@@ -24,7 +25,7 @@ import com.example.storage.user.SkinTypeConverter
         UserStorageModel::class,
         ForecastStorageModel::class
     ],
-    version = 8,
+    version = 9,
     exportSchema = false
 )
 @TypeConverters(
@@ -33,7 +34,8 @@ import com.example.storage.user.SkinTypeConverter
     NotificationsConverter::class,
     ForecastModelConverter::class,
     ForecastModelHourConverter::class,
-    InstantConverter::class
+    InstantConverter::class,
+    CoordinatesConverter::class
 )
 abstract class AppDatabase: RoomDatabase() {
 

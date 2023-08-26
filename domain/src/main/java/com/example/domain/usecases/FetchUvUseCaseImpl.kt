@@ -1,7 +1,7 @@
 package com.example.domain.usecases
 
 import com.example.domain.base.SingleUseCase
-import com.example.domain.models.FetchUvIndexModel
+import com.example.domain.models.Coordinates
 import com.example.domain.models.IndexModel
 import com.example.domain.repositories.remote.RemoteRepository
 import com.example.domain.repositories.storage.IndexRepository
@@ -15,9 +15,9 @@ class FetchUvUseCaseImpl @Inject constructor(
     private val remoteRepository: RemoteRepository,
     private val indexRepository: IndexRepository
 ) : FetchUvUseCase,
-    SingleUseCase<FetchUvIndexModel, Resource<Unit>>(Dispatchers.IO)
+    SingleUseCase<Coordinates, Resource<Unit>>(Dispatchers.IO)
 {
-    override suspend fun action(input: FetchUvIndexModel): Resource<Unit> {
+    override suspend fun action(input: Coordinates): Resource<Unit> {
         return when (
             val result = remoteRepository.getCurrentUvIndex(
                 latitude = input.latitude,

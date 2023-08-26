@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.example.domain.models.FetchUvIndexModel
+import com.example.domain.models.Coordinates
 import com.example.domain.usecases.FetchForecastUseCase
 import com.example.domain.usecases.UpdateLocationUseCase
 import com.example.domain.utils.Resource
@@ -31,7 +31,7 @@ class FetchForecastWorker @AssistedInject constructor(
 
         return if (latitude != 0.0 && longitude != 0.0 && !date.isNullOrEmpty()) {
             fetchForecastUseCase.execute(
-                input = FetchUvIndexModel(
+                input = Coordinates(
                     latitude = latitude,
                     longitude = longitude,
                     date = date

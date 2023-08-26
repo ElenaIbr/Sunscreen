@@ -2,7 +2,7 @@ package com.example.sunscreen.ui.index.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.models.FetchUvIndexModel
+import com.example.domain.models.Coordinates
 import com.example.domain.models.SolarActivity
 import com.example.domain.usecases.FetchForecastUseCase
 import com.example.domain.usecases.FetchUvUseCase
@@ -91,7 +91,7 @@ class IndexViewModel @Inject constructor(
     private fun fetchForecast() {
         viewModelScope.launch {
             fetchForecastUseCase.execute(
-                FetchUvIndexModel(
+                Coordinates(
                     longitude = _indexState.value.longitude ?: 0.0,
                     latitude = _indexState.value.latitude ?: 0.0,
                     date = getLocalDateTime().toString()
@@ -103,7 +103,7 @@ class IndexViewModel @Inject constructor(
         viewModelScope.launch {
             if (_indexState.value.latitude != null && _indexState.value.longitude != null) {
                 fetchUvUseCase.execute(
-                    input = FetchUvIndexModel(
+                    input = Coordinates(
                         latitude = _indexState.value.latitude ?: 0.0,
                         longitude = _indexState.value.longitude ?: 0.0,
                         date = getLocalDateTime().toString()

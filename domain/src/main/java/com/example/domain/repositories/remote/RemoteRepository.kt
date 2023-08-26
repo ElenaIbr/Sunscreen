@@ -1,6 +1,6 @@
 package com.example.domain.repositories.remote
 
-import com.example.domain.models.FetchUvIndexModel
+import com.example.domain.models.Coordinates
 import com.example.domain.models.ForecastModel
 import com.example.domain.models.IndexModel
 import com.example.domain.utils.Resource
@@ -18,6 +18,6 @@ interface RemoteRepository {
         longitude: Double,
         date: String
     ): Resource<Double>
-    fun startFetchForecastInBackground(fetchForecastModel: FetchUvIndexModel)
+    fun startFetchForecastInBackground(fetchForecastModel: Coordinates)
     fun getCurrentLocation(): Flow<String?>
 }
