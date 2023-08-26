@@ -6,7 +6,7 @@ How it works:
 
 1) When user opens the app for the first he answeres questions and gives permissions to use the device location:
 
-https://github.com/ElenaIbr/Sunscreen/assets/87421176/506f455b-4c77-474c-ad46-94820969a9da
+https://github.com/ElenaIbr/Sunscreen/assets/87421176/ef6d847c-b904-4122-b855-0f05adde17a1
 
 2) It is possible to update the profile later:
 
@@ -30,6 +30,9 @@ This is the first version of the app. What i am going to do next:
 - implement forecast for 3 days
 - repeat notifications several times a day if needed
 - implement logic about skin type and age
+
+- move UI and dependencies to separate modules
+- update API to get forecats for several days
 
 
 
