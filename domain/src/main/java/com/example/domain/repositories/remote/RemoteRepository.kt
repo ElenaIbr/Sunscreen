@@ -19,5 +19,6 @@ interface RemoteRepository {
         date: String
     ): Resource<Double>
     fun startFetchForecastInBackground(fetchForecastModel: Coordinates)
+    fun startGetUpdateLocationWorker()
     fun getLocation(): Flow<Coordinates>
 }

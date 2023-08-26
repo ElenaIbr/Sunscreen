@@ -13,6 +13,7 @@ import com.example.remote.weather.WeatherApiFactory
 import com.example.remote.weather.WeatherMapper
 import com.example.remote.weather.RemoteRepositoryImpl
 import com.example.sunscreen.workers.FetchForecastWorker
+import com.example.sunscreen.workers.UpdateLocationWorker
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -63,7 +64,8 @@ object RemoteModule {
             forecastApi = forecastApi,
             weatherMapper = weatherMapper,
             forecastMapper = forecastMapper,
-            fetchForecastWorker = getFetchForecastWorkerBuilder()
+            fetchForecastWorker = getFetchForecastWorkerBuilder(),
+            getUpdateLocationWorker = getUpdateLocationWorkerBuilder()
         )
     }
 
@@ -75,6 +77,17 @@ object RemoteModule {
 
         return PeriodicWorkRequest.Builder(
             FetchForecastWorker::class.java, 24, TimeUnit.HOURS
+        ).setConstraints(constraints)
+    }
+
+    private fun getUpdateLocationWorkerBuilder(): PeriodicWorkRequest.Builder {
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.NOT_REQUIRED)
+            .setRequiresBatteryNotLow(true)
+            .build()
+
+        return PeriodicWorkRequest.Builder(
+            UpdateLocationWorker::class.java, 15, TimeUnit.MINUTES
         ).setConstraints(constraints)
     }
 }

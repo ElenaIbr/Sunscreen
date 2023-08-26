@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
+import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.work.Data
 import androidx.work.ExistingPeriodicWorkPolicy
@@ -31,7 +32,8 @@ class RemoteRepositoryImpl @Inject constructor(
     private val forecastApi: ForecastApi,
     private val weatherMapper: WeatherMapper,
     private val forecastMapper: ForecastMapper,
-    private val fetchForecastWorker: PeriodicWorkRequest.Builder
+    private val fetchForecastWorker: PeriodicWorkRequest.Builder,
+    private val getUpdateLocationWorker: PeriodicWorkRequest.Builder
 ): RemoteRepository {
     override suspend fun getWeather(coordinates: String): Resource<IndexModel> {
         return weatherApi.getCurrentWeather(coordinates).let { response ->
@@ -223,6 +225,14 @@ class RemoteRepositoryImpl @Inject constructor(
             fetchForecastWork
         )
     }
+    override fun startGetUpdateLocationWorker() {
+        val getUpdateLocationWorker = getUpdateLocationWorker.build()
+        WorkManager.getInstance(context).enqueueUniquePeriodicWork(
+            "GetUpdateLocationWorker",
+            ExistingPeriodicWorkPolicy.KEEP,
+            getUpdateLocationWorker
+        )
+    }
     override fun getLocation(): Flow<Coordinates> = callbackFlow {
         val permissions = arrayOf(
             Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -235,6 +245,7 @@ class RemoteRepositoryImpl @Inject constructor(
             fusedLocationClient.lastLocation
                 .addOnSuccessListener { location : Location? ->
                     location?.let { locationValue ->
+                        Log.d("adsfsf", locationValue.toString())
                         trySend(
                             Coordinates(
                                 latitude = locationValue.latitude,

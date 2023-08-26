@@ -16,12 +16,12 @@ class UpdateLocationUseCaseImpl @Inject constructor(
     override suspend fun action(input: Unit): Resource<Unit> {
         return try {
             remoteRepository.getLocation().collect { coordinates ->
-                Log.d("dsdfaf", coordinates.toString())
                 userRepository.updateUserCoordinates(coordinates)
             }
             Resource.Success(Unit)
         } catch(e: Exception) {
-            Resource.Error("Unable to update location")
+            Log.e("UpdateLocationUseCase", e.message.toString())
+            Resource.Error("Unable update location")
         }
     }
 }

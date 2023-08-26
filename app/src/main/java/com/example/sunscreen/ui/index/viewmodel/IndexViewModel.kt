@@ -9,6 +9,7 @@ import com.example.domain.usecases.FetchUvUseCase
 import com.example.domain.usecases.GetForecastByDateUseCase
 import com.example.domain.usecases.GetUserNameUseCase
 import com.example.domain.usecases.GetUvValueUseCase
+import com.example.domain.usecases.UpdateLocationInBackgroundUseCase
 import com.example.domain.usecases.UpdateLocationUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -29,7 +30,8 @@ class IndexViewModel @Inject constructor(
     private val getUserNameUseCase: GetUserNameUseCase,
     private val fetchForecastUseCase: FetchForecastUseCase,
     private val getForecastByDateUseCase: GetForecastByDateUseCase,
-    private val updateLocationUseCase: UpdateLocationUseCase
+    private val updateLocationUseCase: UpdateLocationUseCase,
+    private val updateLocationInBackgroundUseCase: UpdateLocationInBackgroundUseCase
 ) : ViewModel() {
 
     private val _indexState = MutableStateFlow(IndexState())
@@ -38,6 +40,7 @@ class IndexViewModel @Inject constructor(
     init {
         getUvValue()
         getUserName()
+        updateLocationInBackgroundUseCase()
     }
 
     fun sendEvent(indexEvent: IndexEvent) {
@@ -129,6 +132,12 @@ class IndexViewModel @Inject constructor(
     fun updateLocation() {
         viewModelScope.launch {
             updateLocationUseCase.execute(Unit)
+        }
+    }
+
+    private fun updateLocationInBackgroundUseCase() {
+        viewModelScope.launch {
+            updateLocationInBackgroundUseCase.execute(Unit)
         }
     }
 }

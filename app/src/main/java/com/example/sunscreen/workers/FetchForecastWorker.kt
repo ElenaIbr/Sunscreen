@@ -19,12 +19,6 @@ class FetchForecastWorker @AssistedInject constructor(
     private val updateLocationUseCase: UpdateLocationUseCase
 ) : CoroutineWorker(context, params) {
     override suspend fun doWork(): Result {
-        updateLocationUseCase.execute(Unit).let { result ->
-            when (result) {
-                is Resource.Success -> {}
-                is Resource.Error -> Result.retry()
-            }
-        }
         val latitude = inputData.getDouble("latitude", 0.0)
         val longitude = inputData.getDouble("longitude", 0.0)
         val date = inputData.getString("date")

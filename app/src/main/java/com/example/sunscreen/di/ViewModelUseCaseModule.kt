@@ -4,8 +4,12 @@ import com.example.domain.usecases.FetchUvUseCase
 import com.example.domain.usecases.FetchUvUseCaseImpl
 import com.example.domain.usecases.GetUserNameUseCase
 import com.example.domain.usecases.GetUserNameUseCaseImpl
+import com.example.domain.usecases.GetUserUseCase
+import com.example.domain.usecases.GetUserUseCaseImpl
 import com.example.domain.usecases.GetUvValueUseCase
 import com.example.domain.usecases.GetUvValueUseCaseImpl
+import com.example.domain.usecases.UpdateLocationInBackgroundUseCase
+import com.example.domain.usecases.UpdateLocationInBackgroundUseCaseImpl
 import com.example.domain.usecases.UpdateNotificationsUseCase
 import com.example.domain.usecases.UpdateNotificationsUseCaseImpl
 import com.example.domain.usecases.UpdateUserUseCase
@@ -43,4 +47,14 @@ abstract class ViewModelUseCaseModule {
     abstract fun bindUpdateNotificationsUseCase(
         updateNotificationsUseCase: UpdateNotificationsUseCaseImpl
     ): UpdateNotificationsUseCase
+
+    @Binds
+    abstract fun bindGetUserUseCase(
+        getUserUseCase: GetUserUseCaseImpl
+    ): GetUserUseCase
+
+    @Binds
+    abstract fun bindUpdateLocationInBackgroundUseCase(
+        updateLocationInBackgroundUseCase: UpdateLocationInBackgroundUseCaseImpl
+    ): UpdateLocationInBackgroundUseCase
 }

@@ -6,8 +6,8 @@ import com.example.domain.usecases.FetchForecastUseCase
 import com.example.domain.usecases.FetchForecastUseCaseImpl
 import com.example.domain.usecases.GetForecastByDateUseCase
 import com.example.domain.usecases.GetForecastByDateUseCaseImpl
-import com.example.domain.usecases.GetUserUseCase
-import com.example.domain.usecases.GetUserUseCaseImpl
+import com.example.domain.usecases.GetUserSingleUseCase
+import com.example.domain.usecases.GetUserSingleUseCaseImpl
 import com.example.domain.usecases.UpdateLocationUseCase
 import com.example.domain.usecases.UpdateLocationUseCaseImpl
 import dagger.Binds
@@ -34,9 +34,9 @@ abstract class WorkerUseCaseModule {
     ): GetForecastByDateUseCase
 
     @Binds
-    abstract fun bindGetUserUseCase(
-        getUserUseCase: GetUserUseCaseImpl
-    ): GetUserUseCase
+    abstract fun bindGetUserSingleUseCase(
+        getUserSingleUseCase: GetUserSingleUseCaseImpl
+    ): GetUserSingleUseCase
 
     @Binds
     abstract fun bindFetchForecastForNotification(

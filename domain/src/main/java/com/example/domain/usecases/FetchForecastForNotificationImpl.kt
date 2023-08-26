@@ -5,41 +5,41 @@ import com.example.domain.models.ForecastModel
 import com.example.domain.models.SolarActivity
 import com.example.domain.repositories.remote.RemoteRepository
 import com.example.domain.repositories.storage.ForecastRepository
+import com.example.domain.repositories.storage.UserRepository
 import com.example.domain.utils.Resource
 import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
 
 class FetchForecastForNotificationImpl @Inject constructor(
     private val remoteRepository: RemoteRepository,
-    private val forecastRepository: ForecastRepository
+    private val forecastRepository: ForecastRepository,
+    private val userRepository: UserRepository
 ) : FetchForecastForNotification,
-    SingleUseCase<String, Resource<SolarActivity>>(Dispatchers.IO) {
-    override suspend fun action(input: String): Resource<SolarActivity> {
-        return when (
-            val result = remoteRepository.getForecast(
-                latitude = 52.050757,
-                longitude = 4.3394762,
-                date = input
-            )
-        ) {
-            is Resource.Success -> {
-                result.successData?.let { list ->
-                    updateForecast(
-                        listOf(list)
-                    )
+    SingleUseCase<Unit, Resource<SolarActivity>>(Dispatchers.IO) {
+    override suspend fun action(input: Unit): Resource<SolarActivity> {
+        return userRepository.getUser()?.coordinates?.let { coordinates ->
+            return when (
+                val result = remoteRepository.getForecast(
+                    latitude = coordinates.latitude,
+                    longitude = coordinates.longitude,
+                    date = coordinates.date
+                )
+            ) {
+                is Resource.Success -> {
+                    result.successData?.let { forecast ->
+                        updateForecast(forecast)
+                    }
+                    Resource.Success(getSolarActivity(result.successData))
                 }
-                Resource.Success(getSolarActivity(result.successData))
+                is Resource.Error -> {
+                    Resource.Error("Unable fetch forecast")
+                }
             }
-            is Resource.Error -> {
-                Resource.Error("")
-            }
-        }
+        } ?: Resource.Error("No user found")
     }
-    private suspend fun updateForecast(forecastDays: List<ForecastModel>) {
+    private suspend fun updateForecast(forecastDay: ForecastModel) {
         forecastRepository.clear()
-        forecastDays.sortedBy { it.date }.forEach { day ->
-            forecastRepository.addValue(day)
-        }
+        forecastRepository.addValue(forecastDay)
     }
     private fun getSolarActivity(forecastModel: ForecastModel?): SolarActivity {
         return forecastModel?.forecast?.maxBy { it.uv }?.uv?.let { value ->

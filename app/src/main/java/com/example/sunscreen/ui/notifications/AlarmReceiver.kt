@@ -11,8 +11,8 @@ import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.example.domain.models.SolarActivity
 import com.example.domain.usecases.FetchForecastForNotification
-import com.example.domain.usecases.GetUserEntity
-import com.example.domain.usecases.GetUserUseCase
+import com.example.domain.usecases.GetUserSingleUseCase
+import com.example.domain.utils.Resource
 import com.example.sunscreen.MainActivity
 import com.example.sunscreen.R
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,11 +20,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.ZoneOffset
-import java.time.ZonedDateTime
-import java.util.Date
 import javax.inject.Inject
 
 const val NOTIFICATION_ID = 1
@@ -34,7 +29,7 @@ class AlarmReceiver : BroadcastReceiver() {
     @Inject
     lateinit var fetchForecastForNotification: FetchForecastForNotification
     @Inject
-    lateinit var getUserUseCase: GetUserUseCase
+    lateinit var getUserSingleUseCase: GetUserSingleUseCase
 
     private val job = SupervisorJob()
     private val coroutineScope = CoroutineScope(Dispatchers.IO + job)
@@ -46,18 +41,31 @@ class AlarmReceiver : BroadcastReceiver() {
                 NotificationManager::class.java
             ) as NotificationManager
 
-            notificationManager.sendReminderNotification(
-                applicationContext = context,
-                channelId = context.getString(R.string.reminders_notification_channel_id),
-                solarActivity = fetchForecastForNotification.execute(getLocalDateTime().toString()).data
-            )
-            getUserUseCase.execute(Unit).collect { flow ->
-                when(flow) {
-                    is GetUserEntity.Success -> {
-                        RemindersManager.startReminder(context.applicationContext, flow.userModel?.notifications?.start ?: "22:15", 0)
-                        cancelJob()
+            when(
+                val result = fetchForecastForNotification.execute(Unit)
+            ) {
+                is Resource.Success -> {
+                    result.successData?.let { solarActivity ->
+                        notificationManager.sendReminderNotification(
+                            applicationContext = context,
+                            channelId = context.getString(R.string.reminders_notification_channel_id),
+                            solarActivity = solarActivity
+                        )
                     }
-                    else -> {}
+                    RemindersManager.startReminder(
+                        context.applicationContext,
+                        getUserSingleUseCase.execute(Unit).data?.notifications?.start ?: "08:00",
+                        0
+                    )
+                    cancelJob()
+                }
+                is Resource.Error -> {
+                    RemindersManager.startReminder(
+                        context.applicationContext,
+                        getUserSingleUseCase.execute(Unit).data?.notifications?.start ?: "08:00",
+                        0
+                    )
+                    cancelJob()
                 }
             }
         }
@@ -130,11 +138,4 @@ fun getNotificationBody(
             )
         }
     }
-}
-
-fun getLocalDateTime(): LocalDateTime {
-    val date = Date()
-    val utc: ZonedDateTime = date.toInstant().atZone(ZoneOffset.UTC)
-    val default = utc.withZoneSameInstant(ZoneId.systemDefault())
-    return default.toLocalDateTime()
 }
