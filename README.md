@@ -21,3 +21,13 @@ https://github.com/ElenaIbr/Sunscreen/assets/87421176/a5605876-02d6-43d7-86f6-b1
 
 There are 4 levels of Uv-index: low, moderate, high and very high:
 
+<img width="250" alt="Снимок экрана 2023-08-26 в 21 38 02" src="https://github.com/ElenaIbr/Sunscreen/assets/87421176/e50e90bf-3a09-42a9-8742-9bea3cb1cc7c"> <img width="250" alt="Снимок экрана 2023-08-26 в 21 38 41" src="https://github.com/ElenaIbr/Sunscreen/assets/87421176/196284be-3648-4501-9d69-7a944f9461e6"> 
+
+<img width="250" alt="Снимок экрана 2023-08-26 в 21 43 31" src="https://github.com/ElenaIbr/Sunscreen/assets/87421176/5ad9c69f-215f-4ec8-bb64-8df451c8767d"> <img width="250" alt="Снимок экрана 2023-08-26 в 20 59 49" src="https://github.com/ElenaIbr/Sunscreen/assets/87421176/60865036-3ca3-4c01-84b3-2c021e312ae6">
+
+
+
+
+
+
+
