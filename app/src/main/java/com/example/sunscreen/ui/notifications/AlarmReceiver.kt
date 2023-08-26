@@ -10,6 +10,7 @@ import androidx.annotation.StringRes
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.example.domain.models.SolarActivity
+import com.example.domain.models.UserModel
 import com.example.domain.usecases.FetchForecastForNotification
 import com.example.domain.usecases.GetUserSingleUseCase
 import com.example.domain.utils.Resource
@@ -45,16 +46,18 @@ class AlarmReceiver : BroadcastReceiver() {
                 val result = fetchForecastForNotification.execute(Unit)
             ) {
                 is Resource.Success -> {
+                    val user = getUserSingleUseCase.execute(Unit).data
                     result.successData?.let { solarActivity ->
                         notificationManager.sendReminderNotification(
                             applicationContext = context,
                             channelId = context.getString(R.string.reminders_notification_channel_id),
+                            user = user,
                             solarActivity = solarActivity
                         )
                     }
                     RemindersManager.startReminder(
                         context.applicationContext,
-                        getUserSingleUseCase.execute(Unit).data?.notifications?.start ?: "08:00",
+                        user?.notifications?.start ?: "08:00",
                         0
                     )
                     cancelJob()
@@ -73,25 +76,28 @@ class AlarmReceiver : BroadcastReceiver() {
     private fun NotificationManager.sendReminderNotification(
         applicationContext: Context,
         channelId: String,
+        user: UserModel?,
         solarActivity: SolarActivity?
     ) {
-        val contentIntent = Intent(applicationContext, MainActivity::class.java)
-        val pendingIntent = PendingIntent.getActivity(
-            applicationContext,
-            1,
-            contentIntent,
-            PendingIntent.FLAG_IMMUTABLE
-        )
-        val forecastNotificationBody = getNotificationBody(solarActivity)
-        val builder = NotificationCompat.Builder(applicationContext, channelId)
-            .setContentTitle(applicationContext.getString(R.string.app_name))
-            .setContentText(
-                applicationContext.getString(forecastNotificationBody.message)
+        getNotificationBody(user ,solarActivity)?.let { notificationBody ->
+            val contentIntent = Intent(applicationContext, MainActivity::class.java)
+            val pendingIntent = PendingIntent.getActivity(
+                applicationContext,
+                1,
+                contentIntent,
+                PendingIntent.FLAG_IMMUTABLE
             )
-            .setSmallIcon(forecastNotificationBody.image)
-            .setContentIntent(pendingIntent)
-            .setAutoCancel(true)
-        notify(NOTIFICATION_ID, builder.build())
+            val forecastNotificationBody = getNotificationBody(user ,solarActivity)
+            val builder = NotificationCompat.Builder(applicationContext, channelId)
+                .setContentTitle(applicationContext.getString(R.string.app_name))
+                .setContentText(
+                    applicationContext.getString(notificationBody.message)
+                )
+                .setSmallIcon(notificationBody.image)
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true)
+            notify(NOTIFICATION_ID, builder.build())
+        }
     }
     private fun cancelJob() {
         job.cancel()
@@ -104,8 +110,9 @@ data class ForecastNotificationBody(
 )
 
 fun getNotificationBody(
+    user: UserModel?,
     solarActivity: SolarActivity?
-): ForecastNotificationBody {
+): ForecastNotificationBody? {
     return when (solarActivity) {
         SolarActivity.Low -> {
             ForecastNotificationBody(
@@ -116,26 +123,45 @@ fun getNotificationBody(
         SolarActivity.Medium -> {
             ForecastNotificationBody(
                 image = R.drawable.ic_sun_chart,
-                message = R.string.low_level_notification_message
+                message = when (user?.skinColor ?: UserModel.SkinColor.Unknown) {
+                    UserModel.SkinColor.Fair -> R.string.spf_type_fair_moderate_notification_message
+                    UserModel.SkinColor.Pale -> R.string.spf_type_pale_moderate_notification_message
+                    UserModel.SkinColor.Medium -> R.string.spf_type_medium_moderate_notification_message
+                    UserModel.SkinColor.Olive -> R.string.spf_type_olive_moderate_notification_message
+                    UserModel.SkinColor.Brown -> R.string.spf_type_brown_moderate_notification_message
+                    UserModel.SkinColor.Dark -> R.string.spf_type_dark_moderate_notification_message
+                    UserModel.SkinColor.Unknown -> R.string.medium_level_notification_message
+                }
             )
         }
         SolarActivity.High -> {
             ForecastNotificationBody(
                 image = R.drawable.ic_sun_chart,
-                message = R.string.low_level_notification_message
+                message = when (user?.skinColor ?: UserModel.SkinColor.Unknown) {
+                    UserModel.SkinColor.Fair -> R.string.spf_type_fair_high_notification_message
+                    UserModel.SkinColor.Pale -> R.string.spf_type_pale_high_notification_message
+                    UserModel.SkinColor.Medium -> R.string.spf_type_medium_high_notification_message
+                    UserModel.SkinColor.Olive -> R.string.spf_type_olive_high_notification_message
+                    UserModel.SkinColor.Brown -> R.string.spf_type_brown_high_notification_message
+                    UserModel.SkinColor.Dark -> R.string.spf_type_dark_high_notification_message
+                    UserModel.SkinColor.Unknown -> R.string.high_level_notification_message
+                }
             )
         }
         SolarActivity.VeryHigh -> {
             ForecastNotificationBody(
                 image = R.drawable.ic_sun_chart,
-                message = R.string.low_level_notification_message
+                message = when (user?.skinColor ?: UserModel.SkinColor.Unknown) {
+                    UserModel.SkinColor.Fair -> R.string.spf_type_fair_very_high_notification_message
+                    UserModel.SkinColor.Pale -> R.string.spf_type_pale_very_high_notification_message
+                    UserModel.SkinColor.Medium -> R.string.spf_type_medium_very_high_notification_message
+                    UserModel.SkinColor.Olive -> R.string.spf_type_olive_very_high_notification_message
+                    UserModel.SkinColor.Brown -> R.string.spf_type_brown_very_high_notification_message
+                    UserModel.SkinColor.Dark -> R.string.spf_type_dark_very_high_notification_message
+                    UserModel.SkinColor.Unknown -> R.string.very_high_level_notification_message
+                }
             )
         }
-        else -> {
-            ForecastNotificationBody(
-                image = R.drawable.ic_sun_chart,
-                message = R.string.low_level_notification_message
-            )
-        }
+        else -> null
     }
 }

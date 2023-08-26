@@ -1,21 +1,42 @@
 <resources>
     <string name="app_name">Sunscreen</string>
-
     <string name="personal_data_question">Please enter your name\nand date of birth</string>
     <string name="gender_question">\nChoose your gender</string>
     <string name="skin_type_question">\nChoose your skin type</string>
     <string name="skin_color_question">\nChoose your skin color</string>
     <string name="notifications_question">Do you want to receive\nnotifications?</string>
-
     <string name="low_level_message">A UV index reading of 0 to 2 means low danger from the Sun UV rays for the average person. Wear sunglasses on bright days. If you burn easily, cover up and use broad spectrum SPF 15+ sunscreen. Bright surfaces, sand, water, and snow will increase UV exposure.</string>
     <string name="moderate_level_message">A UV index reading of 3 to 5 means moderate risk of harm from unprotected sun exposure. Stay in shade near midday when the Sun is strongest. If outdoors, wear sun-protective clothing, a wide-brimmed hat, and UV-blocking sunglasses. Generously apply broad spectrum SPF 15+ sunscreen every 1.5 hours, even on cloudy days, and after swimming or sweating.</string>
     <string name="high_level_message">A UV index reading of 6 to 7 means high risk of harm from unprotected sun exposure. Protection against skin and eye damage is needed. If outdoors, seek shade and wear sun-protective clothing, a wide-brimmed hat, and UV-blocking sunglasses. Generously apply broad spectrum SPF 15+ sunscreen every 1.5 hours, even on cloudy days, and after swimming or sweating.</string>
     <string name="very_high_level_message">A UV index reading of 8 to 10 means very high risk of harm from unprotected sun exposure. Take extra precautions because unprotected skin and eyes will be damaged and can burn quickly. If outdoors, seek shade and wear sun-protective clothing, a wide-brimmed hat, and UV-blocking sunglasses. Generously apply broad spectrum SPF 15+ sunscreen every 1.5 hours, even on cloudy days, and after swimming or sweating.</string>
-
-    <string name="low_level_notification_message">It is not essential to put SPF on face today</string>
-    <string name="moderate_level_notification_message">In case of having a long walk it is necessary to put SPF 30 today</string>
-    <string name="very_high_level_notification_message">It is essential to put SPF 50+ on face.</string>
-
+    <string name="low_level_notification_message">UV-index level is low today. SPF 8+ is recommended if you are going to spend some time outdoors.</string>
+    <string name="medium_level_notification_message">UV-index level is moderate today. SPF is recommended if you are going to spend some time outdoors.</string>
+    <string name="high_level_notification_message">UV-index level is high today. SPF is recommended if you are going to spend some time outdoors.</string>
+    <string name="very_high_level_notification_message">UV-index level is very high today. SPF is recommended if you are going to spend some time outdoors.</string>
+    <string name="spf_type_fair_moderate_notification_message">UV-index level is moderate today. SPF 30+ is recommended.</string>
+    <string name="spf_type_pale_moderate_notification_message">UV-index level is moderate today. SPF 30+ is recommended.</string>
+    <string name="spf_type_medium_moderate_notification_message">UV-index level is moderate today. SPF 25+ is recommended.</string>
+    <string name="spf_type_olive_moderate_notification_message">UV-index level is moderate today. SPF 25+ is recommended.</string>
+    <string name="spf_type_brown_moderate_notification_message">UV-index level is moderate today. SPF 15+ is recommended.</string>
+    <string name="spf_type_dark_moderate_notification_message">UV-index level is moderate today. SPF 15+ is recommended.</string>
+    <string name="spf_type_fair_high_notification_message">UV-index level is high today. SPF 70+ is recommended.</string>
+    <string name="spf_type_pale_high_notification_message">UV-index level is high today. SPF 70+ is recommended.</string>
+    <string name="spf_type_medium_high_notification_message">UV-index level is high today. SPF 50+ is recommended.</string>
+    <string name="spf_type_olive_high_notification_message">UV-index level is high today. SPF 50+ is recommended.</string>
+    <string name="spf_type_brown_high_notification_message">UV-index level is high today. SPF 30+ is recommended.</string>
+    <string name="spf_type_dark_high_notification_message">UV-index level is high today. SPF 30+ is recommended.</string>
+    <string name="spf_type_fair_very_high_notification_message">If you are going to spend more than 2 hours outdoors use SPF 70+.</string>
+    <string name="spf_type_pale_very_high_notification_message">If you are going to spend more than 2 hours outdoors use SPF 70+.</string>
+    <string name="spf_type_medium_very_high_notification_message">If you are going to spend more than 2 hours outdoors use SPF 70+.</string>
+    <string name="spf_type_olive_very_high_notification_message">If you are going to spend more than 2 hours outdoors use SPF 70+.</string>
+    <string name="spf_type_brown_very_high_notification_message">If you are going to spend more than 2 hours outdoors use SPF 50+.</string>
+    <string name="spf_type_dark_very_high_notification_message">If you are going to spend more than 2 hours outdoors use SPF 50+.</string>
+    <string name="spf_type_fair">If you are going to spend more than 2 hours outdoors use SPF 50+.</string>
+    <string name="spf_type_pale">If you are going to spend more than 2 hours outdoors use SPF 50+.</string>
+    <string name="spf_type_medium">If you are going to spend more than 2 hours outdoors use SPF 30+.</string>
+    <string name="spf_type_olive">If you are going to spend more than 2 hours outdoors use SPF 30+.</string>
+    <string name="spf_type_brown">If you are going to spend more than 2 hours outdoors use SPF 15+.</string>
+    <string name="spf_type_dark">If you are going to spend more than 2 hours outdoors use SPF 15+.</string>
     <string name="previous">Previous</string>
     <string name="next">Next</string>
     <string name="complete">Complete</string>
@@ -24,14 +45,10 @@
     <string name="save">Save</string>
     <string name="uv_index_forecast_for">UV-index forecast for</string>
     <string name="today">today</string>
-
     <string name="reminders_notification_channel_id">1</string>
     <string name="reminders_notification_channel_name">channel1</string>
-
     <string name="changes_saved">Changes saved</string>
-
     <string name="uv_index">UV-index\n</string>
-
     <string name="access_denied">Location access denied</string>
     <string name="access_denied_message">For this feature, we need your location. Please enable location in your feature</string>
     <string name="settings">settings</string>
@@ -41,7 +58,5 @@
     <string name="icon">icon</string>
     <string name="Skin_color">Skin color:</string>
     <string name="Skin_type">Skin type:</string>
-
     <string name="hello">Hello</string>
-
 </resources>
