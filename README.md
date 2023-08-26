@@ -25,8 +25,11 @@ There are 4 levels of Uv-index: low, moderate, high and very high:
 
 <img width="250" alt="Снимок экрана 2023-08-26 в 21 43 31" src="https://github.com/ElenaIbr/Sunscreen/assets/87421176/5ad9c69f-215f-4ec8-bb64-8df451c8767d"> <img width="250" alt="Снимок экрана 2023-08-26 в 20 59 49" src="https://github.com/ElenaIbr/Sunscreen/assets/87421176/60865036-3ca3-4c01-84b3-2c021e312ae6">
 
+This is the first version of the app. What i am going to do next:
 
-
+- implement forecast for 3 days
+- repeat notifications several times a day if needed
+- implement logic about skin type and age
 
 
 
