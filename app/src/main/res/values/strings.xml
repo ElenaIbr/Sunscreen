@@ -22,6 +22,8 @@
     <string name="name">Name</string>
     <string name="dateOfBirth">Year of birth</string>
     <string name="save">Save</string>
+    <string name="uv_index_forecast_for">UV-index forecast for</string>
+    <string name="today">today</string>
 
     <string name="reminders_notification_channel_id">1</string>
     <string name="reminders_notification_channel_name">channel1</string>

@@ -35,6 +35,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.domain.models.SolarActivity
 import com.example.sunscreen.R
+import com.example.sunscreen.extensions.toStringDate
 import com.example.sunscreen.ui.components.Chart
 import com.example.sunscreen.ui.components.Loader
 import com.example.sunscreen.ui.components.banner.Banner
@@ -188,6 +189,7 @@ fun IndexScreen() {
             }
         }
         indexState.forecast?.let { forecast ->
+            val text = indexState.forecast?.date?.toStringDate() ?: stringResource(id = R.string.today)
             Text(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -195,7 +197,7 @@ fun IndexScreen() {
                         horizontal = dimensionResource(id = R.dimen.index_screen_horizontal_padding),
                         vertical = dimensionResource(id = R.dimen.index_screen_greeting_padding)
                     ),
-                text = "UV-index forecast for today:",
+                text = "${stringResource(id = R.string.uv_index_forecast_for)} $text:",
                 style = MaterialTheme.typography.body1,
                 color = UiColors.textContent.primary,
                 textAlign = TextAlign.Start
