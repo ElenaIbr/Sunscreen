@@ -4,6 +4,7 @@ import android.content.Context
 import android.location.Address
 import android.location.Geocoder
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -149,7 +150,11 @@ fun IndexScreen() {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Icon(
-                    modifier = Modifier.size(dimensionResource(id = R.dimen.location_icon_size)),
+                    modifier = Modifier
+                        .size(dimensionResource(id = R.dimen.location_icon_size))
+                        .clickable{
+                            viewModel.updateLocation()
+                        },
                     painter = painterResource(id = R.drawable.ic_location),
                     tint = UiColors.icons.primary,
                     contentDescription = null

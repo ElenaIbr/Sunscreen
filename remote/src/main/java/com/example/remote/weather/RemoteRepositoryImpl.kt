@@ -3,14 +3,13 @@ package com.example.remote.weather
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
-import android.os.Looper
-import android.util.Log
+import android.location.Location
 import androidx.core.content.ContextCompat
 import androidx.work.Data
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
-import com.example.domain.models.FetchUvIndexModel
+import com.example.domain.models.Coordinates
 import com.example.domain.models.ForecastModel
 import com.example.domain.models.IndexModel
 import com.example.domain.repositories.remote.RemoteRepository
@@ -19,10 +18,8 @@ import com.example.remote.base.ApiNetworkResult
 import com.example.remote.forecast.ForecastApi
 import com.example.remote.forecast.ForecastMapper
 import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationCallback
-import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
+import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import java.time.Instant
@@ -66,7 +63,7 @@ class RemoteRepositoryImpl @Inject constructor(
             alt = 100,
             dt = date
         ).let { response ->
-            /*Resource.Success(
+            Resource.Success(
                 ForecastModel(
                     date = Instant.now(),
                     forecast = listOf(
@@ -164,8 +161,8 @@ class RemoteRepositoryImpl @Inject constructor(
                         )
                     )
                 )
-            )*/
-            when (response) {
+            )
+            /*when (response) {
                 is ApiNetworkResult.Success -> {
                     if (response.data != null) {
                         Resource.Success(forecastMapper.convertFromRemote(response.data))
@@ -179,7 +176,7 @@ class RemoteRepositoryImpl @Inject constructor(
                 is ApiNetworkResult.Exception -> {
                     Resource.Error(response.e.message.toString())
                 }
-            }
+            }*/
         }
     }
     override suspend fun getCurrentUvIndex(
@@ -193,10 +190,10 @@ class RemoteRepositoryImpl @Inject constructor(
             alt = 100,
             dt = date
         ).let { response ->
-            /*Resource.Success(
+            Resource.Success(
                 9.0
-            )*/
-            when (response) {
+            )
+            /*when (response) {
                 is ApiNetworkResult.Success -> {
                     if (response.data != null) {
                         Resource.Success(response.data.result?.uv)
@@ -210,10 +207,10 @@ class RemoteRepositoryImpl @Inject constructor(
                 is ApiNetworkResult.Exception -> {
                     Resource.Error(response.e.message.toString())
                 }
-            }
+            }*/
         }
     }
-    override fun startFetchForecastInBackground(fetchForecastModel: FetchUvIndexModel) {
+    override fun startFetchForecastInBackground(fetchForecastModel: Coordinates) {
         val data = Data.Builder()
             .putDouble("latitude", fetchForecastModel.latitude)
             .putDouble("longitude", fetchForecastModel.longitude)
@@ -226,36 +223,28 @@ class RemoteRepositoryImpl @Inject constructor(
             fetchForecastWork
         )
     }
-    override fun getCurrentLocation(): Flow<String?> = callbackFlow {
+    override fun getLocation(): Flow<Coordinates> = callbackFlow {
         val permissions = arrayOf(
             Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.ACCESS_FINE_LOCATION
         )
         if (permissions.all { ContextCompat.checkSelfPermission(context, it) == PackageManager.PERMISSION_GRANTED }) {
-
-            var locationCallback: LocationCallback? = null
             var fusedLocationClient: FusedLocationProviderClient? = null
-
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
-            locationCallback = object : LocationCallback() {
-                override fun onLocationResult(p0: LocationResult) {
-                    for (lo in p0.locations) {
-                        trySend("${lo.latitude}${lo.longitude}")
+
+            fusedLocationClient.lastLocation
+                .addOnSuccessListener { location : Location? ->
+                    location?.let { locationValue ->
+                        trySend(
+                            Coordinates(
+                                latitude = locationValue.latitude,
+                                longitude = locationValue.longitude,
+                                date = ""
+                            )
+                        )
                     }
                 }
-            }
-            locationCallback.let {
-                val locationRequest = LocationRequest.create().apply {
-                    interval = 10000
-                    fastestInterval = 5000
-                    priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-                }
-                fusedLocationClient.requestLocationUpdates(
-                    locationRequest,
-                    it,
-                    Looper.getMainLooper()
-                )
-            }
         }
+        awaitClose()
     }
 }

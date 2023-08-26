@@ -25,11 +25,7 @@ class FetchForecastUseCaseImpl @Inject constructor(
             )
         ) {
             is Resource.Success -> {
-                userRepository.getUser()?.let { user ->
-                    userRepository.updateUser(
-                        user.copy(coordinates = input)
-                    )
-                }
+                updateCoordinates(input)
                 result.successData?.let { forecastModel ->
                     updateForecast(forecastModel)
                 }
@@ -43,5 +39,12 @@ class FetchForecastUseCaseImpl @Inject constructor(
     private suspend fun updateForecast(forecastDay: ForecastModel) {
         forecastRepository.clear()
         forecastRepository.addValue(forecastDay)
+    }
+    private suspend fun updateCoordinates(coordinates: Coordinates) {
+        userRepository.getUser()?.let { user ->
+            userRepository.updateUser(
+                user.copy(coordinates = coordinates)
+            )
+        }
     }
 }

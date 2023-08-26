@@ -1,5 +1,6 @@
 package com.example.storage.user
 
+import com.example.domain.models.Coordinates
 import com.example.domain.models.UserModel
 import com.example.domain.repositories.storage.UserRepository
 import com.example.storage.AppDatabase
@@ -18,31 +19,35 @@ class UserRepositoryImpl @Inject constructor(
             } ?: run { null }
         }
     }
-
     override suspend fun getUser(): UserModel? {
         return appDatabase.userDao().getUser()?.let { user ->
             converter.convertFromStorage(user)
         }
     }
-
     override suspend fun addUser(personStorageModel: UserModel) {
         appDatabase.userDao().addUser(
             converter.convertToStorage(personStorageModel)
         )
     }
-
     override suspend fun updateUser(personStorageModel: UserModel) {
         appDatabase.userDao().addUser(
             converter.convertToStorage(personStorageModel)
         )
     }
-
+    override suspend fun updateUserCoordinates(coordinates: Coordinates) {
+        getUser()?.let { user ->
+            updateUser(
+                user.copy(
+                    coordinates = coordinates
+                )
+            )
+        }
+    }
     override suspend fun deleteUser(personStorageModel: UserModel) {
         appDatabase.userDao().updateUser(
             converter.convertToStorage(personStorageModel)
         )
     }
-
     override suspend fun clear() {
         appDatabase.userDao().clear()
     }
