@@ -11,6 +11,7 @@ import com.example.domain.usecases.GetUserNameUseCase
 import com.example.domain.usecases.GetUvValueUseCase
 import com.example.domain.usecases.UpdateLocationInBackgroundUseCase
 import com.example.domain.usecases.UpdateLocationUseCase
+import com.example.domain.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -54,6 +55,9 @@ class IndexViewModel @Inject constructor(
             is SetCoordinates -> {
                 setCoordinates(indexEvent.latitude, indexEvent.longitude)
             }
+            is UpdateLocation -> {
+                updateLocation()
+            }
         }
     }
 
@@ -78,8 +82,7 @@ class IndexViewModel @Inject constructor(
         viewModelScope.launch {
             getForecastByDateUseCase.execute(getLocalDateTime()).collect { flow ->
                 _indexState.value = _indexState.value.copy(
-                    forecast = flow,
-                    isLoading = false
+                    forecast = flow
                 )
             }
         }
@@ -95,25 +98,43 @@ class IndexViewModel @Inject constructor(
     }
     private fun fetchForecast() {
         viewModelScope.launch {
-            fetchForecastUseCase.execute(
-                Coordinates(
-                    longitude = _indexState.value.longitude ?: 0.0,
-                    latitude = _indexState.value.latitude ?: 0.0,
-                    date = getLocalDateTime().toString()
+            when (
+                fetchForecastUseCase.execute(
+                    Coordinates(
+                        longitude = _indexState.value.longitude ?: 0.0,
+                        latitude = _indexState.value.latitude ?: 0.0,
+                        date = getLocalDateTime().toString()
+                    )
                 )
-            )
+            ) {
+                is Resource.Success -> {
+                    _indexState.value = _indexState.value.copy(
+                        isForecastLoading = false
+                    )
+                }
+                is Resource.Error -> {}
+            }
         }
     }
     private fun fetchUvValue() {
         viewModelScope.launch {
             if (_indexState.value.latitude != null && _indexState.value.longitude != null) {
-                fetchUvUseCase.execute(
-                    input = Coordinates(
-                        latitude = _indexState.value.latitude ?: 0.0,
-                        longitude = _indexState.value.longitude ?: 0.0,
-                        date = getLocalDateTime().toString()
+                when(
+                    fetchUvUseCase.execute(
+                        input = Coordinates(
+                            latitude = _indexState.value.latitude ?: 0.0,
+                            longitude = _indexState.value.longitude ?: 0.0,
+                            date = getLocalDateTime().toString()
+                        )
                     )
-                )
+                ) {
+                    is Resource.Success -> {
+                        _indexState.value = _indexState.value.copy(
+                            isLoading = false
+                        )
+                    }
+                    is Resource.Error -> {}
+                }
             }
         }
     }
@@ -129,7 +150,7 @@ class IndexViewModel @Inject constructor(
         }
     }
 
-    fun updateLocation() {
+    private fun updateLocation() {
         viewModelScope.launch {
             updateLocationUseCase.execute(Unit)
         }

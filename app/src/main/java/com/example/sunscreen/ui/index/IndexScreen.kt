@@ -46,6 +46,7 @@ import com.example.sunscreen.ui.index.viewmodel.FetchForecast
 import com.example.sunscreen.ui.index.viewmodel.FetchUvValue
 import com.example.sunscreen.ui.index.viewmodel.IndexViewModel
 import com.example.sunscreen.ui.index.viewmodel.SetCoordinates
+import com.example.sunscreen.ui.index.viewmodel.UpdateLocation
 import com.example.sunscreen.ui.theme.UiColors
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import java.io.IOException
@@ -95,13 +96,20 @@ fun IndexScreen() {
         )
     }
 
-    LaunchedEffect(indexState.solarActivityLevel) {
-        indexState.solarActivityLevel?.let { activity ->
-            background.value = when (activity) {
-                SolarActivity.Low -> low
-                SolarActivity.Medium -> medium
-                SolarActivity.High -> high
-                SolarActivity.VeryHigh -> veryHigh
+    LaunchedEffect(
+        key1 = indexState.solarActivityLevel,
+        key2 = indexState.isLoading
+    ) {
+        if (indexState.isLoading) {
+            background.value = unknown
+        } else {
+            indexState.solarActivityLevel?.let { activity ->
+                background.value = when (activity) {
+                    SolarActivity.Low -> low
+                    SolarActivity.Medium -> medium
+                    SolarActivity.High -> high
+                    SolarActivity.VeryHigh -> veryHigh
+                }
             }
         }
     }
@@ -153,7 +161,7 @@ fun IndexScreen() {
                     modifier = Modifier
                         .size(dimensionResource(id = R.dimen.location_icon_size))
                         .clickable{
-                            viewModel.updateLocation()
+                            viewModel.sendEvent(UpdateLocation())
                         },
                     painter = painterResource(id = R.drawable.ic_location),
                     tint = UiColors.icons.primary,

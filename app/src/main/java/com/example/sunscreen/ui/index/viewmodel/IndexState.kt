@@ -14,5 +14,6 @@ data class IndexState(
     val temperature: String? = null,
     val forecast: ForecastModel? = null,
     val solarActivityLevel: SolarActivity? = null,
-    val isLoading: Boolean = true
+    val isLoading: Boolean = true,
+    val isForecastLoading: Boolean = true
 )
