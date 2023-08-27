@@ -1,5 +1,7 @@
 package com.example.sunscreen.di
 
+import com.example.domain.usecases.CheckIfInternetAvailableUseCase
+import com.example.domain.usecases.CheckIfInternetAvailableUseCaseImpl
 import com.example.domain.usecases.FetchForecastForNotification
 import com.example.domain.usecases.FetchForecastForNotificationImpl
 import com.example.domain.usecases.FetchForecastUseCase
@@ -42,4 +44,9 @@ abstract class WorkerUseCaseModule {
     abstract fun bindFetchForecastForNotification(
         fetchForecastForNotification: FetchForecastForNotificationImpl
     ): FetchForecastForNotification
+
+    @Binds
+    abstract fun bindCheckIfInternetAvailableUseCase(
+        checkIfInternetAvailableUseCase: CheckIfInternetAvailableUseCaseImpl
+    ): CheckIfInternetAvailableUseCase
 }

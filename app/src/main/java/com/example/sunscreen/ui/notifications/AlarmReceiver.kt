@@ -11,6 +11,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.example.domain.models.SolarActivity
 import com.example.domain.models.UserModel
+import com.example.domain.usecases.CheckIfInternetAvailableUseCase
 import com.example.domain.usecases.FetchForecastForNotification
 import com.example.domain.usecases.GetUserSingleUseCase
 import com.example.domain.utils.Resource
@@ -31,6 +32,8 @@ class AlarmReceiver : BroadcastReceiver() {
     lateinit var fetchForecastForNotification: FetchForecastForNotification
     @Inject
     lateinit var getUserSingleUseCase: GetUserSingleUseCase
+    @Inject
+    lateinit var checkIfInternetAvailableUseCase: CheckIfInternetAvailableUseCase
 
     private val job = SupervisorJob()
     private val coroutineScope = CoroutineScope(Dispatchers.IO + job)
@@ -42,34 +45,44 @@ class AlarmReceiver : BroadcastReceiver() {
                 NotificationManager::class.java
             ) as NotificationManager
 
-            when(
-                val result = fetchForecastForNotification.execute(Unit)
-            ) {
-                is Resource.Success -> {
-                    val user = getUserSingleUseCase.execute(Unit).data
-                    result.successData?.let { solarActivity ->
-                        notificationManager.sendReminderNotification(
-                            applicationContext = context,
-                            channelId = context.getString(R.string.reminders_notification_channel_id),
-                            user = user,
-                            solarActivity = solarActivity
+            if (checkIfInternetAvailableUseCase.execute(Unit).data == true) {
+                when(
+                    val result = fetchForecastForNotification.execute(Unit)
+                ) {
+                    is Resource.Success -> {
+                        val user = getUserSingleUseCase.execute(Unit).data
+                        result.successData?.let { solarActivity ->
+                            notificationManager.sendReminderNotification(
+                                applicationContext = context,
+                                channelId = context.getString(R.string.reminders_notification_channel_id),
+                                user = user,
+                                solarActivity = solarActivity
+                            )
+                        }
+                        RemindersManager.startReminder(
+                            context.applicationContext,
+                            user?.notifications?.start ?: "08:00",
+                            0
                         )
+                        cancelJob()
                     }
-                    RemindersManager.startReminder(
-                        context.applicationContext,
-                        user?.notifications?.start ?: "08:00",
-                        0
-                    )
-                    cancelJob()
+                    is Resource.Error -> {
+                        RemindersManager.startReminder(
+                            context.applicationContext,
+                            getUserSingleUseCase.execute(Unit).data?.notifications?.start ?: "08:00",
+                            0
+                        )
+                        cancelJob()
+                    }
                 }
-                is Resource.Error -> {
-                    RemindersManager.startReminder(
-                        context.applicationContext,
-                        getUserSingleUseCase.execute(Unit).data?.notifications?.start ?: "08:00",
-                        0
-                    )
-                    cancelJob()
-                }
+            } else {
+                val user = getUserSingleUseCase.execute(Unit).data
+                RemindersManager.startReminder(
+                    context.applicationContext,
+                    getUserSingleUseCase.execute(Unit).data?.notifications?.start ?: "08:00",
+                    0
+                )
+                cancelJob()
             }
         }
     }

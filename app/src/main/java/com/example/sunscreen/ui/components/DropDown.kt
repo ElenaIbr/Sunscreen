@@ -20,16 +20,19 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.FontWeight
 import com.example.sunscreen.R
 import com.example.sunscreen.ui.theme.UiColors
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun DropDown(
     label: String,
@@ -39,6 +42,7 @@ fun DropDown(
     content: @Composable () -> Unit
 ) {
     var isOpen by remember { mutableStateOf(initiallyOpened) }
+    val keyboardController = LocalSoftwareKeyboardController.current
 
     val alpha = animateFloatAsState(
         targetValue = if (isOpen) 1f else 0f,
@@ -53,6 +57,7 @@ fun DropDown(
             modifier = Modifier
                 .fillMaxWidth()
                 .clickable {
+                    keyboardController?.hide()
                     isOpen = !isOpen
                 },
             horizontalArrangement = Arrangement.SpaceBetween,
