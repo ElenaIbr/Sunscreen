@@ -3,6 +3,7 @@ package com.example.sunscreen.ui.notifications
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -61,6 +62,7 @@ fun NotificationScreen(
                             reminderTime = it.start
                         )
                     }
+                    Toast.makeText(context, "Changes saved", Toast.LENGTH_SHORT).show()
                 }
             )
         },
@@ -86,7 +88,7 @@ fun NotificationScreen(
 private fun createNotificationsChannels(context: Context) {
     val channel = NotificationChannel(
         context.getString(R.string.reminders_notification_channel_id),
-        "name",
+        "notifications",
         NotificationManager.IMPORTANCE_HIGH
     )
     ContextCompat.getSystemService(context, NotificationManager::class.java)

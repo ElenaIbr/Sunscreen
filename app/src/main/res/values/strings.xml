@@ -61,4 +61,6 @@
     <string name="hello">Hello</string>
     <string name="no_internet_title">No Internet Connection</string>
     <string name="no_internet_content">Check your internet connection and try again.</string>
+    <string name="this_field_is_required">*This field is required</string>
+    <string name="please_input_a_valid_year">*Please input a valid number</string>
 </resources>

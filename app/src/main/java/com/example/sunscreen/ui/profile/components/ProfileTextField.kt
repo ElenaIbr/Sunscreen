@@ -16,6 +16,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import com.example.sunscreen.R
 import com.example.sunscreen.ui.theme.UiColors
@@ -69,11 +70,24 @@ fun ProfileTextField(
         trailingIcon = {
             if (value.isEmpty()) {
                 Icon(
-                    painter = painterResource(id = R.drawable.ic_info),
+                    painter = painterResource(id = R.drawable.ic_error),
                     tint = UiColors.textContent.error,
                     contentDescription = null
                 )
             }
         }
     )
+    if (value.isEmpty()) {
+        Text(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    start = dimensionResource(id = R.dimen.spacer_16),
+                    bottom = dimensionResource(id = R.dimen.profile_input_field_text_padding)
+                ),
+            text = stringResource(id = R.string.this_field_is_required),
+            color = UiColors.textContent.error,
+            style = MaterialTheme.typography.subtitle2
+        )
+    }
 }
