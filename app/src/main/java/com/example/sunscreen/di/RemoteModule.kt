@@ -8,6 +8,8 @@ import com.example.domain.repositories.remote.RemoteRepository
 import com.example.remote.forecast.ForecastApi
 import com.example.remote.forecast.ForecastMapper
 import com.example.remote.interceptor.AuthenticationInterceptor
+import com.example.domain.services.InternetConnectivityService
+import com.example.remote.services.InternetConnectivityServiceImpl
 import com.example.remote.weather.WeatherApi
 import com.example.remote.weather.WeatherApiFactory
 import com.example.remote.weather.WeatherMapper
@@ -89,5 +91,13 @@ object RemoteModule {
         return PeriodicWorkRequest.Builder(
             UpdateLocationWorker::class.java, 15, TimeUnit.MINUTES
         ).setConstraints(constraints)
+    }
+
+    @Singleton
+    @Provides
+    fun bindNetworkMonitorService(
+        context: Context
+    ): InternetConnectivityService {
+        return InternetConnectivityServiceImpl(context)
     }
 }

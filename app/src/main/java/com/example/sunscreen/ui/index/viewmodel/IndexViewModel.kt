@@ -23,7 +23,6 @@ import java.time.ZonedDateTime
 import java.util.Date
 import javax.inject.Inject
 
-
 @HiltViewModel
 class IndexViewModel @Inject constructor(
     private val fetchUvUseCase: FetchUvUseCase,

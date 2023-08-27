@@ -8,6 +8,8 @@ import com.example.domain.usecases.GetUserUseCase
 import com.example.domain.usecases.GetUserUseCaseImpl
 import com.example.domain.usecases.GetUvValueUseCase
 import com.example.domain.usecases.GetUvValueUseCaseImpl
+import com.example.domain.usecases.ObserveInternetConnectivityUseCase
+import com.example.domain.usecases.ObserveInternetConnectivityUseCaseImpl
 import com.example.domain.usecases.UpdateLocationInBackgroundUseCase
 import com.example.domain.usecases.UpdateLocationInBackgroundUseCaseImpl
 import com.example.domain.usecases.UpdateNotificationsUseCase
@@ -57,4 +59,9 @@ abstract class ViewModelUseCaseModule {
     abstract fun bindUpdateLocationInBackgroundUseCase(
         updateLocationInBackgroundUseCase: UpdateLocationInBackgroundUseCaseImpl
     ): UpdateLocationInBackgroundUseCase
+
+    @Binds
+    abstract fun bindObserveInternetConnectivityUseCase(
+        observeInternetConnectivityUseCase: ObserveInternetConnectivityUseCaseImpl
+    ): ObserveInternetConnectivityUseCase
 }
