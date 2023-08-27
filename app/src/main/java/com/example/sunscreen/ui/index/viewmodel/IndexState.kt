@@ -15,5 +15,6 @@ data class IndexState(
     val forecast: ForecastModel? = null,
     val solarActivityLevel: SolarActivity? = null,
     val isLoading: Boolean = true,
-    val isForecastLoading: Boolean = true
+    val isForecastLoading: Boolean = true,
+    val isInternetAvailable: Boolean = true
 )

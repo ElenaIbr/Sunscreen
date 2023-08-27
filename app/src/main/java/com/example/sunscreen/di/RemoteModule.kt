@@ -96,7 +96,7 @@ object RemoteModule {
     @Singleton
     @Provides
     fun bindNetworkMonitorService(
-        context: Context
+        @ApplicationContext context: Context,
     ): InternetConnectivityService {
         return InternetConnectivityServiceImpl(context)
     }

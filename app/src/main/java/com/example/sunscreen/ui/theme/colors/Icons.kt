@@ -10,14 +10,18 @@ abstract class Icons {
         @Composable get
     abstract val secondary: Color
         @Composable get
+    abstract val disabled: Color
+        @Composable get
 }
 
 object IconsLight : Icons() {
     override val primary: Color @Composable get() = colorResource(id = R.color.color_icon_primary)
     override val secondary: Color @Composable get() = colorResource(id = R.color.color_icon_secondary)
+    override val disabled: Color @Composable get() = colorResource(id = R.color.color_icon_disabled)
 }
 
 object IconsDark : Icons() {
     override val primary: Color @Composable get() = colorResource(id = R.color.color_icon_primary)
     override val secondary: Color @Composable get() = colorResource(id = R.color.color_icon_secondary)
+    override val disabled: Color @Composable get() = colorResource(id = R.color.color_icon_disabled)
 }

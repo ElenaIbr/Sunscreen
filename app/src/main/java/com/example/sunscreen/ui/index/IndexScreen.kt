@@ -41,10 +41,10 @@ import com.example.sunscreen.ui.components.Chart
 import com.example.sunscreen.ui.components.Loader
 import com.example.sunscreen.ui.components.banner.Banner
 import com.example.sunscreen.ui.components.banner.BannerValue
+import com.example.sunscreen.ui.components.banner.NoInternetBanner
 import com.example.sunscreen.ui.index.location.GetLocation
-import com.example.sunscreen.ui.index.viewmodel.FetchForecast
-import com.example.sunscreen.ui.index.viewmodel.FetchUvValue
 import com.example.sunscreen.ui.index.viewmodel.IndexViewModel
+import com.example.sunscreen.ui.index.viewmodel.ObserveInternetConnectivity
 import com.example.sunscreen.ui.index.viewmodel.SetCoordinates
 import com.example.sunscreen.ui.index.viewmodel.UpdateLocation
 import com.example.sunscreen.ui.theme.UiColors
@@ -65,8 +65,7 @@ fun IndexScreen() {
         key2 = indexState.longitude
     ) {
         if (indexState.latitude != null && indexState.longitude != null) {
-            viewModel.sendEvent(FetchUvValue())
-            viewModel.sendEvent(FetchForecast())
+            viewModel.sendEvent(ObserveInternetConnectivity())
         }
     }
 
@@ -160,7 +159,7 @@ fun IndexScreen() {
                 Icon(
                     modifier = Modifier
                         .size(dimensionResource(id = R.dimen.location_icon_size))
-                        .clickable{
+                        .clickable {
                             viewModel.sendEvent(UpdateLocation())
                         },
                     painter = painterResource(id = R.drawable.ic_location),
@@ -181,24 +180,37 @@ fun IndexScreen() {
             }
         }
         // Current Uv index
-        indexState.index?.value?.let { value ->
-            Column (
+        if (indexState.isInternetAvailable) {
+            indexState.index?.value?.let { value ->
+                Column (
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = dimensionResource(id = R.dimen.index_screen_greeting_padding))
+                ) {
+                    Banner(
+                        modifier = Modifier
+                            .padding(dimensionResource(id = R.dimen.banner_padding)),
+                        uvValue = when (indexState.solarActivityLevel) {
+                            SolarActivity.Low -> BannerValue.Low
+                            SolarActivity.Medium -> BannerValue.Medium
+                            SolarActivity.High -> BannerValue.High
+                            SolarActivity.VeryHigh -> BannerValue.VeryHigh
+                            else ->  BannerValue.Low
+                        },
+                        uvIndex = value
+                    )
+                }
+            }
+        } else {
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = dimensionResource(id = R.dimen.index_screen_greeting_padding))
+                    .padding(
+                        vertical = dimensionResource(id = R.dimen.spacer_16)
+                    ),
+                contentAlignment = Alignment.Center
             ) {
-                Banner(
-                    modifier = Modifier
-                        .padding(dimensionResource(id = R.dimen.banner_padding)),
-                    uvValue = when (indexState.solarActivityLevel) {
-                        SolarActivity.Low -> BannerValue.Low
-                        SolarActivity.Medium -> BannerValue.Medium
-                        SolarActivity.High -> BannerValue.High
-                        SolarActivity.VeryHigh -> BannerValue.VeryHigh
-                        else ->  BannerValue.Low
-                    },
-                    uvIndex = value
-                )
+                NoInternetBanner()
             }
         }
         indexState.forecast?.let { forecast ->
@@ -222,6 +234,7 @@ fun IndexScreen() {
                 contentAlignment = Alignment.Center
             ) {
                 Chart(
+                    isInternetAvailable = indexState.isInternetAvailable,
                     forecast = forecast,
                     textColor = textColor
                 )

@@ -10,6 +10,8 @@ abstract class Background {
         @Composable get
     abstract val basePrimary: Color
         @Composable get
+    abstract val disable: Color
+        @Composable get
 }
 
 object BackgroundLight : Background() {
@@ -17,6 +19,8 @@ object BackgroundLight : Background() {
         @Composable get() = colorResource(id = R.color.background_base_white)
     override val basePrimary: Color
         @Composable get() = colorResource(id = R.color.background_base_primary)
+    override val disable: Color
+        @Composable get() = colorResource(id = R.color.background_disable)
 }
 
 object BackgroundDark : Background() {
@@ -24,4 +28,6 @@ object BackgroundDark : Background() {
         @Composable get() = colorResource(id = R.color.background_base_white)
     override val basePrimary: Color
         @Composable get() = colorResource(id = R.color.background_base_primary)
+    override val disable: Color
+        @Composable get() = colorResource(id = R.color.background_disable)
 }

@@ -3,12 +3,14 @@ package com.example.sunscreen.ui.index.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.models.Coordinates
+import com.example.domain.models.InternetConnectivityEntity
 import com.example.domain.models.SolarActivity
 import com.example.domain.usecases.FetchForecastUseCase
 import com.example.domain.usecases.FetchUvUseCase
 import com.example.domain.usecases.GetForecastByDateUseCase
 import com.example.domain.usecases.GetUserNameUseCase
 import com.example.domain.usecases.GetUvValueUseCase
+import com.example.domain.usecases.ObserveInternetConnectivityUseCase
 import com.example.domain.usecases.UpdateLocationInBackgroundUseCase
 import com.example.domain.usecases.UpdateLocationUseCase
 import com.example.domain.utils.Resource
@@ -31,7 +33,8 @@ class IndexViewModel @Inject constructor(
     private val fetchForecastUseCase: FetchForecastUseCase,
     private val getForecastByDateUseCase: GetForecastByDateUseCase,
     private val updateLocationUseCase: UpdateLocationUseCase,
-    private val updateLocationInBackgroundUseCase: UpdateLocationInBackgroundUseCase
+    private val updateLocationInBackgroundUseCase: UpdateLocationInBackgroundUseCase,
+    private val observeInternetConnectivityUseCase: ObserveInternetConnectivityUseCase
 ) : ViewModel() {
 
     private val _indexState = MutableStateFlow(IndexState())
@@ -45,11 +48,8 @@ class IndexViewModel @Inject constructor(
 
     fun sendEvent(indexEvent: IndexEvent) {
         when(indexEvent) {
-            is FetchForecast -> {
-                fetchForecast()
-            }
-            is FetchUvValue -> {
-                fetchUvValue()
+            is ObserveInternetConnectivity -> {
+                observeInternetConnectivity()
             }
             is SetCoordinates -> {
                 setCoordinates(indexEvent.latitude, indexEvent.longitude)
@@ -57,6 +57,36 @@ class IndexViewModel @Inject constructor(
             is UpdateLocation -> {
                 updateLocation()
             }
+        }
+    }
+
+    private fun observeInternetConnectivity() {
+        viewModelScope.launch {
+            observeInternetConnectivityUseCase.execute(Unit).collect { flow ->
+                when (flow) {
+                    InternetConnectivityEntity.Available -> {
+                        _indexState.value = _indexState.value.copy(
+                            isInternetAvailable = true,
+                        )
+                        fetchData()
+                    }
+                    InternetConnectivityEntity.Unavailable -> {
+                        _indexState.value = _indexState.value.copy(
+                            isInternetAvailable = false,
+                            isLoading = false
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    private fun fetchData() {
+        viewModelScope.launch {
+            fetchForecast()
+        }
+        viewModelScope.launch {
+            fetchUvValue()
         }
     }
 

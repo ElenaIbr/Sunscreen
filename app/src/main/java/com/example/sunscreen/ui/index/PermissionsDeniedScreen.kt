@@ -23,8 +23,6 @@ import androidx.compose.ui.text.style.TextAlign
 import com.example.sunscreen.R
 import com.example.sunscreen.ui.components.buttons.ButtonState
 import com.example.sunscreen.ui.components.buttons.PrimaryButton
-import com.example.sunscreen.ui.index.viewmodel.FetchForecast
-import com.example.sunscreen.ui.index.viewmodel.FetchUvValue
 import com.example.sunscreen.ui.theme.UiColors
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 

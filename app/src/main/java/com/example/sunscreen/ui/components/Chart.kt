@@ -50,7 +50,8 @@ import com.example.sunscreen.ui.theme.UiColors
 @Composable
 fun Chart(
     forecast: ForecastModel,
-    textColor: Color
+    textColor: Color,
+    isInternetAvailable: Boolean
 ) {
     val chartBarGraphHeight = dimensionResource(id = R.dimen.chart_bar_graph_height)
     val chartBarGraphWidth = dimensionResource(id = R.dimen.chart_bar_graph_width)
@@ -77,7 +78,8 @@ fun Chart(
                 .clip(CircleShape)
                 .size(dimensionResource(id = R.dimen.chart_sun_icon)),
             painter = painterResource(id = R.drawable.ic_sun_chart),
-            tint = UiColors.mainBrand.primary.copy(alpha = 0.2F),
+            tint = if (isInternetAvailable) UiColors.mainBrand.primary.copy(alpha = 0.2F)
+            else UiColors.background.disable.copy(alpha = 0.4F),
             contentDescription = null
         )
     }
