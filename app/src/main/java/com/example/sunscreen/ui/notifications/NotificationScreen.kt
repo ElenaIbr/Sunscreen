@@ -55,11 +55,17 @@ fun NotificationScreen(
                 enabled = notificationState.notificationWasChanged,
                 onClick = {
                     notificationViewModel.sendEvent(UpdateNotifications())
-                    createNotificationsChannels(context)
-                    notificationState.notification?.let {
-                        RemindersManager.startReminder(
-                            context = context,
-                            reminderTime = it.start
+                    if (notificationState.notification?.notificationEnabled == true) {
+                        createNotificationsChannels(context)
+                        notificationState.notification?.let {
+                            RemindersManager.startReminder(
+                                context = context,
+                                reminderTime = it.start
+                            )
+                        }
+                    } else {
+                        RemindersManager.stopReminder(
+                            context = context
                         )
                     }
                     Toast.makeText(context, "Changes saved", Toast.LENGTH_SHORT).show()

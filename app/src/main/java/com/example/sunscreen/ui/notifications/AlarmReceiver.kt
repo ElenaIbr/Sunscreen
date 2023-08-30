@@ -45,12 +45,13 @@ class AlarmReceiver : BroadcastReceiver() {
                 NotificationManager::class.java
             ) as NotificationManager
 
+            val user = getUserSingleUseCase.execute(Unit).data
+
             if (checkIfInternetAvailableUseCase.execute(Unit).data == true) {
                 when(
                     val result = fetchForecastForNotification.execute(Unit)
                 ) {
                     is Resource.Success -> {
-                        val user = getUserSingleUseCase.execute(Unit).data
                         result.successData?.let { solarActivity ->
                             notificationManager.sendReminderNotification(
                                 applicationContext = context,
@@ -59,29 +60,22 @@ class AlarmReceiver : BroadcastReceiver() {
                                 solarActivity = solarActivity
                             )
                         }
-                        RemindersManager.startReminder(
-                            context.applicationContext,
-                            user?.notifications?.start ?: "08:00",
-                            0
-                        )
+                        user?.let { userModel ->
+                            startReminder(context, userModel)
+                        }
                         cancelJob()
                     }
                     is Resource.Error -> {
-                        RemindersManager.startReminder(
-                            context.applicationContext,
-                            getUserSingleUseCase.execute(Unit).data?.notifications?.start ?: "08:00",
-                            0
-                        )
+                        user?.let { userModel ->
+                            startReminder(context, userModel)
+                        }
                         cancelJob()
                     }
                 }
             } else {
-                val user = getUserSingleUseCase.execute(Unit).data
-                RemindersManager.startReminder(
-                    context.applicationContext,
-                    getUserSingleUseCase.execute(Unit).data?.notifications?.start ?: "08:00",
-                    0
-                )
+                user?.let { userModel ->
+                    startReminder(context, userModel)
+                }
                 cancelJob()
             }
         }
@@ -100,7 +94,6 @@ class AlarmReceiver : BroadcastReceiver() {
                 contentIntent,
                 PendingIntent.FLAG_IMMUTABLE
             )
-            val forecastNotificationBody = getNotificationBody(user ,solarActivity)
             val builder = NotificationCompat.Builder(applicationContext, channelId)
                 .setContentTitle(applicationContext.getString(R.string.app_name))
                 .setContentText(
@@ -110,6 +103,17 @@ class AlarmReceiver : BroadcastReceiver() {
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
             notify(NOTIFICATION_ID, builder.build())
+        }
+    }
+    private fun startReminder(context: Context, userModel: UserModel) {
+        userModel.notifications?.let { notification ->
+            if (notification.notificationEnabled) {
+                RemindersManager.startReminder(
+                    context.applicationContext,
+                    notification.start,
+                    0
+                )
+            }
         }
     }
     private fun cancelJob() {
