@@ -4,18 +4,26 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import com.example.sunscreen.ui.notifications.AlarmReceiver
+import com.example.domain.services.NotificationsManager
+import com.example.sunscreen.ui.notifications.NotificationsReceiver
 import java.util.Calendar
 import java.util.Locale
 
-class NotificationManagerImpl: NotificationManager {
-    override fun setNotifications(context: Context, hours: Int, minutes: Int, reminderId: Int) {
+private const val REMINDER_NOTIFICATION_REQUEST_CODE = 123
+
+class NotificationsManagerImpl(
+    private val context: Context
+): NotificationsManager {
+    override fun startNotifications(
+        reminderTime: String
+    ) {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val (hours, minutes) = reminderTime.split(":").map { it.toInt() }
         val intent =
-            Intent(context.applicationContext, AlarmReceiver::class.java).let { intent ->
+            Intent(context.applicationContext, NotificationsReceiver::class.java).let { intent ->
                 PendingIntent.getBroadcast(
                     context.applicationContext,
-                    reminderId,
+                    REMINDER_NOTIFICATION_REQUEST_CODE,
                     intent,
                     PendingIntent.FLAG_IMMUTABLE
                 )
@@ -35,13 +43,12 @@ class NotificationManagerImpl: NotificationManager {
             intent
         )
     }
-
-    override fun stopNotifications(context: Context, reminderId: Int) {
+    override fun stopNotifications() {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val intent = Intent(context, AlarmReceiver::class.java).let { intent ->
+        val intent = Intent(context, NotificationsReceiver::class.java).let { intent ->
             PendingIntent.getBroadcast(
                 context,
-                reminderId,
+                REMINDER_NOTIFICATION_REQUEST_CODE,
                 intent,
                 PendingIntent.FLAG_IMMUTABLE
             )

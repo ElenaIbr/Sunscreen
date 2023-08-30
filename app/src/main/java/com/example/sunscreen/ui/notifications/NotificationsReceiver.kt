@@ -11,6 +11,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.example.domain.models.SolarActivity
 import com.example.domain.models.UserModel
+import com.example.domain.services.NotificationsManager
 import com.example.domain.usecases.CheckIfInternetAvailableUseCase
 import com.example.domain.usecases.FetchForecastForNotification
 import com.example.domain.usecases.GetUserSingleUseCase
@@ -27,13 +28,15 @@ import javax.inject.Inject
 const val NOTIFICATION_ID = 1
 
 @AndroidEntryPoint
-class AlarmReceiver : BroadcastReceiver() {
+class NotificationsReceiver : BroadcastReceiver() {
     @Inject
     lateinit var fetchForecastForNotification: FetchForecastForNotification
     @Inject
     lateinit var getUserSingleUseCase: GetUserSingleUseCase
     @Inject
     lateinit var checkIfInternetAvailableUseCase: CheckIfInternetAvailableUseCase
+    @Inject
+    lateinit var notificationsManager: NotificationsManager
 
     private val job = SupervisorJob()
     private val coroutineScope = CoroutineScope(Dispatchers.IO + job)
@@ -53,7 +56,7 @@ class AlarmReceiver : BroadcastReceiver() {
                 ) {
                     is Resource.Success -> {
                         result.successData?.let { solarActivity ->
-                            notificationManager.sendReminderNotification(
+                            notificationManager.createNotification(
                                 applicationContext = context,
                                 channelId = context.getString(R.string.reminders_notification_channel_id),
                                 user = user,
@@ -61,26 +64,26 @@ class AlarmReceiver : BroadcastReceiver() {
                             )
                         }
                         user?.let { userModel ->
-                            startReminder(context, userModel)
+                            startReminder(userModel)
                         }
                         cancelJob()
                     }
                     is Resource.Error -> {
                         user?.let { userModel ->
-                            startReminder(context, userModel)
+                            startReminder(userModel)
                         }
                         cancelJob()
                     }
                 }
             } else {
                 user?.let { userModel ->
-                    startReminder(context, userModel)
+                    startReminder(userModel)
                 }
                 cancelJob()
             }
         }
     }
-    private fun NotificationManager.sendReminderNotification(
+    private fun NotificationManager.createNotification(
         applicationContext: Context,
         channelId: String,
         user: UserModel?,
@@ -105,13 +108,11 @@ class AlarmReceiver : BroadcastReceiver() {
             notify(NOTIFICATION_ID, builder.build())
         }
     }
-    private fun startReminder(context: Context, userModel: UserModel) {
+    private fun startReminder(userModel: UserModel) {
         userModel.notifications?.let { notification ->
             if (notification.notificationEnabled) {
-                RemindersManager.startReminder(
-                    context.applicationContext,
-                    notification.start,
-                    0
+                notificationsManager.startNotifications(
+                    notification.start
                 )
             }
         }

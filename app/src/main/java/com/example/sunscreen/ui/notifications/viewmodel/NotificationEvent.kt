@@ -4,6 +4,7 @@ import com.example.domain.models.Notification
 
 interface NotificationEvent
 
-class SetNotifications(val notification: Notification): NotificationEvent
+class ChangeNotifications(val notification: Notification): NotificationEvent
 
-class UpdateNotifications: NotificationEvent
+class SetNotifications(): NotificationEvent
+

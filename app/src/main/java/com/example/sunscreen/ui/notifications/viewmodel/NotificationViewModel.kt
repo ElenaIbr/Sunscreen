@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.domain.models.Notification
 import com.example.domain.usecases.GetUserEntity
 import com.example.domain.usecases.GetUserUseCase
+import com.example.domain.usecases.SetNotificationsUseCase
 import com.example.domain.usecases.UpdateNotificationsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,7 +16,8 @@ import javax.inject.Inject
 @HiltViewModel
 class NotificationViewModel @Inject constructor(
     private val getUserUseCase: GetUserUseCase,
-    private val updateNotificationsUseCase: UpdateNotificationsUseCase
+    private val updateNotificationsUseCase: UpdateNotificationsUseCase,
+    private val setNotificationsUseCase: SetNotificationsUseCase
 ) : ViewModel() {
 
     private val _notificationState = MutableStateFlow(NotificationState())
@@ -28,14 +30,13 @@ class NotificationViewModel @Inject constructor(
     fun sendEvent(notificationEvent: NotificationEvent) {
         when (notificationEvent) {
             is SetNotifications -> {
-                setNotifications(notificationEvent.notification)
+                setNotifications()
             }
-            is UpdateNotifications -> {
-                updateNotifications()
+            is ChangeNotifications -> {
+                setNotifications(notificationEvent.notification)
             }
         }
     }
-
     private fun getUser() {
         viewModelScope.launch {
             getUserUseCase.execute(Unit).collect { flow ->
@@ -74,5 +75,13 @@ class NotificationViewModel @Inject constructor(
             notificationWasChanged = _notificationState.value.notification?.notificationEnabled != _notificationState.value.user?.notifications?.notificationEnabled
                     || _notificationState.value.notification?.start != _notificationState.value.user?.notifications?.start
         )
+    }
+    private fun setNotifications() {
+        updateNotifications()
+        viewModelScope.launch {
+            _notificationState.value.notification?.let { notification ->
+                setNotificationsUseCase.execute(notification)
+            }
+        }
     }
 }

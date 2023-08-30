@@ -14,6 +14,8 @@ import com.example.remote.weather.WeatherApi
 import com.example.remote.weather.WeatherApiFactory
 import com.example.remote.weather.WeatherMapper
 import com.example.remote.weather.RemoteRepositoryImpl
+import com.example.domain.services.NotificationsManager
+import com.example.sunscreen.services.NotificationsManagerImpl
 import com.example.sunscreen.workers.FetchForecastWorker
 import com.example.sunscreen.workers.UpdateLocationWorker
 import dagger.Module
@@ -99,5 +101,13 @@ object RemoteModule {
         @ApplicationContext context: Context,
     ): InternetConnectivityService {
         return InternetConnectivityServiceImpl(context)
+    }
+
+    @Singleton
+    @Provides
+    fun bindNotificationsManager(
+        @ApplicationContext context: Context,
+    ): NotificationsManager {
+        return NotificationsManagerImpl(context)
     }
 }

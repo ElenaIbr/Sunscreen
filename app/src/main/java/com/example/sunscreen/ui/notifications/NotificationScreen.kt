@@ -22,9 +22,9 @@ import com.example.sunscreen.R
 import com.example.sunscreen.navigation.BottomBar
 import com.example.sunscreen.ui.components.TopBar
 import com.example.sunscreen.ui.notifications.components.NotificationLayout
+import com.example.sunscreen.ui.notifications.viewmodel.ChangeNotifications
 import com.example.sunscreen.ui.notifications.viewmodel.NotificationViewModel
 import com.example.sunscreen.ui.notifications.viewmodel.SetNotifications
-import com.example.sunscreen.ui.notifications.viewmodel.UpdateNotifications
 import com.example.sunscreen.ui.theme.UiColors
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
@@ -54,20 +54,10 @@ fun NotificationScreen(
             TopBar(
                 enabled = notificationState.notificationWasChanged,
                 onClick = {
-                    notificationViewModel.sendEvent(UpdateNotifications())
                     if (notificationState.notification?.notificationEnabled == true) {
                         createNotificationsChannels(context)
-                        notificationState.notification?.let {
-                            RemindersManager.startReminder(
-                                context = context,
-                                reminderTime = it.start
-                            )
-                        }
-                    } else {
-                        RemindersManager.stopReminder(
-                            context = context
-                        )
                     }
+                    notificationViewModel.sendEvent(SetNotifications())
                     Toast.makeText(context, "Changes saved", Toast.LENGTH_SHORT).show()
                 }
             )
@@ -83,7 +73,7 @@ fun NotificationScreen(
                 NotificationLayout(
                     notification = notification,
                     onSetNotificationTime = { notifications ->
-                        notificationViewModel.sendEvent(SetNotifications(notifications))
+                        notificationViewModel.sendEvent(ChangeNotifications(notifications))
                     }
                 )
             }
