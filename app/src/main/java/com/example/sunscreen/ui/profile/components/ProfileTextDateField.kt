@@ -92,7 +92,7 @@ fun ProfileTextDateField(
                 .fillMaxWidth()
                 .padding(
                     start = dimensionResource(id = R.dimen.spacer_16),
-                    bottom = dimensionResource(id = R.dimen.profile_input_field_text_padding)
+                    top = dimensionResource(id = R.dimen.profile_input_field_text_padding)
                 ),
             text = if (value.isEmpty()) stringResource(id = R.string.this_field_is_required)
             else stringResource(id = R.string.please_input_a_valid_year),
