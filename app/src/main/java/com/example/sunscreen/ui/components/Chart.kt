@@ -6,6 +6,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -51,7 +52,8 @@ import com.example.sunscreen.ui.theme.UiColors
 fun Chart(
     forecast: ForecastModel,
     textColor: Color,
-    isInternetAvailable: Boolean
+    isInternetAvailable: Boolean,
+    onBarGraphClick:(Double) -> Unit
 ) {
     val chartBarGraphHeight = dimensionResource(id = R.dimen.chart_bar_graph_height)
     val chartBarGraphWidth = dimensionResource(id = R.dimen.chart_bar_graph_width)
@@ -129,7 +131,8 @@ fun Chart(
                                         colorResource(id = R.color.chart_very_high).copy(alpha = 0.5F)
                                     }
                                 }
-                            ),
+                            )
+                            .clickable { onBarGraphClick.invoke(hour.uv) },
                         contentAlignment = Alignment.Center
                     ) {
                         Text(

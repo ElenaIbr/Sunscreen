@@ -57,6 +57,9 @@ class IndexViewModel @Inject constructor(
             is UpdateLocation -> {
                 updateLocation()
             }
+            is SetSolarActivity -> {
+                setSolarActivity(indexEvent.indexValue)
+            }
         }
     }
 
@@ -96,6 +99,7 @@ class IndexViewModel @Inject constructor(
                 flow?.indexModel?.let { indexModel ->
                     _indexState.value = _indexState.value.copy(
                         index = indexModel,
+                        indexValue = indexModel.value
                     )
                 }
                 flow?.indexModel?.value?.let { value ->
@@ -178,17 +182,21 @@ class IndexViewModel @Inject constructor(
             )
         }
     }
-
     private fun updateLocation() {
         viewModelScope.launch {
             updateLocationUseCase.execute(Unit)
         }
     }
-
     private fun updateLocationInBackgroundUseCase() {
         viewModelScope.launch {
             updateLocationInBackgroundUseCase.execute(Unit)
         }
+    }
+    private fun setSolarActivity(indexValue: Double) {
+        _indexState.value = _indexState.value.copy(
+            solarActivityLevel = getSolarActivityLevel(indexValue),
+            indexValue = indexValue
+        )
     }
 }
 fun getSolarActivityLevel(index: Double): SolarActivity {

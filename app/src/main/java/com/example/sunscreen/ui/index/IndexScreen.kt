@@ -51,6 +51,7 @@ import com.example.sunscreen.ui.index.location.GetLocation
 import com.example.sunscreen.ui.index.viewmodel.IndexViewModel
 import com.example.sunscreen.ui.index.viewmodel.ObserveInternetConnectivity
 import com.example.sunscreen.ui.index.viewmodel.SetCoordinates
+import com.example.sunscreen.ui.index.viewmodel.SetSolarActivity
 import com.example.sunscreen.ui.index.viewmodel.UpdateLocation
 import com.example.sunscreen.ui.theme.UiColors
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -201,7 +202,7 @@ fun IndexScreen() {
         }
         // Current Uv index
         if (indexState.isInternetAvailable) {
-            indexState.index?.value?.let { value ->
+            indexState.indexValue?.let { value ->
                 Column (
                     modifier = Modifier
                         .fillMaxWidth()
@@ -256,7 +257,10 @@ fun IndexScreen() {
                 Chart(
                     isInternetAvailable = indexState.isInternetAvailable,
                     forecast = forecast,
-                    textColor = textColor
+                    textColor = textColor,
+                    onBarGraphClick = { indexValue ->
+                        viewModel.sendEvent(SetSolarActivity(indexValue))
+                    }
                 )
             }
         }
