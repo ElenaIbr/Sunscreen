@@ -6,7 +6,7 @@ How it works:
 
 1) When user opens the app for the first he answeres questions and gives permissions to use the device location:
 
-https://github.com/ElenaIbr/Sunscreen/assets/87421176/0119c1f1-6f7a-4df8-9a4e-026b117c1771
+https://github.com/ElenaIbr/Sunscreen/assets/87421176/12989bca-e278-4c69-a724-e53426531cfa
 
 2) It is possible to update the profile later:
 
