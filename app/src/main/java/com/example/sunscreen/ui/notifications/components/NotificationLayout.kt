@@ -5,11 +5,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -22,7 +24,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import com.example.domain.models.Notification
 import com.example.sunscreen.R
 import com.example.sunscreen.ui.components.PrimarySwitch
@@ -49,59 +50,63 @@ fun NotificationLayout(
     }
 
     Column(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(
+                vertical = dimensionResource(id = R.dimen.spacer_16),
+                horizontal = dimensionResource(id = R.dimen.spacer_16),
+            )
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    vertical = dimensionResource(id = R.dimen.notification_screen_switch_vertical_padding),
-                    horizontal = dimensionResource(id = R.dimen.notification_screen_horizontal_padding)
-                ),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            colors = CardDefaults.cardColors(
+                containerColor = if (switchCheckedState) UiColors.background.basePrimary
+                else UiColors.background.disable.copy(alpha = 0.5F)
+            )
         ) {
-            Text(
-                modifier = Modifier,
-                text = stringResource(id = R.string.enable_notifications),
-                fontWeight = FontWeight.Bold,
-                color = UiColors.textContent.primary,
-                style = MaterialTheme.typography.subtitle1
-            )
-            PrimarySwitch(
-                initialState = switchCheckedState,
-                onStateChanged = { value ->
-                    switchCheckedState = value
+            Column(
+                modifier = Modifier.padding(dimensionResource(id = R.dimen.spacer_16))
+            ) {
+                NotificationsTimePicker(
+                    textColor = if (switchCheckedState) UiColors.textContent.primary
+                    else UiColors.textContent.disabled,
+                    initialTime = start.value,
+                    onClick = { value ->
+                        start.value = value
+                    }
+                )
+                Spacer(
+                    modifier = Modifier.height(dimensionResource(id = R.dimen.spacer_10))
+                )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = if (switchCheckedState) stringResource(id = R.string.notifications_enabled)
+                        else stringResource(id = R.string.notifications_disabled),
+                        color = if (switchCheckedState) UiColors.textContent.primary
+                        else UiColors.textContent.disabled,
+                        style = MaterialTheme.typography.body2
+                    )
+                    PrimarySwitch(
+                        initialState = switchCheckedState,
+                        onStateChanged = { value ->
+                            switchCheckedState = value
+                        }
+                    )
                 }
-            )
+            }
         }
         if (switchCheckedState) {
-            Divider(
-                modifier = Modifier
-                    .padding(
-                        vertical = dimensionResource(id = R.dimen.spacer_16),
-                    ),
-                color = UiColors.textContent.disabled
-            )
-            NotificationsTimePicker(
-                modifier = Modifier
-                    .padding(
-                        horizontal = dimensionResource(id = R.dimen.notification_screen_horizontal_padding)
-                    ),
-                label = stringResource(id = R.string.start),
-                initialTime = start.value,
-                onClick = { value ->
-                    start.value = value
-                }
+            Spacer(
+                modifier = Modifier.height(dimensionResource(id = R.dimen.spacer_16))
             )
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        vertical = dimensionResource(id = R.dimen.spacer_16),
-                        horizontal = dimensionResource(id = R.dimen.spacer_16),
-                    ),
-                verticalAlignment = Alignment.CenterVertically
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_info),
@@ -109,7 +114,7 @@ fun NotificationLayout(
                     contentDescription = null
                 )
                 Spacer(
-                    modifier = Modifier.width(dimensionResource(id = R.dimen.spacer_24))
+                    modifier = Modifier.width(dimensionResource(id = R.dimen.spacer_16))
                 )
                 Text(
                     modifier = Modifier,

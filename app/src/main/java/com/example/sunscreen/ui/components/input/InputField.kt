@@ -57,7 +57,6 @@ fun InputField(
             dimensionResource(id = R.dimen.input_field_corner),
         ),
         colors = TextFieldDefaults.outlinedTextFieldColors(
-            textColor = UiColors.textContent.primary,
             cursorColor = UiColors.textContent.primary,
             focusedBorderColor = UiColors.mainBrand.primary,
             unfocusedBorderColor = UiColors.textContent.disabled,
