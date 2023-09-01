@@ -61,7 +61,6 @@ fun GetLocation(
                     }
                 }
                 else -> {}
-
             }
         }
         lifecycleOwner.lifecycle.addObserver(observer)

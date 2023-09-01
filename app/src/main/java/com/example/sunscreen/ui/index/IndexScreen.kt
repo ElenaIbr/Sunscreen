@@ -20,6 +20,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
@@ -29,11 +30,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.LifecycleOwner
 import com.example.domain.models.SolarActivity
 import com.example.sunscreen.R
 import com.example.sunscreen.extensions.toStringDate
@@ -58,6 +63,7 @@ fun IndexScreen() {
     val indexState by viewModel.indexState.collectAsState()
 
     val context = LocalContext.current
+    val lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
     val systemUiController = rememberSystemUiController()
 
     LaunchedEffect(
@@ -79,6 +85,20 @@ fun IndexScreen() {
             )
         }
     )
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            when (event) {
+                Lifecycle.Event.ON_RESUME -> {
+                    viewModel.sendEvent(UpdateLocation())
+                }
+                else -> {}
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+        }
+    }
 
     val low = UiColors.solarActivityLevel.low.background
     val medium = UiColors.solarActivityLevel.medium.background
@@ -174,7 +194,7 @@ fun IndexScreen() {
                         text = location,
                         style = MaterialTheme.typography.subtitle2,
                         color = UiColors.textContent.note,
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Start
                     )
                 }
             }
