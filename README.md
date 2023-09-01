@@ -14,8 +14,7 @@ https://github.com/ElenaIbr/Sunscreen/assets/87421176/c5883f8c-5269-427d-8f85-57
 
 3) User can enable notifications and set notification time
 
-https://github.com/ElenaIbr/Sunscreen/assets/87421176/9e1cac66-514b-496e-b49a-69b7a51180a8
-
+https://github.com/ElenaIbr/Sunscreen/assets/87421176/2c3de15d-61e1-4dd0-b529-525c35d9b598
 
 https://github.com/ElenaIbr/Sunscreen/assets/87421176/a5605876-02d6-43d7-86f6-b1224006752c
 
