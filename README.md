@@ -16,7 +16,7 @@ https://github.com/ElenaIbr/Sunscreen/assets/87421176/ae33ec74-a194-49d0-88d8-24
 
 https://github.com/ElenaIbr/Sunscreen/assets/87421176/2c3de15d-61e1-4dd0-b529-525c35d9b598
 
-https://github.com/ElenaIbr/Sunscreen/assets/87421176/a5605876-02d6-43d7-86f6-b1224006752c
+https://github.com/ElenaIbr/Sunscreen/assets/87421176/8d2d3436-e451-4037-8bee-005959ec1a53
 
 There are 4 levels of Uv-index: low, moderate, high and very high:
 
