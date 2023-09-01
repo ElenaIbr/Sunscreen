@@ -6,11 +6,11 @@ How it works:
 
 1) When user opens the app for the first he answeres questions and gives permissions to use the device location:
 
-https://github.com/ElenaIbr/Sunscreen/assets/87421176/d6c114ad-6e55-4791-a9be-67777f1491b3
+https://github.com/ElenaIbr/Sunscreen/assets/87421176/0119c1f1-6f7a-4df8-9a4e-026b117c1771
 
 2) It is possible to update the profile later:
 
-https://github.com/ElenaIbr/Sunscreen/assets/87421176/c5883f8c-5269-427d-8f85-57aa1925af58
+https://github.com/ElenaIbr/Sunscreen/assets/87421176/ae33ec74-a194-49d0-88d8-249d9323281e
 
 3) User can enable notifications and set notification time
 
